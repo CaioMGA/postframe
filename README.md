@@ -1,127 +1,132 @@
 <p align="center">
-  <img src="icons/icon-512.png" width="128" height="128" alt="Ícone do Postframe: duas mãos formando um quadro de enquadramento">
+  <img src="icons/icon-512.png" width="128" height="128" alt="Postframe icon: two hands forming a framing rectangle">
 </p>
 
 # Postframe
 
-Extensão do Chrome que transforma um post (**X, Bluesky, Reddit, Instagram** ou qualquer site que você configurar) em uma **imagem padronizada**: foto, nome, @, texto completo, imagens em mosaico, contagens e hora, dentro de um estilo que você controla.
+A Chrome extension that turns a post (**X, Bluesky, Reddit, Instagram**, or any site you set up) into a **standardized image**: profile picture, name, handle, full text, images in a mosaic, counts and time, inside a style you control.
 
-A imagem não é um recorte da tela: ela é **montada a partir dos dados do post**, então sai sempre com 600 px de largura e até 350 KB, com a mesma aparência.
+The image is not a screen crop: it is **built from the post's data**, so it always comes out 600 px wide, up to 350 KB, with the same look.
 
-> ⚠️ **Versão beta.** O Postframe está em desenvolvimento ativo. Pode haver bugs, e os sites mudam o HTML com frequência, o que pode quebrar a leitura dos posts. Só o **X.com** foi testado e está OK; veja o [checklist de plataformas](#plataformas).
+> ⚠️ **Beta.** Postframe is under active development. Expect bugs, and sites change their HTML often, which can break post reading. Only **X.com** has been tested and is OK; see the [platform checklist](#platforms).
 
-| Claro clássico | Moldura gradiente | Pôster pastel (retweet) |
+| Classic light | Gradient frame | Pastel poster (repost) |
 |---|---|---|
 | ![](mockups/images/1-tweet.png) | ![](mockups/images/3-tweet.png) | ![](mockups/images/6-retweet.png) |
 
-## Recursos
+## Features
 
-- **Dados do post:** foto, nome, @, texto completo, hora e contagens (respostas, RTs, curtidas…). Em retweets e citações, o tweet original aparece dentro do card.
-- **Imagens do post em mosaico** (1, 2, 3 ou 4), com opção de escondê-las.
-- **6 estilos prontos e estilos próprios:** fonte, cores, cartão, bordas, sombra e brilho, moldura em gradiente, formato da foto, faixa no topo e mais. Duplique qualquer estilo e edite.
-- **Google Fonts:** escolha uma fonte da lista ou digite qualquer família do Google Fonts.
-- **Marca d'água** de texto ou imagem, posicionável por arraste, com inclinação e opção de **repetir em padrão de tijolos** com espaçamento ajustável.
-- **Crédito** opcional abaixo da imagem.
-- **Estilos por plataforma:** o estilo do X pode ser diferente do de outro site, e dá para duplicar um estilo e trocar a plataforma dele. O padrão também é por plataforma.
-- **Qualquer site:** uma ferramenta de seleção deixa você clicar em post, nome, @, foto, texto, imagens, hora e contagens. A configuração fica salva por site.
-- **Exportar e importar** estilos e plataformas em JSON.
-- Liga/desliga rápido de **Crédito**, **Marca d'água** e **Imagens** na página de resultado.
+- **Post data:** profile picture, name, handle, full text, time and counts (replies, reposts, likes…). For reposts and quotes, the original post appears inside the card.
+- **Post images in a mosaic** (1, 2, 3 or 4), with an option to hide them.
+- **6 ready-made styles and your own:** font, colors, card, borders, shadow and glow, gradient frame, picture shape, top bar and more. Duplicate any style and edit it.
+- **Google Fonts:** pick a font from the list or type any Google Fonts family.
+- **Watermark** (text or image), draggable, with tilt and an option to **repeat it as a brick pattern** with adjustable spacing.
+- Optional **credit line** below the image.
+- **Per-platform styles:** the X style can differ from another site's, and you can duplicate a style and change its platform. The default style is per platform too.
+- **Any site:** a point-and-click picker lets you select the post, name, handle, picture, text, images, time and counts. The setup is saved per site.
+- **Export and import** styles and platforms as JSON.
+- Quick toggles for **Credit**, **Watermark** and **Images** on the result page.
+- **Languages:** English (default), Português (Brasil), Français, Español, Deutsch, Italiano and 日本語. You choose the language the first time you use the extension and can change it any time in Settings.
 
-## Plataformas
+## Platforms
 
-### Checklist de suporte (beta)
+### Support checklist (beta)
 
-Só o X.com foi testado e está OK. As demais plataformas estão implementadas, mas ainda não foram validadas.
+Only X.com has been tested and is OK. The other platforms are implemented but not yet validated.
 
 - **X.com**
-  - [x] Testada
+  - [x] Tested
   - [x] OK
 - **Bluesky**
-  - [ ] Testada
+  - [ ] Tested
   - [ ] OK
 - **Reddit**
-  - [ ] Testada
+  - [ ] Tested
   - [ ] OK
 - **Instagram**
-  - [ ] Testada
+  - [ ] Tested
   - [ ] OK
-- **Qualquer outro site** (ferramenta de seleção)
-  - [ ] Testada
+- **Any other site** (point-and-click picker)
+  - [ ] Tested
   - [ ] OK
 
-### O que cada plataforma lê
+### What each platform reads
 
-| Plataforma | Status | Posts | Imagens | Contagens | Repost / citação |
+| Platform | Status | Posts | Images | Counts | Repost / quote |
 |---|---|---|---|---|---|
-| **X** | testada e OK | ✅ | ✅ (e capa de vídeo) | ✅ | ✅ repost e citação |
-| **Bluesky** | beta, ainda sem validação | ✅ | ✅ | ✅ | ✅ repost · ❌ citação |
-| **Instagram** | **beta**: extrator por heurística, ainda sem validação | ✅ | ✅ | ❌ (não estão no DOM) | — |
-| **Reddit** | **beta**, ainda sem validação | ✅ | ✅ | ✅ | — |
-| **Qualquer site** | beta, ainda sem validação | ✅ | ✅ | ✅ | ❌ |
+| **X** | tested and OK | ✅ | ✅ (and video posters) | ✅ | ✅ repost and quote |
+| **Bluesky** | beta, not yet validated | ✅ | ✅ | ✅ | ✅ repost · ❌ quote |
+| **Instagram** | **beta**: heuristic extractor, not yet validated | ✅ | ✅ | ❌ (not in the DOM) | — |
+| **Reddit** | **beta**, not yet validated | ✅ | ✅ | ✅ | — |
+| **Any site** | beta, not yet validated | ✅ | ✅ | ✅ | ❌ |
 
-- **Beta** significa que o site pode mudar ou que há casos que ainda não cobrimos. Se algo falhar, use **Reconfigurar este site** no próprio site: a sua configuração tem precedência sobre a embutida.
-- No **Instagram**, o DOM não tem ganchos estáveis (sem `<header>`, classes ofuscadas), então a legenda é "o maior texto fora de links e botões" e posts patrocinados podem sair sem hora. Vídeos sem capa saem sem imagem.
-- O **Reddit** foi escrito a partir dos atributos documentados do `<shreddit-post>`, sem página real (o Reddit bloqueia navegador automatizado). Se você tiver o Reddit logado, a seção "Ajude a validar o Reddit" abaixo leva um minuto.
-- Só o **X** tem o botão de câmera dentro do post. Nas demais, clique no ícone da extensão e use **Capturar um post**.
+- **Beta** means the site may change or there are cases we do not cover yet. If something fails, use **Reconfigure this site** on the site itself: your configuration takes precedence over the built-in one.
+- On **Instagram** the DOM has no stable hooks (no `<header>`, obfuscated classes), so the caption is "the longest text outside links and buttons" and sponsored posts may come out without a time. Videos without a poster come out without an image.
+- **Reddit** was written from the documented attributes of `<shreddit-post>`, without a real page (Reddit blocks automated browsers). If you have Reddit open, the "Help validate Reddit" section below takes a minute.
+- Only **X** has the camera button inside the post. On the other platforms, click the extension icon and choose **Capture a post**.
 
-## Instalação (modo desenvolvedor)
+## Install (developer mode)
 
-1. Baixe ou clone este repositório.
-2. Abra `chrome://extensions` e ative o **modo do desenvolvedor**.
-3. Clique em **Carregar sem compactação** e escolha a pasta do projeto.
+1. Download or clone this repository.
+2. Open `chrome://extensions` and turn on **Developer mode**.
+3. Click **Load unpacked** and choose the project folder.
+4. A settings page opens: choose your language.
 
-## Como usar
+## Usage
 
-**No X:** passe o mouse em um tweet e clique no ícone de câmera na barra de ações. Uma nova aba abre com as imagens nos estilos disponíveis (começando pelo padrão). Baixe ou copie a que preferir.
+**On X:** hover a tweet and click the camera icon in its action bar. A new tab opens with the images in the available styles (starting with your default). Download or copy the one you like.
 
-**Bluesky, Reddit, Instagram:** abra o site, clique no ícone da extensão, escolha **Capturar um post** e clique no post desejado.
+**Bluesky, Reddit, Instagram:** open the site, click the extension icon, choose **Capture a post** and click the post you want.
 
-**Em outro site:** abra o site, clique no ícone da extensão e escolha **Configurar este site**. Clique em um post inteiro e depois nos campos que quiser (nome, texto, imagens…). Salve e use **Capturar um post**.
+**Any other site:** open the site, click the extension icon and choose **Set up this site**. Click a whole post, then the fields you want (name, text, images…). Save it and use **Capture a post**.
 
-**Estilos e plataformas:** botão direito no ícone → *Opções* (ou **Estilos…** na página de resultado).
+**Styles, platforms and language:** right-click the icon → *Options* (or **Styles…** on the result page).
 
-## Privacidade e permissões
+## Privacy and permissions
 
-- Os estilos, plataformas e preferências ficam em `chrome.storage.local`, no seu navegador. Não há contas, servidor próprio nem análise de uso.
-- A extensão acessa a rede apenas para:
-  - **Google Fonts** (`fonts.googleapis.com`, `fonts.gstatic.com`), quando você usa uma fonte do Google, para baixar a fonte;
-  - **CDNs de imagem** (`pbs.twimg.com`, `cdn.bsky.app`, `*.cdninstagram.com`, `*.fbcdn.net`, `i.redd.it`, `preview.redd.it`, `external-preview.redd.it`), apenas quando o site bloqueia o download direto das imagens do post e das fotos de perfil que entram na imagem.
-- `storage`: guardar suas configurações. `activeTab` e `scripting`: abrir o painel de captura/configuração só na aba em que você clica no ícone (a extensão não tem acesso permanente a todos os sites). Os scripts automáticos rodam apenas em `x.com` e `twitter.com`.
+- Styles, platforms and preferences are stored in `chrome.storage.local`, in your browser. There are no accounts, no own server and no analytics.
+- The extension only uses the network to:
+  - **Google Fonts** (`fonts.googleapis.com`, `fonts.gstatic.com`), when you use a Google font, to download it;
+  - **image CDNs** (`pbs.twimg.com`, `cdn.bsky.app`, `*.cdninstagram.com`, `*.fbcdn.net`, `i.redd.it`, `preview.redd.it`, `external-preview.redd.it`), only when a site blocks direct download of the post images and profile pictures that go into the image.
+- `storage`: keep your settings. `activeTab` and `scripting`: open the capture/setup panel only on the tab where you click the icon (the extension has no permanent access to all sites). Automatic scripts run only on `x.com` and `twitter.com`.
 
-## Limitações
+## Limitations
 
-- Os sites mudam o HTML com frequência: os seletores embutidos podem quebrar (veja **Plataformas**).
-- Em sites configurados pelo seletor, fotos bloqueadas por CORS aparecem como um avatar com a inicial, e imagens bloqueadas ficam de fora.
-- Vídeos aparecem só como a capa. O seletor não enxerga shadow DOM fechado nem iframes de outro domínio.
-- Postframe não é afiliado ao X Corp. "X" e "Twitter" são marcas de seus donos.
+- Sites change their HTML often: the built-in selectors may break (see [Platforms](#platforms)).
+- On sites set up with the picker, pictures blocked by CORS fall back to an initial-letter avatar, and blocked images are left out.
+- Videos appear only as their poster. The picker cannot see closed shadow DOM or cross-origin iframes.
+- Postframe is not affiliated with X Corp. "X" and "Twitter" are trademarks of their owners.
 
-## Ajude a validar o Reddit
+## Help validate Reddit
 
-Em uma página do Reddit (logado ou não), abra o console do navegador (F12) e rode o código abaixo. Ele copia **só a estrutura** (nomes de atributos e contagens), sem texto nem links. Cole o resultado em uma issue.
+On a Reddit page (logged in or not), open the browser console (F12) and run the code below. It copies **only the structure** (attribute names and counts), with no text or links. Paste the result in an issue.
 
 ```js
 const p = document.querySelector('shreddit-post');
 copy(JSON.stringify({
   posts: document.querySelectorAll('shreddit-post').length,
-  atributos: p && p.getAttributeNames(),
+  attributes: p && p.getAttributeNames(),
   slots: p && [...p.querySelectorAll('[slot]')].map(e => e.getAttribute('slot')),
-  imagens: p && p.querySelectorAll('[slot="post-media-container"] img').length
+  images: p && p.querySelectorAll('[slot="post-media-container"] img').length
 }));
 ```
 
-## Desenvolvimento
+## Development
 
-O código é JavaScript puro (Manifest V3), sem etapa de build.
+Plain JavaScript (Manifest V3), no build step.
 
 ```
 manifest.json
-src/            background, scripts de conteúdo, painel de seleção e módulos compartilhados
-options/        página de estilos e plataformas
-viewer/         página que gera e mostra as imagens
-mockups/        galeria de exemplos dos estilos nativos
+_locales/       UI texts, one messages.json per language (en is the source of truth)
+src/            background, content scripts, picker panel and shared modules
+options/        styles, platforms and language settings page
+viewer/         page that generates and shows the images
+mockups/        gallery of the built-in styles
 ```
 
-Para regenerar a galeria (`mockups/`):
+**Translations:** every UI text is an i18n key. Add or fix a language by editing `_locales/<lang>/messages.json` (same keys as `en`; keep `$1`, `$2` placeholders). To add a language, create its folder and add it to `LANGS` in `src/shared/i18n.mjs`.
+
+To regenerate the gallery (`mockups/`):
 
 ```sh
 npm install
@@ -129,6 +134,6 @@ npx playwright-core install chromium
 npm run mockups
 ```
 
-## Licença
+## License
 
 [MIT](LICENSE)

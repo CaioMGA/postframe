@@ -1,36 +1,39 @@
-import { FIELDS, DEFAULT, newId, normalizeStyle, styleCss, shotInner } from "../src/shared/styles.mjs";
+import { FIELDS, DEFAULT, newId, normalizeStyle, styleCss, shotInner, styleName } from "../src/shared/styles.mjs";
+import { initI18n, applyI18n, t, LANGS, getLang, setLang } from "../src/shared/i18n.mjs";
 import { baseCss, placeholderAvatar, esc } from "../src/shared/template.mjs";
 import { GENERIC_LABELS, CURATED, FONT_RE, isGoogle, familyOf, fontsUsed, loadFamily } from "../src/shared/fonts.mjs";
 import { ICON_KEYS, normalizePlatform, BUILTIN_IDS } from "../src/shared/platforms.mjs";
 import { getAll, stylesFor, defaultFor, saveStyles, savePlatforms, saveDefaults } from "../src/shared/store.mjs";
 
 const $ = (id) => document.getElementById(id);
+const savedLang = await initI18n();   // "" until the user picks a language
+applyI18n();
 const clamp = (n) => Math.min(100, Math.max(0, Math.round(n)));
 
 let lib = await getAll();           // { all, custom, platforms, userPlatforms, defaults }
 let filter = "*", selId = "1", sample = "tweet", platSel = "x";
-const platName = (id) => (id === "*" ? "Todas as plataformas" : lib.platforms.find((p) => p.id === id)?.name || "?");
+const platName = (id) => (id === "*" ? t("op_all_platforms") : lib.platforms.find((p) => p.id === id)?.name || "?");
 const visible = () => (filter === "*" ? lib.all : stylesFor(lib.all, filter));
 const defaultInFilter = () => (filter === "*" ? (lib.all.some((s) => s.id === lib.defaults["*"]) ? lib.defaults["*"] : "1") : defaultFor(lib.all, lib.defaults, filter));
 selId = defaultInFilter();
 const current = () => lib.all.find((s) => s.id === selId) || lib.all[0];
 const isCustom = (s) => !s.builtin;
 
-// --- exemplos ---------------------------------------------------------------
+// --- samples ---------------------------------------------------------------
 const A = (name, handle, verified = false) => ({ name, handle, verified, avatar: placeholderAvatar(name, handle) });
-const stats = [{ icon: "reply", n: "128" }, { icon: "retweet", n: "1,4 mil" }, { icon: "like", n: "9,8 mil" }];
-// imagens de exemplo geradas na hora (gradientes)
+const stats = [{ icon: "reply", n: "128" }, { icon: "retweet", n: "1.4K" }, { icon: "like", n: "9.8K" }];
+// sample images generated on the fly (gradients)
 const ph = (a, b) => { const c = Object.assign(document.createElement("canvas"), { width: 800, height: 600 }), x = c.getContext("2d"), g = x.createLinearGradient(0, 0, 800, 600); g.addColorStop(0, a); g.addColorStop(1, b); x.fillStyle = g; x.fillRect(0, 0, 800, 600); x.fillStyle = "rgba(255,255,255,.35)"; x.beginPath(); x.arc(560, 200, 110, 0, 7); x.fill(); x.fillRect(80, 380, 420, 120); return c.toDataURL("image/jpeg", 0.8); };
 const MEDIA = [ph("#0ea5e9", "#6366f1"), ph("#f97316", "#db2777"), ph("#10b981", "#0f766e"), ph("#eab308", "#ef4444")];
 const SAMPLES = {
-  tweet: { label: "Post", data: { kind: "tweet", author: A("Marina Alves", "@marinaalves", true), text: "Passei o fim de semana reescrevendo um sistema legado e descobri que 60% do código nunca era executado. 🧹\n\n#dev #refatoração", stats, time: "2026-11-04T14:32:00-03:00" } },
-  media: { label: "Com imagens", data: { kind: "tweet", author: A("Marina Alves", "@marinaalves", true), text: "Fotos do fim de semana. 📸", media: MEDIA.slice(0, 3), stats, time: "2026-11-04T14:32:00-03:00" } },
-  repost: { label: "Retweet", data: { kind: "repost", author: A("Lucas Torres", "@lucastorres"), text: "", stats, time: "2026-11-04T09:05:00-03:00", original: { author: A("Pedro Nunes", "@pedronunes_dev"), text: "Dica de ouro: antes de otimizar, meça. 📉 #performance" } } },
-  quote: { label: "Citação", data: { kind: "quote", author: A("Marina Alves", "@marinaalves", true), text: "Concordo 100%.", stats, time: "2026-11-04T14:32:00-03:00", original: { author: A("Pedro Nunes", "@pedronunes_dev"), text: "Meça antes de otimizar. #performance", media: [MEDIA[0]] } } }
+  tweet: { label: t("op_sample_post"), data: { kind: "tweet", author: A("Marina Alves", "@marinaalves", true), text: t("op_sample_text_post"), stats, time: "2026-11-04T14:32:00-03:00" } },
+  media: { label: t("op_sample_media"), data: { kind: "tweet", author: A("Marina Alves", "@marinaalves", true), text: t("op_sample_text_media"), media: MEDIA.slice(0, 3), stats, time: "2026-11-04T14:32:00-03:00" } },
+  repost: { label: t("op_sample_repost"), data: { kind: "repost", author: A("Lucas Torres", "@lucastorres"), text: "", stats, time: "2026-11-04T09:05:00-03:00", original: { author: A("Pedro Nunes", "@pedronunes_dev"), text: t("op_sample_text_orig_rt") } } },
+  quote: { label: t("op_sample_quote"), data: { kind: "quote", author: A("Marina Alves", "@marinaalves", true), text: t("op_sample_text_quote"), stats, time: "2026-11-04T14:32:00-03:00", original: { author: A("Pedro Nunes", "@pedronunes_dev"), text: t("op_sample_text_orig_quote"), media: [MEDIA[0]] } } }
 };
 const sampleText = Object.values(SAMPLES).map((x) => x.data.text).join(" ");
 
-// ===== ABAS ==================================================================
+// ===== TABS ===================================================================
 $("tabs").onclick = (e) => {
   const t = e.target.dataset.tab; if (!t) return;
   document.querySelectorAll("#tabs button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.tab === t));
@@ -38,9 +41,9 @@ $("tabs").onclick = (e) => {
   if (t === "platforms") renderPlatforms(); else renderAll();
 };
 
-// ===== ESTILOS ===============================================================
+// ===== STYLES =================================================================
 function renderFilters() {
-  const opts = [["*", "Todas as plataformas"], ...lib.platforms.map((p) => [p.id, p.name])];
+  const opts = [["*", t("op_all_platforms")], ...lib.platforms.map((p) => [p.id, p.name])];
   $("filter").innerHTML = opts.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("");
   $("filter").value = filter;
   $("platsel").innerHTML = opts.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("");
@@ -49,31 +52,31 @@ function renderList() {
   const def = defaultInFilter();
   $("list").innerHTML = visible().map((s) => `
     <li data-id="${esc(s.id)}" aria-selected="${s.id === selId}">
-      <span class="n">${esc(s.name)}</span>
-      ${s.id === def ? '<span class="o-badge def">padrão</span>' : ""}
+      <span class="n">${esc(styleName(s))}</span>
+      ${s.id === def ? `<span class="o-badge def">${esc(t("op_badge_default"))}</span>` : ""}
       ${filter === "*" && s.platform !== "*" ? `<span class="o-badge">${esc(platName(s.platform))}</span>` : ""}
-      ${s.builtin ? '<span class="o-badge">nativo</span>' : ""}
+      ${s.builtin ? `<span class="o-badge">${esc(t("op_badge_builtin"))}</span>` : ""}
     </li>`).join("");
 }
 
-const fontOptions = () => `<optgroup label="Sistema">${Object.entries(GENERIC_LABELS).map(([v, l]) => `<option value="${v}">${l}</option>`).join("")}</optgroup>
-  <optgroup label="Google Fonts">${CURATED.map((f) => `<option value="g:${f}">${f}</option>`).join("")}</optgroup>
-  <option value="__custom">Outra do Google Fonts…</option>`;
+const fontOptions = () => `<optgroup label="${esc(t("op_font_group_system"))}">${Object.entries(GENERIC_LABELS).map(([v, l]) => `<option value="${v}">${esc(t(l))}</option>`).join("")}</optgroup>
+  <optgroup label="${esc(t("op_font_group_google"))}">${CURATED.map((f) => `<option value="g:${f}">${f}</option>`).join("")}</optgroup>
+  <option value="__custom">${esc(t("op_font_other"))}</option>`;
 
 function buildForm() {
   const groups = [...new Set(FIELDS.map((f) => f.g))];
   const ctl = (f) => ({
-    select: `<select id="f-${f.k}" data-k="${f.k}">${f.opts ? Object.entries(f.opts).map(([v, l]) => `<option value="${v}">${esc(l)}</option>`).join("") : ""}</select>`,
+    select: `<select id="f-${f.k}" data-k="${f.k}">${f.opts ? Object.entries(f.opts).map(([v, l]) => `<option value="${v}">${esc(t(l))}</option>`).join("") : ""}</select>`,
     range: `<input id="f-${f.k}" data-k="${f.k}" type="range" min="${f.min}" max="${f.max}"><output></output>`,
     color: `<input id="f-${f.k}" data-k="${f.k}" type="color">`,
     check: `<input id="f-${f.k}" data-k="${f.k}" type="checkbox">`,
     text: `<input id="f-${f.k}" data-k="${f.k}" type="text" maxlength="${f.max || 40}">`,
-    font: `<div class="fontctl"><select id="f-${f.k}" data-k="${f.k}">${fontOptions()}</select><input type="text" data-k="${f.k}" data-fontname placeholder="Nome exato no Google Fonts" maxlength="50" hidden></div>`,
-    image: `<div class="imgctl"><input type="file" accept="image/*" data-img="${f.k}"><img class="thumb" hidden alt=""><button type="button" data-imgclear="${f.k}">Remover imagem</button></div>`
+    font: `<div class="fontctl"><select id="f-${f.k}" data-k="${f.k}">${fontOptions()}</select><input type="text" data-k="${f.k}" data-fontname placeholder="${esc(t("op_font_placeholder"))}" maxlength="50" hidden></div>`,
+    image: `<div class="imgctl"><input type="file" accept="image/*" data-img="${f.k}"><img class="thumb" hidden alt=""><button type="button" data-imgclear="${f.k}">${esc(t("op_remove_image"))}</button></div>`
   }[f.t]);
-  // seções recolhíveis (<details>), todas começam fechadas
-  $("form").innerHTML = groups.map((g) => `<details class="o-sec"><summary>${esc(g)}</summary><div class="o-sec-body">${
-    FIELDS.filter((f) => f.g === g && !f.hidden).map((f) => `<div class="o-field"><label for="f-${f.k}">${esc(f.label)}</label><div class="ctl">${ctl(f)}</div></div>`).join("")}</div></details>`).join("");
+  // collapsible sections (<details>), all start collapsed
+  $("form").innerHTML = groups.map((g) => `<details class="o-sec"><summary>${esc(t("gr_" + g))}</summary><div class="o-sec-body">${
+    FIELDS.filter((f) => f.g === g && !f.hidden).map((f) => `<div class="o-field"><label for="f-${f.k}">${esc(t(f.label))}</label><div class="ctl">${ctl(f)}</div></div>`).join("")}</div></details>`).join("");
 }
 function fillForm() {
   const s = current(), ro = !isCustom(s);
@@ -95,15 +98,15 @@ function fillForm() {
     if (f.t === "range") el.nextElementSibling.textContent = v;
   }
   document.querySelectorAll("#form [data-img],#form [data-imgclear]").forEach((e) => (e.disabled = ro));
-  $("name").value = s.name; $("name").disabled = ro;
+  $("name").value = styleName(s); $("name").disabled = ro;
   $("platsel").value = s.platform; $("platsel").disabled = ro;
   $("ro").hidden = !ro; $("del").hidden = ro;
   const isDef = s.id === defaultInFilter();
   $("setdef").disabled = isDef;
-  $("setdef").textContent = isDef ? "★ Estilo padrão" : `Definir como padrão${filter === "*" ? "" : " no " + platName(filter)}`;
+  $("setdef").textContent = isDef ? t("op_is_default") : filter === "*" ? t("op_set_default") : t("op_set_default_in", platName(filter));
 }
 
-// --- pré-visualização (com Google Fonts embutidas) --------------------------
+// --- preview (with Google Fonts inlined) --------------------------
 let pvToken = 0;
 async function renderPreview() {
   const s = current(), token = ++pvToken;
@@ -114,16 +117,16 @@ async function renderPreview() {
   $("seg").innerHTML = Object.entries(SAMPLES).map(([k, v]) => `<button data-s="${k}" aria-pressed="${k === sample}">${v.label}</button>`).join("");
 
   const used = [...fontsUsed(s)];
-  $("fontstatus").textContent = used.length ? "Carregando fontes…" : "";
+  $("fontstatus").textContent = used.length ? t("op_loading_fonts") : "";
   const r = await Promise.allSettled(used.map(([f, ws]) => loadFamily(f, [...ws], /[Ā-ɏ]/.test(sampleText))));
   if (token !== pvToken) return;
   $("pvstyle").textContent = r.map((x) => x.value || "").join("\n") + baseCss + styleCss(s);
   const bad = used.filter((_, i) => r[i].status === "rejected").map(([f]) => f);
-  $("fontstatus").textContent = bad.length ? `⚠ Não foi possível carregar: ${bad.join(", ")} (confira o nome ou a conexão). Será usada a fonte padrão.` : "";
+  $("fontstatus").textContent = bad.length ? t("op_font_warn", bad.join(", ")) : "";
 }
 const renderAll = () => { renderFilters(); renderList(); fillForm(); renderPreview(); };
 
-// --- persistência -----------------------------------------------------------
+// --- persistence -----------------------------------------------------------
 let timer;
 const persist = () => { clearTimeout(timer); timer = setTimeout(() => saveStyles(lib.custom), 250); };
 const replaceCurrent = (next) => {
@@ -160,7 +163,7 @@ $("form").addEventListener("change", async (e) => {
     const { url, ratio } = await shrinkImage(e.target.files[0]);
     update(k, url); update("wmImgRatio", ratio); if (current().wmMode === "none") update("wmMode", "image");
     fillForm(); renderPreview();
-  } catch { alert("Não foi possível usar essa imagem (tente um PNG, JPG ou WebP menor)."); }
+  } catch { alert(t("op_bad_image")); }
   e.target.value = "";
 });
 $("form").addEventListener("click", (e) => {
@@ -168,7 +171,7 @@ $("form").addEventListener("click", (e) => {
   update(k, ""); fillForm(); renderPreview();
 });
 
-// reduz a imagem (máx. 400px) e garante ficar dentro do limite aceito pelo validador
+// shrinks the image (max 400px) and keeps it within the size the validator accepts
 async function shrinkImage(file) {
   const bmp = await createImageBitmap(file), sc = Math.min(1, 400 / Math.max(bmp.width, bmp.height));
   const c = Object.assign(document.createElement("canvas"), { width: Math.round(bmp.width * sc), height: Math.round(bmp.height * sc) });
@@ -179,7 +182,7 @@ async function shrinkImage(file) {
   throw new Error("grande demais");
 }
 
-// --- arrastar a marca d'água na pré-visualização ----------------------------
+// --- drag the watermark in the preview ----------------------------
 $("pv").addEventListener("pointerdown", (e) => {
   const w = e.target.closest(".wm"); if (!w || !isCustom(current())) return;
   e.preventDefault(); w.setPointerCapture(e.pointerId);
@@ -195,15 +198,15 @@ $("pv").addEventListener("pointerdown", (e) => {
   w.addEventListener("pointermove", move); w.addEventListener("pointerup", up);
 });
 
-// --- barra / lista ----------------------------------------------------------
+// --- toolbar / list ----------------------------------------------------------
 $("name").addEventListener("input", () => {
   const s = current(); if (!isCustom(s)) return;
-  replaceCurrent({ ...s, name: $("name").value.slice(0, 40) || "Sem nome" }); renderList();
+  replaceCurrent({ ...s, name: $("name").value.slice(0, 40) || "Untitled" }); renderList();
 });
 $("platsel").onchange = () => {
   const s = current(); if (!isCustom(s)) return;
   replaceCurrent({ ...s, platform: $("platsel").value });
-  filter = $("platsel").value;           // mantém o estilo visível na lista
+  filter = $("platsel").value;           // keep the style visible in the list
   renderAll();
 };
 $("filter").onchange = () => { filter = $("filter").value; if (!visible().some((s) => s.id === selId)) selId = defaultInFilter(); renderAll(); };
@@ -211,7 +214,7 @@ $("list").addEventListener("click", (e) => { const li = e.target.closest("li"); 
 $("seg").addEventListener("click", (e) => { if (e.target.dataset.s) { sample = e.target.dataset.s; renderPreview(); } });
 $("new").onclick = async () => {
   const s = current();
-  const copy = normalizeStyle({ ...s, id: newId(), name: `Cópia de ${s.name}`.slice(0, 40) }, DEFAULT);
+  const copy = normalizeStyle({ ...s, id: newId(), name: t("op_copy_of", styleName(s)).slice(0, 40) }, DEFAULT);
   if (copy.platform === "*" && filter !== "*") copy.platform = filter;
   lib.custom.push(copy); lib.all.push(copy); selId = copy.id;
   await saveStyles(lib.custom); renderAll(); $("name").focus(); $("name").select();
@@ -219,7 +222,7 @@ $("new").onclick = async () => {
 $("setdef").onclick = async () => { lib.defaults[filter] = selId; await saveDefaults(lib.defaults); renderAll(); };
 $("del").onclick = async () => {
   const s = current();
-  if (!isCustom(s) || !confirm(`Excluir o estilo “${s.name}”?`)) return;
+  if (!isCustom(s) || !confirm(t("op_confirm_delete_style", styleName(s)))) return;
   lib.custom = lib.custom.filter((x) => x.id !== s.id); lib.all = lib.all.filter((x) => x.id !== s.id);
   for (const k of Object.keys(lib.defaults)) if (lib.defaults[k] === s.id) delete lib.defaults[k];
   await Promise.all([saveStyles(lib.custom), saveDefaults(lib.defaults)]);
@@ -243,30 +246,30 @@ $("file").onchange = async () => {
     if (added.length) selId = added[0].id;
     await Promise.all([savePlatforms(lib.userPlatforms), saveStyles(lib.custom)]);
     renderAll();
-  } catch { alert("Arquivo inválido. Use um JSON exportado por esta extensão."); }
+  } catch { alert(t("op_bad_file")); }
   $("file").value = "";
 };
 addEventListener("resize", () => !$("tab-styles").hidden && renderPreview());
 
-// ===== PLATAFORMAS ===========================================================
-const SEL_FIELDS = [["container", "Container do post"], ["avatar", "Foto do perfil"], ["name", "Nome"], ["handle", "@usuário"], ["text", "Texto"], ["time", "Hora"], ["media", "Imagens do post"], ["body", "Corpo do post (opcional, após o texto)"], ["repost", "Contexto de repost (opcional)"], ["repostStrip", "Texto a remover do nome de quem repostou"]];
+// ===== PLATFORMS ===============================================================
+const SEL_FIELDS = ["container", "avatar", "name", "handle", "text", "time", "media", "body", "repost", "repostStrip"];   // labels: sf_<key>
 const curPlat = () => lib.platforms.find((p) => p.id === platSel) || lib.platforms[0];
 
 function renderPlatforms() {
-  $("plist").innerHTML = lib.platforms.map((p) => `<li data-id="${esc(p.id)}" aria-selected="${p.id === platSel}"><span class="n">${esc(p.name)}</span>${p.beta ? '<span class="o-badge">beta</span>' : ""}${p.builtin ? '<span class="o-badge">nativo</span>' : ""}</li>`).join("");
+  $("plist").innerHTML = lib.platforms.map((p) => `<li data-id="${esc(p.id)}" aria-selected="${p.id === platSel}"><span class="n">${esc(p.name)}</span>${p.beta ? `<span class="o-badge">${esc(t("op_badge_beta"))}</span>` : ""}${p.builtin ? `<span class="o-badge">${esc(t("op_badge_builtin"))}</span>` : ""}</li>`).join("");
   const p = curPlat(), ro = !!p.builtin;
   $("pro").hidden = !ro; $("pdel").hidden = ro;
-  $("pdup").hidden = !ro || !!p.extractor;      // o X tem leitura própria; as demais embutidas podem ser duplicadas
+  $("pdup").hidden = !ro || !!p.extractor;      // X has its own reader; the other built-ins can be duplicated
   const sel = p.sel || {}, stats = sel.stats || [];
   const row = (label, id, val, ph = "") => `<div class="o-field"><label for="${id}">${label}</label><div class="ctl"><input type="text" id="${id}" value="${esc(val || "")}" placeholder="${esc(ph)}" ${ro ? "disabled" : ""}></div></div>`;
   $("pform").className = "o-form o-plat";
-  $("pform").innerHTML = `<fieldset><legend>Plataforma</legend>
-      ${row("Nome", "p-name", p.name)}
-      ${row("Sites (domínios)", "p-hosts", p.hosts.join(", "), "reddit.com, bsky.app")}
+  $("pform").innerHTML = `<fieldset><legend>${esc(t("op_plat_legend"))}</legend>
+      ${row(esc(t("op_plat_name")), "p-name", p.name)}
+      ${row(esc(t("op_plat_hosts")), "p-hosts", p.hosts.join(", "), "reddit.com, bsky.app")}
     </fieldset>
-    ${p.extractor ? '<p class="o-hint">Esta plataforma é lida por código próprio (não usa seletores). Para sobrescrever, use “Reconfigurar este site” no próprio site.</p>' : `<fieldset><legend>Seletores CSS</legend>
-      ${SEL_FIELDS.map(([k, l]) => row(l, `p-${k}`, sel[k], k === "container" ? "ex.: article, shreddit-post" : "relativo ao container")).join("")}
-      ${[0, 1, 2].map((i) => `<div class="o-statrow"><select id="p-si${i}" ${ro ? "disabled" : ""}>${Object.entries(ICON_KEYS).map(([v, l]) => `<option value="${v}" ${stats[i]?.icon === v ? "selected" : ""}>${l}</option>`).join("")}</select><input type="text" id="p-ss${i}" ${ro ? "disabled" : ""} value="${esc(stats[i]?.sel || "")}" placeholder="seletor da contagem ${i + 1} (opcional)"></div>`).join("")}
+    ${p.extractor ? `<p class="o-hint">${esc(t("op_extractor_note"))}</p>` : `<fieldset><legend>${esc(t("op_selectors_legend"))}</legend>
+      ${SEL_FIELDS.map((k) => row(esc(t("sf_" + k)), `p-${k}`, sel[k], k === "container" ? t("sf_container_ph") : t("sf_relative_ph"))).join("")}
+      ${[0, 1, 2].map((i) => `<div class="o-statrow"><select id="p-si${i}" ${ro ? "disabled" : ""}>${Object.entries(ICON_KEYS).map(([v, l]) => `<option value="${v}" ${stats[i]?.icon === v ? "selected" : ""}>${esc(t(l))}</option>`).join("")}</select><input type="text" id="p-ss${i}" ${ro ? "disabled" : ""} value="${esc(stats[i]?.sel || "")}" placeholder="${esc(t("op_stat_ph", i + 1))}"></div>`).join("")}
     </fieldset>`}`;
 }
 let ptimer;
@@ -275,7 +278,7 @@ $("pform").addEventListener("input", () => {
   const v = (id) => $(id)?.value || "";
   const next = normalizePlatform({
     id: p.id, name: v("p-name"), hosts: v("p-hosts").split(/[\s,]+/),
-    sel: { ...Object.fromEntries(SEL_FIELDS.map(([k]) => [k, v(`p-${k}`)])), stats: [0, 1, 2].map((i) => ({ icon: v(`p-si${i}`), sel: v(`p-ss${i}`) })) }
+    sel: { ...Object.fromEntries(SEL_FIELDS.map((k) => [k, v(`p-${k}`)])), stats: [0, 1, 2].map((i) => ({ icon: v(`p-si${i}`), sel: v(`p-ss${i}`) })) }
   });
   next.id = p.id;
   lib.userPlatforms = lib.userPlatforms.map((x) => (x.id === p.id ? next : x));
@@ -285,19 +288,19 @@ $("pform").addEventListener("input", () => {
 });
 $("plist").addEventListener("click", (e) => { const li = e.target.closest("li"); if (li) { platSel = li.dataset.id; renderPlatforms(); } });
 $("pnew").onclick = async () => {
-  const p = normalizePlatform({ name: "Nova plataforma", hosts: [], sel: {} });
+  const p = normalizePlatform({ name: t("op_new_platform_name"), hosts: [], sel: {} });
   lib.userPlatforms.push(p); lib.platforms.push(p); platSel = p.id;
   await savePlatforms(lib.userPlatforms); renderPlatforms(); $("p-name").select();
 };
 $("pdup").onclick = async () => {
   const p = curPlat();
-  const copy = normalizePlatform({ ...p, id: undefined, name: `Cópia de ${p.name}`.slice(0, 40) });
+  const copy = normalizePlatform({ ...p, id: undefined, name: t("op_copy_of", p.name).slice(0, 40) });
   lib.userPlatforms.push(copy); lib.platforms.push(copy); platSel = copy.id;
   await savePlatforms(lib.userPlatforms); renderPlatforms(); $("p-name").select();
 };
 $("pdel").onclick = async () => {
   const p = curPlat();
-  if (p.builtin || !confirm(`Excluir a plataforma “${p.name}”? Seus estilos passam a valer para todas as plataformas.`)) return;
+  if (p.builtin || !confirm(t("op_confirm_delete_platform", p.name))) return;
   lib.userPlatforms = lib.userPlatforms.filter((x) => x.id !== p.id); lib.platforms = lib.platforms.filter((x) => x.id !== p.id);
   lib.custom = lib.custom.map((s) => (s.platform === p.id ? { ...s, platform: "*" } : s));
   lib.all = [...lib.all.filter((s) => s.builtin), ...lib.custom];
@@ -309,6 +312,18 @@ $("pdel").onclick = async () => {
 const setFold = (open) => document.querySelectorAll("#form details").forEach((d) => (d.open = open));
 $("foldAll").onclick = () => setFold(false);
 $("unfoldAll").onclick = () => setFold(true);
+
+// ===== LANGUAGE ==============================================================
+// First use: the picker below blocks the page until a language is chosen. Later it lives in the header.
+const chooseLang = async (code) => { await setLang(code); location.reload(); };
+$("lang").innerHTML = LANGS.map(([c, name]) => `<option value="${c}">${esc(name)}</option>`).join("");
+$("lang").value = getLang();
+$("lang").onchange = () => chooseLang($("lang").value);
+if (!savedLang) {
+  $("welcome-list").innerHTML = LANGS.map(([c, name]) => `<button data-lang="${c}">${esc(name)}</button>`).join("");
+  $("welcome-list").onclick = (e) => { if (e.target.dataset.lang) chooseLang(e.target.dataset.lang); };
+  $("welcome").hidden = false;
+}
 
 buildForm();
 renderAll();

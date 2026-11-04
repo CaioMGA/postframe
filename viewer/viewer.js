@@ -1,44 +1,47 @@
 import { placeholderAvatar } from "../src/shared/template.mjs";
-import { shotHtml } from "../src/shared/styles.mjs";
+import { initI18n, applyI18n, t } from "../src/shared/i18n.mjs";
+import { shotHtml, styleName } from "../src/shared/styles.mjs";
 import { fontFaceCss, fontsUsed } from "../src/shared/fonts.mjs";
 import { getAll, stylesFor, defaultFor, saveDefaults } from "../src/shared/store.mjs";
 
 const MAX_BYTES = 350 * 1024;
 const WIDTH = 600;
 const $ = (id) => document.getElementById(id);
+await initI18n();
+applyI18n();
 
-// --- dados ---------------------------------------------------------------
+// --- data ---------------------------------------------------------------
 const id = new URLSearchParams(location.search).get("id");
 const stored = await chrome.storage.local.get(`tweet:${id}`);
 const tweet = stored[`tweet:${id}`];
 if (!tweet) {
-  $("msg").textContent = "Tweet não encontrado. Clique no botão da câmera em um tweet do x.com.";
+  $("msg").textContent = t("vw_not_found");
   throw new Error("sem dados");
 }
 
 const platform = tweet.platform || "x";
 const lib = await getAll();
-const designs = stylesFor(lib.all, platform);        // estilos da plataforma + os de "todas"
+const designs = stylesFor(lib.all, platform);        // styles of the platform + the ones that apply to "all platforms"
 let defaultId = defaultFor(lib.all, lib.defaults, platform);
 const sampleText = [tweet.text, tweet.original?.text, tweet.author?.name].join(" ");
 
 const toDataUrl = async (url) => {
   const res = await fetch(url);
   const blob = await res.blob();
-  if (!res.ok || !blob.type.startsWith("image/")) throw new Error("avatar indisponível");
+  if (!res.ok || !blob.type.startsWith("image/")) throw new Error("avatar unavailable");
   return new Promise((res, rej) => {
     const r = new FileReader();
     r.onload = () => res(r.result); r.onerror = rej;
     r.readAsDataURL(blob);
   });
 };
-// Fotos viram data URI (necessário para renderizar dentro do SVG) com reserva em caso de falha.
+// Pictures become data URIs (required to render inside the SVG), with a fallback on failure.
 const prepareAuthor = async (a) => {
   let avatar = "";
   if (a.avatar) { try { avatar = await toDataUrl(a.avatar); } catch {} }
   return { ...a, avatar: avatar || placeholderAvatar(a.name.replace(/^[^\p{L}\p{N}]+/u, "") || a.handle.slice(1), a.handle) };
 };
-// Imagens do post: baixa e reduz (máx. 1000 px, JPEG) para caberem no limite de tamanho da imagem final.
+// Post images: download and shrink (max 1000 px, JPEG) so they fit the final image size limit.
 const prepareMedia = async (list = []) => (await Promise.all(list.slice(0, 4).map(async (u) => {
   try {
     if (u.startsWith("data:")) return u;
@@ -53,10 +56,10 @@ const prepareMedia = async (list = []) => (await Promise.all(list.slice(0, 4).ma
 const data = { ...tweet, author: await prepareAuthor(tweet.author), media: await prepareMedia(tweet.media) };
 if (tweet.original) data.original = { ...tweet.original, author: await prepareAuthor(tweet.original.author), media: await prepareMedia(tweet.original.media) };
 
-// --- renderização: DOM -> SVG foreignObject -> canvas -> imagem ---------------
+// --- rendering: DOM -> SVG foreignObject -> canvas -> image ---------------
 const canvasBlob = (canvas, type, q) => new Promise((r) => canvas.toBlob(r, type, q));
 
-// Liga/desliga rápido (vale para todas as versões e fica salvo): crédito e marca d'água.
+// Quick toggles (apply to every version and are remembered): credit, watermark and images.
 const stored2 = (await chrome.storage.local.get("toggles")).toggles || {};
 const bool = (v) => (typeof v === "boolean" ? v : undefined);
 const ov = { credit: bool(stored2.credit), wm: stored2.wm === false ? false : undefined, media: bool(stored2.media) };
@@ -100,23 +103,23 @@ const kb = (n) => (n / 1024).toFixed(1);
 function show() {
   const r = results[idx];
   $("img").src = r.url;
-  $("cap").innerHTML = `<b>${idx + 1}/${results.length} · ${r.design.name.replace(/[<&]/g, '')}</b><br>${r.w}×${r.h}px · ${kb(r.blob.size)} KB`;
+  $("cap").innerHTML = `<b>${idx + 1}/${results.length} · ${styleName(r.design).replace(/[<&]/g, '')}</b><br>${r.w}×${r.h}px · ${kb(r.blob.size)} KB`;
   $("thumbs").innerHTML = results.map((x, i) =>
-    `<button data-i="${i}" ${i === idx ? 'aria-current="true"' : ""}><img src="${x.url}" alt=""><span>${i + 1} · ${x.design.name.replace(/[<&]/g, "")}</span></button>`).join("");
+    `<button data-i="${i}" ${i === idx ? 'aria-current="true"' : ""}><img src="${x.url}" alt=""><span>${i + 1} · ${styleName(x.design).replace(/[<&]/g, "")}</span></button>`).join("");
   history.replaceState(null, "", `#${idx + 1}`);
   const pname = lib.platforms.find((p) => p.id === platform)?.name;
-  $("title").textContent = `Postframe · ${results.length} estilos${pname ? " · " + pname : ""}`;
+  $("title").textContent = t("vw_title", results.length) + (pname ? " · " + pname : "");
   const isDef = r.design.id === defaultId;
-  $("def").textContent = isDef ? "★ Estilo padrão" : "☆ Definir como padrão";
+  $("def").textContent = isDef ? t("vw_is_default") : t("vw_set_default");
   $("def").disabled = isDef;
   const e = eff(r.design);
   $("tgCredit").checked = !!e.creditOn;
   $("tgWm").checked = e.wmMode !== "none";
-  $("tgWm").disabled = r.design.wmMode === "none";     // sem marca d'água no estilo: configure em Estilos
+  $("tgWm").disabled = r.design.wmMode === "none";     // no watermark in this style: set one up in Styles
   $("tgMedia").checked = !e.hideMedia;
-  $("tgMedia").disabled = !hasMedia;                    // post sem imagens: nada a esconder
-  $("tgMedia").parentElement.title = hasMedia ? "" : "Este post não tem imagens";
-  $("tgWm").parentElement.title = $("tgWm").disabled ? "Este estilo não tem marca d'água (configure em Estilos…)" : "";
+  $("tgMedia").disabled = !hasMedia;                    // post without images: nothing to hide
+  $("tgMedia").parentElement.title = hasMedia ? "" : t("vw_no_images");
+  $("tgWm").parentElement.title = $("tgWm").disabled ? t("vw_no_wm") : "";
 }
 const go = (d) => { idx = (idx + d + results.length) % results.length; show(); };
 
@@ -138,7 +141,7 @@ $("download").onclick = () => Object.assign(document.createElement("a"), { href:
 $("copy").onclick = async () => {
   const r = results[idx];
   try {
-    // A área de transferência aceita PNG; JPEG de reserva é reconvertido.
+    // The clipboard accepts PNG; a JPEG fallback is converted back.
     let blob = r.blob;
     if (r.ext !== "png") {
       const bmp = await createImageBitmap(blob);
@@ -147,9 +150,9 @@ $("copy").onclick = async () => {
       blob = await canvasBlob(c, "image/png");
     }
     await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
-    $("copy").textContent = "Copiado ✓";
-  } catch { $("copy").textContent = "Falhou"; }
-  setTimeout(() => ($("copy").textContent = "Copiar"), 1500);
+    $("copy").textContent = t("vw_copied");
+  } catch { $("copy").textContent = t("vw_failed"); }
+  setTimeout(() => ($("copy").textContent = t("vw_copy")), 1500);
 };
 addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") go(-1);
@@ -157,7 +160,7 @@ addEventListener("keydown", (e) => {
 });
 
 async function generate() {
-  $("msg").textContent = "Gerando imagens…";
+  $("msg").textContent = t("vw_generating");
   const old = results;
   results = await Promise.all(designs.map(render));
   old.forEach((r) => URL.revokeObjectURL(r.url));
@@ -169,6 +172,6 @@ $("tgWm").onchange = async () => { ov.wm = $("tgWm").checked ? undefined : false
 $("tgMedia").onchange = async () => { ov.media = $("tgMedia").checked; await saveToggles(); generate(); };
 
 await generate();
-// abre no estilo padrão do usuário
+// open on the user's default style
 idx = Math.max(0, results.findIndex((r) => r.design.id === defaultId));
 show();

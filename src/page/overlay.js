@@ -111,7 +111,7 @@
     return "body > " + path.join(" > ");
   }
 
-  // ---------- leitura de valores ----------
+  // ---------- reading values ----------
   const norm = (s) => (s || "").replace(/\s+\n/g, "\n").replace(/[ \t]+/g, " ").trim();
   const txt = (el) => norm(el?.innerText ?? el?.textContent);
   const countOf = (el) => { const t = txt(el); const m = t.match(/\d[\d.,]*\s*(mil|mi|k|m|b)?\b/i); return m ? m[0].trim() : "0"; };

@@ -1,8 +1,8 @@
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import { samples } from "./samples.mjs";
-import { BUILTINS as designs, page } from "../src/shared/styles.mjs";
-// Requer `npm i playwright-core` (ou PLAYWRIGHT_CORE=/caminho/para/playwright-core).
+import { BUILTINS as designs, page, styleName } from "../src/shared/styles.mjs";
+// Requires `npm i playwright-core` (or PLAYWRIGHT_CORE=/path/to/playwright-core).
 const { chromium } = await import(process.env.PLAYWRIGHT_CORE || "playwright-core");
 
 fs.mkdirSync("images", { recursive: true });
@@ -16,12 +16,12 @@ for (const d of designs) for (const s of samples) {
   const file = `images/${d.id}-${s.id}.png`;
   await p.locator(".shot").screenshot({ path: file });
   await p.close();
-  // otimização sem perdas; se passar de 350KB, cai para quantização
+  // lossless optimization; if it goes over 350KB, fall back to color quantization
   execFileSync("optipng", ["-quiet", "-o2", file]);
   let size = fs.statSync(file).size;
   if (size > 350 * 1024) { execFileSync("magick", [file, "-colors", "256", "PNG8:" + file]); size = fs.statSync(file).size; }
   const [w, h] = execFileSync("magick", ["identify", "-format", "%w %h", file]).toString().split(" ").map(Number);
-  out.push({ design: d.id, name: d.name, sample: s.id, sampleLabel: s.label, file, w, h, kb: +(size / 1024).toFixed(1) });
+  out.push({ design: d.id, name: styleName(d), sample: s.id, sampleLabel: s.label, file, w, h, kb: +(size / 1024).toFixed(1) });
 }
 await browser.close();
 fs.writeFileSync("data.js", "window.MOCKUPS = " + JSON.stringify(out, null, 1) + ";");

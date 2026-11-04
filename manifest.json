@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Postframe",
-  "version": "0.6.0",
-  "description": "Gere imagens padronizadas de posts do X, Bluesky, Reddit, Instagram e de qualquer site, com estilos, fontes, marca d'água e mosaico de imagens.",
+  "name": "__MSG_extName__",
+  "version": "0.7.0",
+  "description": "__MSG_extDescription__",
   "permissions": [
     "storage",
     "activeTab",
@@ -54,10 +54,11 @@
       "48": "icons/icon-48.png",
       "128": "icons/icon-128.png"
     },
-    "default_title": "Postframe: capturar posts ou configurar este site"
+    "default_title": "__MSG_actionTitle__"
   },
   "options_ui": {
     "page": "options/options.html",
     "open_in_tab": true
-  }
+  },
+  "default_locale": "en"
 }

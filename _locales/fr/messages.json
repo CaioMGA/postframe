@@ -1,0 +1,698 @@
+{
+  "fd_font": {
+    "message": "Police"
+  },
+  "fd_fontSize": {
+    "message": "Taille du texte"
+  },
+  "fd_textWeight": {
+    "message": "Graisse du texte"
+  },
+  "fd_fg": {
+    "message": "Couleur du texte"
+  },
+  "fd_muted": {
+    "message": "Couleur secondaire (@, heure)"
+  },
+  "fd_accent": {
+    "message": "Couleur d'accent (#, @, badge)"
+  },
+  "fd_cardBg": {
+    "message": "Arrière-plan"
+  },
+  "fd_cardPadding": {
+    "message": "Marge intérieure"
+  },
+  "fd_cardRadius": {
+    "message": "Coins arrondis"
+  },
+  "fd_borderWidth": {
+    "message": "Épaisseur de la bordure"
+  },
+  "fd_borderColor": {
+    "message": "Couleur de la bordure"
+  },
+  "fd_topBar": {
+    "message": "Bandeau supérieur"
+  },
+  "fd_topBarColor": {
+    "message": "Couleur du bandeau"
+  },
+  "fd_quoteMark": {
+    "message": "Guillemets décoratifs"
+  },
+  "fd_hideMedia": {
+    "message": "Masquer les images de la publication"
+  },
+  "fd_shadowOpacity": {
+    "message": "Opacité de l'ombre"
+  },
+  "fd_shadowX": {
+    "message": "Ombre X"
+  },
+  "fd_shadowY": {
+    "message": "Ombre Y"
+  },
+  "fd_shadowBlur": {
+    "message": "Flou de l'ombre"
+  },
+  "fd_shadowColor": {
+    "message": "Couleur de l'ombre"
+  },
+  "fd_glowBlur": {
+    "message": "Halo (0 = désactivé)"
+  },
+  "fd_glowColor": {
+    "message": "Couleur du halo"
+  },
+  "fd_framePadding": {
+    "message": "Largeur du cadre (0 = aucun)"
+  },
+  "fd_frameC1": {
+    "message": "Couleur 1"
+  },
+  "fd_frameC2": {
+    "message": "Couleur 2 (identique à 1 = unie)"
+  },
+  "fd_frameAngle": {
+    "message": "Angle du dégradé"
+  },
+  "fd_innerBorder": {
+    "message": "Couleur de la bordure / ligne"
+  },
+  "fd_innerBorderWidth": {
+    "message": "Épaisseur de la bordure"
+  },
+  "fd_innerRadius": {
+    "message": "Coins arrondis"
+  },
+  "fd_innerBgOn": {
+    "message": "Utiliser un arrière-plan propre"
+  },
+  "fd_innerBg": {
+    "message": "Couleur d'arrière-plan"
+  },
+  "fd_creditOn": {
+    "message": "Afficher le crédit"
+  },
+  "fd_creditText": {
+    "message": "Texte"
+  },
+  "fd_creditFont": {
+    "message": "Police"
+  },
+  "fd_creditColor": {
+    "message": "Couleur"
+  },
+  "fd_creditSize": {
+    "message": "Taille"
+  },
+  "fd_wmMode": {
+    "message": "Type"
+  },
+  "fd_wmText": {
+    "message": "Texte"
+  },
+  "fd_wmFont": {
+    "message": "Police"
+  },
+  "fd_wmColor": {
+    "message": "Couleur"
+  },
+  "fd_wmSize": {
+    "message": "Taille du texte"
+  },
+  "fd_wmImage": {
+    "message": "Image"
+  },
+  "fd_wmImgWidth": {
+    "message": "Largeur de l'image"
+  },
+  "fd_wmImgRatio": {
+    "message": "Proportions de l'image"
+  },
+  "fd_wmOpacity": {
+    "message": "Opacité"
+  },
+  "fd_wmRotate": {
+    "message": "Inclinaison (degrés)"
+  },
+  "fd_wmPattern": {
+    "message": "Répéter en motif"
+  },
+  "fd_wmGap": {
+    "message": "Espacement du motif (px)"
+  },
+  "fd_wmX": {
+    "message": "Position horizontale (%)"
+  },
+  "fd_wmY": {
+    "message": "Position verticale (%)"
+  },
+  "fd_avatarShape": {
+    "message": "Forme"
+  },
+  "fd_avatarBorderWidth": {
+    "message": "Épaisseur de la bordure"
+  },
+  "fd_avatarBorderColor": {
+    "message": "Couleur de la bordure"
+  },
+  "gr_text": {
+    "message": "Texte"
+  },
+  "gr_card": {
+    "message": "Carte"
+  },
+  "gr_shadow": {
+    "message": "Ombre et halo"
+  },
+  "gr_frame": {
+    "message": "Cadre"
+  },
+  "gr_inner": {
+    "message": "Publication imbriquée et pied de page"
+  },
+  "gr_credit": {
+    "message": "Crédit sous l'image"
+  },
+  "gr_wm": {
+    "message": "Filigrane"
+  },
+  "gr_avatar": {
+    "message": "Photo de profil"
+  },
+  "o_w400": {
+    "message": "Normal"
+  },
+  "o_w600": {
+    "message": "Demi-gras"
+  },
+  "o_w700": {
+    "message": "Gras"
+  },
+  "o_wm_none": {
+    "message": "Aucun"
+  },
+  "o_wm_text": {
+    "message": "Texte"
+  },
+  "o_wm_image": {
+    "message": "Image"
+  },
+  "o_av_circle": {
+    "message": "Cercle"
+  },
+  "o_av_rounded": {
+    "message": "Arrondi"
+  },
+  "o_av_square": {
+    "message": "Carré"
+  },
+  "st_1": {
+    "message": "Clair classique"
+  },
+  "st_2": {
+    "message": "Sombre"
+  },
+  "st_3": {
+    "message": "Cadre dégradé"
+  },
+  "st_4": {
+    "message": "Éditorial"
+  },
+  "st_5": {
+    "message": "Néon"
+  },
+  "st_6": {
+    "message": "Affiche pastel"
+  },
+  "font_sans": {
+    "message": "Sans empattement (système)"
+  },
+  "font_serif": {
+    "message": "Avec empattement (système)"
+  },
+  "font_mono": {
+    "message": "Monospace (système)"
+  },
+  "rt_label": {
+    "message": "↻ a reposté"
+  },
+  "icon_reply": {
+    "message": "Réponse"
+  },
+  "icon_comment": {
+    "message": "Commentaire"
+  },
+  "icon_retweet": {
+    "message": "Repost"
+  },
+  "icon_like": {
+    "message": "J'aime"
+  },
+  "icon_upvote": {
+    "message": "Vote positif"
+  },
+  "icon_share": {
+    "message": "Partager"
+  },
+  "icon_view": {
+    "message": "Vues"
+  },
+  "cs_btn_title": {
+    "message": "Postframe : générer des images de cette publication"
+  },
+  "cs_err_read": {
+    "message": "impossible de lire la publication"
+  },
+  "cs_err_prefix": {
+    "message": "Erreur : $1"
+  },
+  "ov_step_name": {
+    "message": "Cliquez sur le NOM de l'auteur"
+  },
+  "ov_step_handle": {
+    "message": "Cliquez sur le @identifiant (ou passez)"
+  },
+  "ov_step_avatar": {
+    "message": "Cliquez sur la PHOTO de profil (ou passez)"
+  },
+  "ov_step_text": {
+    "message": "Cliquez sur le TEXTE de la publication"
+  },
+  "ov_step_media": {
+    "message": "Cliquez sur une IMAGE de la publication (ou passez)"
+  },
+  "ov_step_time": {
+    "message": "Cliquez sur l'heure/la date (ou passez)"
+  },
+  "ov_step_stat0": {
+    "message": "Cliquez sur un COMPTEUR (j'aime, commentaires…) ou passez"
+  },
+  "ov_step_stat1": {
+    "message": "Un autre compteur (ou passez)"
+  },
+  "ov_step_stat2": {
+    "message": "Encore un compteur (ou passez)"
+  },
+  "ov_f_name": {
+    "message": "Nom"
+  },
+  "ov_f_handle": {
+    "message": "Identifiant"
+  },
+  "ov_f_avatar": {
+    "message": "Photo"
+  },
+  "ov_f_text": {
+    "message": "Texte"
+  },
+  "ov_f_media": {
+    "message": "Images"
+  },
+  "ov_f_time": {
+    "message": "Heure"
+  },
+  "ov_none_found": {
+    "message": "Aucune publication trouvée sur cette page (la mise en page n'est peut-être pas prise en charge). Essayez « Reconfigurer ce site »."
+  },
+  "ov_generating": {
+    "message": "Génération…"
+  },
+  "ov_opening": {
+    "message": "Ouverture des images dans un nouvel onglet…"
+  },
+  "ov_images_count": {
+    "message": "$1 image(s)"
+  },
+  "ov_empty": {
+    "message": "(vide)"
+  },
+  "ov_save_fail": {
+    "message": "Impossible d'enregistrer."
+  },
+  "ov_close": {
+    "message": "Fermer"
+  },
+  "ov_platform": {
+    "message": "Plateforme : $1"
+  },
+  "ov_not_configured": {
+    "message": "Ce site n'est pas encore configuré."
+  },
+  "ov_capture_btn": {
+    "message": "Capturer une publication"
+  },
+  "ov_reconfigure": {
+    "message": "Reconfigurer ce site"
+  },
+  "ov_configure": {
+    "message": "Configurer ce site"
+  },
+  "ov_styles": {
+    "message": "Styles…"
+  },
+  "ov_capture_title": {
+    "message": "Capturer une publication"
+  },
+  "ov_capture_hint": {
+    "message": "Survolez puis cliquez sur la publication. Échap pour revenir."
+  },
+  "ov_cancel": {
+    "message": "Annuler"
+  },
+  "ov_setup_title1": {
+    "message": "Configurer ce site · 1"
+  },
+  "ov_setup_hint1": {
+    "message": "Cliquez sur une publication entière (le bloc qui contient la photo, le nom et le texte). ↑ agrandit la sélection, ↓ la réduit."
+  },
+  "ov_block_title": {
+    "message": "Bloc de la publication"
+  },
+  "ov_block_one": {
+    "message": "1 bloc trouvé sur cette page."
+  },
+  "ov_block_many": {
+    "message": "$1 blocs trouvés sur cette page."
+  },
+  "ov_looks_list": {
+    "message": "On dirait une liste de publications."
+  },
+  "ov_only_one": {
+    "message": "Un seul bloc : si la page contient plusieurs publications, agrandissez la sélection."
+  },
+  "ov_use_block": {
+    "message": "Utiliser ce bloc"
+  },
+  "ov_bigger": {
+    "message": "↑ Plus grand"
+  },
+  "ov_pick_other": {
+    "message": "Choisir un autre"
+  },
+  "ov_setup_title_n": {
+    "message": "Configurer ce site · $1/$2"
+  },
+  "ov_count_type": {
+    "message": "Type de compteur :"
+  },
+  "ov_skip": {
+    "message": "Passer"
+  },
+  "ov_skipped": {
+    "message": "— ignoré"
+  },
+  "ov_back": {
+    "message": "← Retour"
+  },
+  "ov_done": {
+    "message": "Terminé !"
+  },
+  "ov_will_use": {
+    "message": "Sera utilisé sur $1"
+  },
+  "ov_platform_name": {
+    "message": "Nom de la plateforme :"
+  },
+  "ov_save_capture": {
+    "message": "Enregistrer et capturer"
+  },
+  "ov_log_found": {
+    "message": "  ($1/$2 publications)"
+  },
+  "vw_page_title": {
+    "message": "Postframe"
+  },
+  "vw_not_found": {
+    "message": "Publication introuvable. Utilisez le bouton appareil photo sur une publication, ou l'icône de la barre d'outils sur les autres sites."
+  },
+  "vw_title": {
+    "message": "Postframe · $1 styles"
+  },
+  "vw_images": {
+    "message": "Images"
+  },
+  "vw_credit": {
+    "message": "Crédit"
+  },
+  "vw_watermark": {
+    "message": "Filigrane"
+  },
+  "vw_set_default": {
+    "message": "☆ Définir par défaut"
+  },
+  "vw_is_default": {
+    "message": "★ Style par défaut"
+  },
+  "vw_styles": {
+    "message": "Styles…"
+  },
+  "vw_copy": {
+    "message": "Copier"
+  },
+  "vw_download": {
+    "message": "Télécharger"
+  },
+  "vw_copied": {
+    "message": "Copié ✓"
+  },
+  "vw_failed": {
+    "message": "Échec"
+  },
+  "vw_prev": {
+    "message": "Précédent"
+  },
+  "vw_next": {
+    "message": "Suivant"
+  },
+  "vw_generating": {
+    "message": "Génération des images…"
+  },
+  "vw_no_images": {
+    "message": "Cette publication n'a pas d'images"
+  },
+  "vw_no_wm": {
+    "message": "Ce style n'a pas de filigrane (configurez-en un dans Styles…)"
+  },
+  "op_page_title": {
+    "message": "Postframe · Paramètres"
+  },
+  "op_subtitle": {
+    "message": "Styles et plateformes. Tout est enregistré dans ce navigateur."
+  },
+  "op_language": {
+    "message": "Langue"
+  },
+  "op_welcome_title": {
+    "message": "Choisissez votre langue"
+  },
+  "op_welcome_hint": {
+    "message": "Vous pourrez la modifier plus tard dans les paramètres."
+  },
+  "op_tab_styles": {
+    "message": "Styles"
+  },
+  "op_tab_platforms": {
+    "message": "Plateformes"
+  },
+  "op_platform_label": {
+    "message": "Plateforme"
+  },
+  "op_all_platforms": {
+    "message": "Toutes les plateformes"
+  },
+  "op_new_style": {
+    "message": "+ Nouveau style (duplique celui sélectionné)"
+  },
+  "op_export": {
+    "message": "Exporter"
+  },
+  "op_import": {
+    "message": "Importer"
+  },
+  "op_name_aria": {
+    "message": "Nom du style"
+  },
+  "op_applies_to": {
+    "message": "S'applique à"
+  },
+  "op_set_default": {
+    "message": "Définir par défaut"
+  },
+  "op_set_default_in": {
+    "message": "Définir par défaut sur $1"
+  },
+  "op_is_default": {
+    "message": "★ Style par défaut"
+  },
+  "op_delete": {
+    "message": "Supprimer"
+  },
+  "op_readonly_style": {
+    "message": "Style intégré (lecture seule). Utilisez « Nouveau style » pour créer une copie modifiable et, si vous le souhaitez, changer sa plateforme."
+  },
+  "op_fold_all": {
+    "message": "Tout réduire"
+  },
+  "op_unfold_all": {
+    "message": "Tout développer"
+  },
+  "op_preview_hint": {
+    "message": "Aperçu avec des données fictives. L'image finale fait toujours 600 px de large. Faites glisser le filigrane pour le placer."
+  },
+  "op_loading_fonts": {
+    "message": "Chargement des polices…"
+  },
+  "op_font_warn": {
+    "message": "⚠ Impossible de charger : $1 (vérifiez le nom ou votre connexion). La police par défaut sera utilisée."
+  },
+  "op_bad_image": {
+    "message": "Impossible d'utiliser cette image (essayez un PNG, JPG ou WebP plus petit)."
+  },
+  "op_copy_of": {
+    "message": "Copie de $1"
+  },
+  "op_confirm_delete_style": {
+    "message": "Supprimer le style « $1 » ?"
+  },
+  "op_bad_file": {
+    "message": "Fichier non valide. Utilisez un JSON exporté par cette extension."
+  },
+  "op_badge_default": {
+    "message": "par défaut"
+  },
+  "op_badge_builtin": {
+    "message": "intégré"
+  },
+  "op_badge_beta": {
+    "message": "bêta"
+  },
+  "op_font_other": {
+    "message": "Autre police Google Fonts…"
+  },
+  "op_font_placeholder": {
+    "message": "Nom exact sur Google Fonts"
+  },
+  "op_font_group_system": {
+    "message": "Système"
+  },
+  "op_font_group_google": {
+    "message": "Google Fonts"
+  },
+  "op_remove_image": {
+    "message": "Supprimer l'image"
+  },
+  "op_sample_post": {
+    "message": "Publication"
+  },
+  "op_sample_media": {
+    "message": "Avec images"
+  },
+  "op_sample_repost": {
+    "message": "Repost"
+  },
+  "op_sample_quote": {
+    "message": "Citation"
+  },
+  "op_sample_text_post": {
+    "message": "J'ai passé le week-end à réécrire un système legacy et j'ai découvert que 60 % du code ne s'exécutait jamais. 🧹\n\n#dev #refactoring"
+  },
+  "op_sample_text_media": {
+    "message": "Photos du week-end. 📸"
+  },
+  "op_sample_text_quote": {
+    "message": "Tout à fait d'accord."
+  },
+  "op_sample_text_orig_quote": {
+    "message": "Mesurez avant d'optimiser. #performance"
+  },
+  "op_sample_text_orig_rt": {
+    "message": "Règle d'or : mesurez avant d'optimiser. 📉 #performance"
+  },
+  "op_new_platform": {
+    "message": "+ Nouvelle plateforme"
+  },
+  "op_pro_note": {
+    "message": "Plateforme intégrée (lecture seule). Pour l'ajuster, dupliquez-la : votre version est prioritaire sur le site."
+  },
+  "op_dup_platform": {
+    "message": "Dupliquer pour modifier"
+  },
+  "op_del_platform": {
+    "message": "Supprimer la plateforme"
+  },
+  "op_plat_tip": {
+    "message": "Astuce : au lieu de saisir les sélecteurs à la main, ouvrez le site, cliquez sur l'icône de l'extension et utilisez « Configurer ce site »."
+  },
+  "op_plat_legend": {
+    "message": "Plateforme"
+  },
+  "op_plat_name": {
+    "message": "Nom"
+  },
+  "op_plat_hosts": {
+    "message": "Sites (domaines)"
+  },
+  "op_selectors_legend": {
+    "message": "Sélecteurs CSS"
+  },
+  "op_extractor_note": {
+    "message": "Cette plateforme est lue par du code intégré (elle n'utilise pas de sélecteurs). Pour la remplacer, utilisez « Reconfigurer ce site » sur le site lui-même."
+  },
+  "op_stat_ph": {
+    "message": "sélecteur du compteur $1 (facultatif)"
+  },
+  "op_new_platform_name": {
+    "message": "Nouvelle plateforme"
+  },
+  "op_confirm_delete_platform": {
+    "message": "Supprimer la plateforme « $1 » ? Vos styles s'appliqueront à toutes les plateformes."
+  },
+  "sf_container": {
+    "message": "Conteneur de la publication"
+  },
+  "sf_avatar": {
+    "message": "Photo de profil"
+  },
+  "sf_name": {
+    "message": "Nom"
+  },
+  "sf_handle": {
+    "message": "@identifiant"
+  },
+  "sf_text": {
+    "message": "Texte"
+  },
+  "sf_time": {
+    "message": "Heure"
+  },
+  "sf_media": {
+    "message": "Images de la publication"
+  },
+  "sf_body": {
+    "message": "Corps de la publication (facultatif, après le texte)"
+  },
+  "sf_repost": {
+    "message": "Contexte du repost (facultatif)"
+  },
+  "sf_repostStrip": {
+    "message": "Texte à retirer du nom de la personne ayant reposté"
+  },
+  "sf_container_ph": {
+    "message": "p. ex. : article, shreddit-post"
+  },
+  "sf_relative_ph": {
+    "message": "relatif au conteneur"
+  },
+  "extName": {
+    "message": "Postframe"
+  },
+  "extDescription": {
+    "message": "Créez des images standardisées de publications X, Bluesky, Reddit, Instagram et de tout site, avec styles, polices et filigranes."
+  },
+  "actionTitle": {
+    "message": "Postframe : capturer des publications ou configurer ce site"
+  }
+}

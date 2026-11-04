@@ -1,0 +1,698 @@
+{
+  "fd_font": {
+    "message": "Font"
+  },
+  "fd_fontSize": {
+    "message": "Text size"
+  },
+  "fd_textWeight": {
+    "message": "Text weight"
+  },
+  "fd_fg": {
+    "message": "Text color"
+  },
+  "fd_muted": {
+    "message": "Secondary color (@, time)"
+  },
+  "fd_accent": {
+    "message": "Accent color (#, @, badge)"
+  },
+  "fd_cardBg": {
+    "message": "Background"
+  },
+  "fd_cardPadding": {
+    "message": "Inner padding"
+  },
+  "fd_cardRadius": {
+    "message": "Corner radius"
+  },
+  "fd_borderWidth": {
+    "message": "Border width"
+  },
+  "fd_borderColor": {
+    "message": "Border color"
+  },
+  "fd_topBar": {
+    "message": "Top bar"
+  },
+  "fd_topBarColor": {
+    "message": "Bar color"
+  },
+  "fd_quoteMark": {
+    "message": "Decorative quote mark"
+  },
+  "fd_hideMedia": {
+    "message": "Hide post images"
+  },
+  "fd_shadowOpacity": {
+    "message": "Shadow opacity"
+  },
+  "fd_shadowX": {
+    "message": "Shadow X"
+  },
+  "fd_shadowY": {
+    "message": "Shadow Y"
+  },
+  "fd_shadowBlur": {
+    "message": "Shadow blur"
+  },
+  "fd_shadowColor": {
+    "message": "Shadow color"
+  },
+  "fd_glowBlur": {
+    "message": "Glow (0 = off)"
+  },
+  "fd_glowColor": {
+    "message": "Glow color"
+  },
+  "fd_framePadding": {
+    "message": "Frame width (0 = none)"
+  },
+  "fd_frameC1": {
+    "message": "Color 1"
+  },
+  "fd_frameC2": {
+    "message": "Color 2 (same as 1 = solid)"
+  },
+  "fd_frameAngle": {
+    "message": "Gradient angle"
+  },
+  "fd_innerBorder": {
+    "message": "Border / line color"
+  },
+  "fd_innerBorderWidth": {
+    "message": "Border width"
+  },
+  "fd_innerRadius": {
+    "message": "Corner radius"
+  },
+  "fd_innerBgOn": {
+    "message": "Use own background"
+  },
+  "fd_innerBg": {
+    "message": "Background color"
+  },
+  "fd_creditOn": {
+    "message": "Show credit"
+  },
+  "fd_creditText": {
+    "message": "Text"
+  },
+  "fd_creditFont": {
+    "message": "Font"
+  },
+  "fd_creditColor": {
+    "message": "Color"
+  },
+  "fd_creditSize": {
+    "message": "Size"
+  },
+  "fd_wmMode": {
+    "message": "Type"
+  },
+  "fd_wmText": {
+    "message": "Text"
+  },
+  "fd_wmFont": {
+    "message": "Font"
+  },
+  "fd_wmColor": {
+    "message": "Color"
+  },
+  "fd_wmSize": {
+    "message": "Text size"
+  },
+  "fd_wmImage": {
+    "message": "Image"
+  },
+  "fd_wmImgWidth": {
+    "message": "Image width"
+  },
+  "fd_wmImgRatio": {
+    "message": "Image ratio"
+  },
+  "fd_wmOpacity": {
+    "message": "Opacity"
+  },
+  "fd_wmRotate": {
+    "message": "Tilt (degrees)"
+  },
+  "fd_wmPattern": {
+    "message": "Repeat as pattern"
+  },
+  "fd_wmGap": {
+    "message": "Pattern spacing (px)"
+  },
+  "fd_wmX": {
+    "message": "Horizontal position (%)"
+  },
+  "fd_wmY": {
+    "message": "Vertical position (%)"
+  },
+  "fd_avatarShape": {
+    "message": "Shape"
+  },
+  "fd_avatarBorderWidth": {
+    "message": "Border width"
+  },
+  "fd_avatarBorderColor": {
+    "message": "Border color"
+  },
+  "gr_text": {
+    "message": "Text"
+  },
+  "gr_card": {
+    "message": "Card"
+  },
+  "gr_shadow": {
+    "message": "Shadow and glow"
+  },
+  "gr_frame": {
+    "message": "Frame"
+  },
+  "gr_inner": {
+    "message": "Nested post and footer"
+  },
+  "gr_credit": {
+    "message": "Credit below the image"
+  },
+  "gr_wm": {
+    "message": "Watermark"
+  },
+  "gr_avatar": {
+    "message": "Profile picture"
+  },
+  "o_w400": {
+    "message": "Normal"
+  },
+  "o_w600": {
+    "message": "Semi-bold"
+  },
+  "o_w700": {
+    "message": "Bold"
+  },
+  "o_wm_none": {
+    "message": "None"
+  },
+  "o_wm_text": {
+    "message": "Text"
+  },
+  "o_wm_image": {
+    "message": "Image"
+  },
+  "o_av_circle": {
+    "message": "Circle"
+  },
+  "o_av_rounded": {
+    "message": "Rounded"
+  },
+  "o_av_square": {
+    "message": "Square"
+  },
+  "st_1": {
+    "message": "Classic light"
+  },
+  "st_2": {
+    "message": "Dark"
+  },
+  "st_3": {
+    "message": "Gradient frame"
+  },
+  "st_4": {
+    "message": "Editorial"
+  },
+  "st_5": {
+    "message": "Neon"
+  },
+  "st_6": {
+    "message": "Pastel poster"
+  },
+  "font_sans": {
+    "message": "Sans-serif (system)"
+  },
+  "font_serif": {
+    "message": "Serif (system)"
+  },
+  "font_mono": {
+    "message": "Monospace (system)"
+  },
+  "rt_label": {
+    "message": "↻ reposted"
+  },
+  "icon_reply": {
+    "message": "Reply"
+  },
+  "icon_comment": {
+    "message": "Comment"
+  },
+  "icon_retweet": {
+    "message": "Repost"
+  },
+  "icon_like": {
+    "message": "Like"
+  },
+  "icon_upvote": {
+    "message": "Upvote"
+  },
+  "icon_share": {
+    "message": "Share"
+  },
+  "icon_view": {
+    "message": "Views"
+  },
+  "cs_btn_title": {
+    "message": "Postframe: generate images of this post"
+  },
+  "cs_err_read": {
+    "message": "could not read the post"
+  },
+  "cs_err_prefix": {
+    "message": "Error: $1"
+  },
+  "ov_step_name": {
+    "message": "Click the author's NAME"
+  },
+  "ov_step_handle": {
+    "message": "Click the @username (or skip)"
+  },
+  "ov_step_avatar": {
+    "message": "Click the profile PICTURE (or skip)"
+  },
+  "ov_step_text": {
+    "message": "Click the post TEXT"
+  },
+  "ov_step_media": {
+    "message": "Click an IMAGE in the post (or skip)"
+  },
+  "ov_step_time": {
+    "message": "Click the time/date (or skip)"
+  },
+  "ov_step_stat0": {
+    "message": "Click a COUNT (likes, comments…) or skip"
+  },
+  "ov_step_stat1": {
+    "message": "Another count (or skip)"
+  },
+  "ov_step_stat2": {
+    "message": "One more count (or skip)"
+  },
+  "ov_f_name": {
+    "message": "Name"
+  },
+  "ov_f_handle": {
+    "message": "Handle"
+  },
+  "ov_f_avatar": {
+    "message": "Photo"
+  },
+  "ov_f_text": {
+    "message": "Text"
+  },
+  "ov_f_media": {
+    "message": "Images"
+  },
+  "ov_f_time": {
+    "message": "Time"
+  },
+  "ov_none_found": {
+    "message": "No posts found on this page (the layout may not be supported). Try “Reconfigure this site”."
+  },
+  "ov_generating": {
+    "message": "Generating…"
+  },
+  "ov_opening": {
+    "message": "Opening the images in a new tab…"
+  },
+  "ov_images_count": {
+    "message": "$1 image(s)"
+  },
+  "ov_empty": {
+    "message": "(empty)"
+  },
+  "ov_save_fail": {
+    "message": "Could not save."
+  },
+  "ov_close": {
+    "message": "Close"
+  },
+  "ov_platform": {
+    "message": "Platform: $1"
+  },
+  "ov_not_configured": {
+    "message": "This site is not set up yet."
+  },
+  "ov_capture_btn": {
+    "message": "Capture a post"
+  },
+  "ov_reconfigure": {
+    "message": "Reconfigure this site"
+  },
+  "ov_configure": {
+    "message": "Set up this site"
+  },
+  "ov_styles": {
+    "message": "Styles…"
+  },
+  "ov_capture_title": {
+    "message": "Capture post"
+  },
+  "ov_capture_hint": {
+    "message": "Hover and click the post. Esc to go back."
+  },
+  "ov_cancel": {
+    "message": "Cancel"
+  },
+  "ov_setup_title1": {
+    "message": "Set up this site · 1"
+  },
+  "ov_setup_hint1": {
+    "message": "Click a whole post (the block that has the picture, name and text). ↑ grows the selection, ↓ shrinks it."
+  },
+  "ov_block_title": {
+    "message": "Post block"
+  },
+  "ov_block_one": {
+    "message": "1 block found on this page."
+  },
+  "ov_block_many": {
+    "message": "$1 blocks found on this page."
+  },
+  "ov_looks_list": {
+    "message": "Looks like a list of posts."
+  },
+  "ov_only_one": {
+    "message": "Only 1 block: if the page has several posts, grow the selection."
+  },
+  "ov_use_block": {
+    "message": "Use this block"
+  },
+  "ov_bigger": {
+    "message": "↑ Bigger"
+  },
+  "ov_pick_other": {
+    "message": "Pick another"
+  },
+  "ov_setup_title_n": {
+    "message": "Set up this site · $1/$2"
+  },
+  "ov_count_type": {
+    "message": "Count type:"
+  },
+  "ov_skip": {
+    "message": "Skip"
+  },
+  "ov_skipped": {
+    "message": "— skipped"
+  },
+  "ov_back": {
+    "message": "← Back"
+  },
+  "ov_done": {
+    "message": "Done!"
+  },
+  "ov_will_use": {
+    "message": "Will be used on $1"
+  },
+  "ov_platform_name": {
+    "message": "Platform name:"
+  },
+  "ov_save_capture": {
+    "message": "Save and capture"
+  },
+  "ov_log_found": {
+    "message": "  ($1/$2 posts)"
+  },
+  "vw_page_title": {
+    "message": "Postframe"
+  },
+  "vw_not_found": {
+    "message": "Post not found. Use the camera button on a post, or the toolbar icon on other sites."
+  },
+  "vw_title": {
+    "message": "Postframe · $1 styles"
+  },
+  "vw_images": {
+    "message": "Images"
+  },
+  "vw_credit": {
+    "message": "Credit"
+  },
+  "vw_watermark": {
+    "message": "Watermark"
+  },
+  "vw_set_default": {
+    "message": "☆ Set as default"
+  },
+  "vw_is_default": {
+    "message": "★ Default style"
+  },
+  "vw_styles": {
+    "message": "Styles…"
+  },
+  "vw_copy": {
+    "message": "Copy"
+  },
+  "vw_download": {
+    "message": "Download"
+  },
+  "vw_copied": {
+    "message": "Copied ✓"
+  },
+  "vw_failed": {
+    "message": "Failed"
+  },
+  "vw_prev": {
+    "message": "Previous"
+  },
+  "vw_next": {
+    "message": "Next"
+  },
+  "vw_generating": {
+    "message": "Generating images…"
+  },
+  "vw_no_images": {
+    "message": "This post has no images"
+  },
+  "vw_no_wm": {
+    "message": "This style has no watermark (set one up in Styles…)"
+  },
+  "op_page_title": {
+    "message": "Postframe · Settings"
+  },
+  "op_subtitle": {
+    "message": "Styles and platforms. Everything is saved in this browser."
+  },
+  "op_language": {
+    "message": "Language"
+  },
+  "op_welcome_title": {
+    "message": "Choose your language"
+  },
+  "op_welcome_hint": {
+    "message": "You can change it later in Settings."
+  },
+  "op_tab_styles": {
+    "message": "Styles"
+  },
+  "op_tab_platforms": {
+    "message": "Platforms"
+  },
+  "op_platform_label": {
+    "message": "Platform"
+  },
+  "op_all_platforms": {
+    "message": "All platforms"
+  },
+  "op_new_style": {
+    "message": "+ New style (duplicates the selected one)"
+  },
+  "op_export": {
+    "message": "Export"
+  },
+  "op_import": {
+    "message": "Import"
+  },
+  "op_name_aria": {
+    "message": "Style name"
+  },
+  "op_applies_to": {
+    "message": "Applies to"
+  },
+  "op_set_default": {
+    "message": "Set as default"
+  },
+  "op_set_default_in": {
+    "message": "Set as default on $1"
+  },
+  "op_is_default": {
+    "message": "★ Default style"
+  },
+  "op_delete": {
+    "message": "Delete"
+  },
+  "op_readonly_style": {
+    "message": "Built-in style (read-only). Use “New style” to create an editable copy and, if you want, change its platform."
+  },
+  "op_fold_all": {
+    "message": "Collapse all"
+  },
+  "op_unfold_all": {
+    "message": "Expand all"
+  },
+  "op_preview_hint": {
+    "message": "Preview with sample data. The final image is always 600 px wide. Drag the watermark to position it."
+  },
+  "op_loading_fonts": {
+    "message": "Loading fonts…"
+  },
+  "op_font_warn": {
+    "message": "⚠ Could not load: $1 (check the name or your connection). The default font will be used."
+  },
+  "op_bad_image": {
+    "message": "Could not use that image (try a smaller PNG, JPG or WebP)."
+  },
+  "op_copy_of": {
+    "message": "Copy of $1"
+  },
+  "op_confirm_delete_style": {
+    "message": "Delete the style “$1”?"
+  },
+  "op_bad_file": {
+    "message": "Invalid file. Use a JSON exported by this extension."
+  },
+  "op_badge_default": {
+    "message": "default"
+  },
+  "op_badge_builtin": {
+    "message": "built-in"
+  },
+  "op_badge_beta": {
+    "message": "beta"
+  },
+  "op_font_other": {
+    "message": "Other Google Font…"
+  },
+  "op_font_placeholder": {
+    "message": "Exact name on Google Fonts"
+  },
+  "op_font_group_system": {
+    "message": "System"
+  },
+  "op_font_group_google": {
+    "message": "Google Fonts"
+  },
+  "op_remove_image": {
+    "message": "Remove image"
+  },
+  "op_sample_post": {
+    "message": "Post"
+  },
+  "op_sample_media": {
+    "message": "With images"
+  },
+  "op_sample_repost": {
+    "message": "Repost"
+  },
+  "op_sample_quote": {
+    "message": "Quote"
+  },
+  "op_sample_text_post": {
+    "message": "I spent the weekend rewriting a legacy system and found out that 60% of the code never ran. 🧹\n\n#dev #refactoring"
+  },
+  "op_sample_text_media": {
+    "message": "Weekend photos. 📸"
+  },
+  "op_sample_text_quote": {
+    "message": "Couldn't agree more."
+  },
+  "op_sample_text_orig_quote": {
+    "message": "Measure before you optimize. #performance"
+  },
+  "op_sample_text_orig_rt": {
+    "message": "Golden rule: measure before you optimize. 📉 #performance"
+  },
+  "op_new_platform": {
+    "message": "+ New platform"
+  },
+  "op_pro_note": {
+    "message": "Built-in platform (read-only). To adjust it, duplicate it: your version takes precedence on the site."
+  },
+  "op_dup_platform": {
+    "message": "Duplicate to edit"
+  },
+  "op_del_platform": {
+    "message": "Delete platform"
+  },
+  "op_plat_tip": {
+    "message": "Tip: instead of filling in selectors by hand, open the site, click the extension icon and use “Set up this site”."
+  },
+  "op_plat_legend": {
+    "message": "Platform"
+  },
+  "op_plat_name": {
+    "message": "Name"
+  },
+  "op_plat_hosts": {
+    "message": "Sites (domains)"
+  },
+  "op_selectors_legend": {
+    "message": "CSS selectors"
+  },
+  "op_extractor_note": {
+    "message": "This platform is read by built-in code (it does not use selectors). To override it, use “Reconfigure this site” on the site itself."
+  },
+  "op_stat_ph": {
+    "message": "selector for count $1 (optional)"
+  },
+  "op_new_platform_name": {
+    "message": "New platform"
+  },
+  "op_confirm_delete_platform": {
+    "message": "Delete the platform “$1”? Your styles will apply to all platforms."
+  },
+  "sf_container": {
+    "message": "Post container"
+  },
+  "sf_avatar": {
+    "message": "Profile picture"
+  },
+  "sf_name": {
+    "message": "Name"
+  },
+  "sf_handle": {
+    "message": "@username"
+  },
+  "sf_text": {
+    "message": "Text"
+  },
+  "sf_time": {
+    "message": "Time"
+  },
+  "sf_media": {
+    "message": "Post images"
+  },
+  "sf_body": {
+    "message": "Post body (optional, after the text)"
+  },
+  "sf_repost": {
+    "message": "Repost context (optional)"
+  },
+  "sf_repostStrip": {
+    "message": "Text to remove from the reposter's name"
+  },
+  "sf_container_ph": {
+    "message": "e.g.: article, shreddit-post"
+  },
+  "sf_relative_ph": {
+    "message": "relative to the container"
+  },
+  "extName": {
+    "message": "Postframe"
+  },
+  "extDescription": {
+    "message": "Create standardized images of posts from X, Bluesky, Reddit, Instagram and any site, with styles, fonts and watermarks."
+  },
+  "actionTitle": {
+    "message": "Postframe: capture posts or set up this site"
+  }
+}

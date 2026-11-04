@@ -1,63 +1,63 @@
 window.MOCKUPS = [
  {
   "design": "1",
-  "name": "Claro clássico",
+  "name": "Classic light",
   "sample": "tweet",
   "sampleLabel": "Tweet",
   "file": "images/1-tweet.png",
   "w": 600,
-  "h": 413,
-  "kb": 29.4
+  "h": 381,
+  "kb": 27.1
  },
  {
   "design": "1",
-  "name": "Claro clássico",
+  "name": "Classic light",
   "sample": "retweet",
   "sampleLabel": "Retweet",
   "file": "images/1-retweet.png",
   "w": 600,
   "h": 419,
-  "kb": 27.1
+  "kb": 26.6
  },
  {
   "design": "2",
-  "name": "Escuro",
+  "name": "Dark",
   "sample": "tweet",
   "sampleLabel": "Tweet",
   "file": "images/2-tweet.png",
   "w": 600,
-  "h": 413,
-  "kb": 28.9
+  "h": 381,
+  "kb": 26.6
  },
  {
   "design": "2",
-  "name": "Escuro",
+  "name": "Dark",
   "sample": "retweet",
   "sampleLabel": "Retweet",
   "file": "images/2-retweet.png",
   "w": 600,
   "h": 419,
-  "kb": 26.6
+  "kb": 26.1
  },
  {
   "design": "3",
-  "name": "Moldura gradiente",
+  "name": "Gradient frame",
   "sample": "tweet",
   "sampleLabel": "Tweet",
   "file": "images/3-tweet.png",
   "w": 600,
-  "h": 485,
-  "kb": 62.8
+  "h": 427,
+  "kb": 57.6
  },
  {
   "design": "3",
-  "name": "Moldura gradiente",
+  "name": "Gradient frame",
   "sample": "retweet",
   "sampleLabel": "Retweet",
   "file": "images/3-retweet.png",
   "w": 600,
   "h": 471,
-  "kb": 58.5
+  "kb": 58.9
  },
  {
   "design": "4",
@@ -66,8 +66,8 @@ window.MOCKUPS = [
   "sampleLabel": "Tweet",
   "file": "images/4-tweet.png",
   "w": 600,
-  "h": 480,
-  "kb": 34.8
+  "h": 447,
+  "kb": 31
  },
  {
   "design": "4",
@@ -77,7 +77,7 @@ window.MOCKUPS = [
   "file": "images/4-retweet.png",
   "w": 600,
   "h": 448,
-  "kb": 28.9
+  "kb": 29.2
  },
  {
   "design": "5",
@@ -86,8 +86,8 @@ window.MOCKUPS = [
   "sampleLabel": "Tweet",
   "file": "images/5-tweet.png",
   "w": 600,
-  "h": 523,
-  "kb": 39.6
+  "h": 489,
+  "kb": 37
  },
  {
   "design": "5",
@@ -96,27 +96,27 @@ window.MOCKUPS = [
   "sampleLabel": "Retweet",
   "file": "images/5-retweet.png",
   "w": 600,
-  "h": 474,
-  "kb": 36.4
+  "h": 526,
+  "kb": 37.4
  },
  {
   "design": "6",
-  "name": "Pôster pastel",
+  "name": "Pastel poster",
   "sample": "tweet",
   "sampleLabel": "Tweet",
   "file": "images/6-tweet.png",
   "w": 600,
-  "h": 642,
-  "kb": 54.7
+  "h": 604,
+  "kb": 52.4
  },
  {
   "design": "6",
-  "name": "Pôster pastel",
+  "name": "Pastel poster",
   "sample": "retweet",
   "sampleLabel": "Retweet",
   "file": "images/6-retweet.png",
   "w": 600,
   "h": 626,
-  "kb": 50.4
+  "kb": 51
  }
 ];
