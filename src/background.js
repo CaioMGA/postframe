@@ -1,10 +1,12 @@
-import { normalizePlatform, BUILTIN_PLATFORMS, hostMatches } from "./shared/platforms.mjs";
+import { normalizePlatform, BUILTIN_PLATFORMS, hostMatches, shadowedBuiltin, cleanStoredPlatforms } from "./shared/platforms.mjs";
 import { initI18n, getCatalog, getLang, isSupported } from "./shared/i18n.mjs";
 
 // The user must pick a language on first use. Until then the extension only opens the settings page.
 const hasLang = async () => isSupported((await chrome.storage.local.get("lang")).lang);
 
+chrome.runtime.onStartup.addListener(() => cleanStoredPlatforms());
 chrome.runtime.onInstalled.addListener(({ reason }) => {
+  cleanStoredPlatforms();                                       // drop copies of built-in platforms (see platforms.mjs)
   if (reason === "install") chrome.runtime.openOptionsPage();   // first run: language picker
   chrome.storage.local.remove("scopes");                        // leftover of a removed feature (per-style platform restrictions)
 });
@@ -26,7 +28,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   } else if (msg?.type === "sp:savePlatform") {   // configuration created by the element picker
     (async () => {
       const p = normalizePlatform(msg.platform);
-      if (!p || !p.hosts.length || !p.sel.container) return sendResponse({ ok: false });
+      if (!p || !p.hosts.length || !p.sel.container || shadowedBuiltin(p)) return sendResponse({ ok: false });   // a built-in site cannot be set up again
       const { platforms = [] } = await chrome.storage.local.get("platforms");
       const i = platforms.findIndex((x) => x.id === p.id);
       i >= 0 ? (platforms[i] = p) : platforms.push(p);
@@ -36,6 +38,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true;
   } else if (msg?.type === "sp:getPlatform") {     // the injected panel cannot import modules: it asks for the site's platform
     (async () => {
+      await cleanStoredPlatforms();                  // copies of built-ins must never take precedence
       const { platforms = [] } = await chrome.storage.local.get("platforms");
       const host = String(msg.hostname || "");
       const user = platforms.map(normalizePlatform).filter(Boolean).find((p) => hostMatches(host, p.hosts));

@@ -585,7 +585,7 @@
     "message": "+ Neue Plattform"
   },
   "op_pro_note": {
-    "message": "Integrierte Plattform (schreibgeschützt). Zum Anpassen dupliziere sie: Deine Version hat auf der Website Vorrang."
+    "message": "Integrierte Plattform (schreibgeschützt)."
   },
   "op_dup_platform": {
     "message": "Zum Bearbeiten duplizieren"
@@ -609,7 +609,7 @@
     "message": "CSS-Selektoren"
   },
   "op_extractor_note": {
-    "message": "Diese Plattform wird mit eigenem Code gelesen (ohne Selektoren). Zum Überschreiben nutze „Diese Website neu einrichten“ direkt auf der Website."
+    "message": "Diese Plattform wird mit eigenem Code gelesen (ohne Selektoren) und kann nicht bearbeitet werden."
   },
   "op_stat_ph": {
     "message": "Selektor für Zähler $1 (optional)"
@@ -694,5 +694,8 @@
   },
   "o_w700": {
     "message": "Fett"
+  },
+  "op_plat_taken": {
+    "message": "„$1“ ist bereits als $2 integriert und kann nicht erneut eingerichtet werden."
   }
 }

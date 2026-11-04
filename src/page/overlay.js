@@ -282,7 +282,8 @@
       panel.append(...title("Postframe", platform ? t("ov_platform", platform.name) : t("ov_not_configured")));
       const row = h("div", { class: "row" });
       if (platform) row.append(h("button", { class: "pri", textContent: t("ov_capture_btn"), onclick: () => setMode("capture") }));
-      row.append(h("button", { class: platform ? "" : "pri", textContent: platform ? t("ov_reconfigure") : t("ov_configure"), onclick: () => setMode("setup") }));
+      // built-in platforms read posts with their own extractor; only unknown sites (or the user's own platforms) can be set up
+      if (!platform?.builtin) row.append(h("button", { class: platform ? "" : "pri", textContent: platform ? t("ov_reconfigure") : t("ov_configure"), onclick: () => setMode("setup") }));
       row.append(h("button", { textContent: t("ov_styles"), onclick: () => chrome.runtime.sendMessage({ type: "sp:options" }) }), close);
       panel.append(row);
     } else if (mode === "capture") {

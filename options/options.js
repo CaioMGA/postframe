@@ -2,7 +2,7 @@ import { FIELDS, DEFAULT, newId, normalizeStyle, styleCss, shotInner, styleName 
 import { initI18n, applyI18n, t, LANGS, getLang, setLang } from "../src/shared/i18n.mjs";
 import { baseCss, placeholderAvatar, esc } from "../src/shared/template.mjs";
 import { GENERIC_LABELS, CURATED, FONT_RE, isGoogle, familyOf, fontsUsed, loadFamily } from "../src/shared/fonts.mjs";
-import { ICON_KEYS, normalizePlatform } from "../src/shared/platforms.mjs";
+import { ICON_KEYS, normalizePlatform, shadowedBuiltin } from "../src/shared/platforms.mjs";
 import { getAll, defaultFor, saveStyles, savePlatforms, saveDefaults } from "../src/shared/store.mjs";
 
 const $ = (id) => document.getElementById(id);
@@ -249,6 +249,7 @@ function renderPlatforms() {
   $("pform").innerHTML = `<fieldset><legend>${esc(t("op_plat_legend"))}</legend>
       ${row(esc(t("op_plat_name")), "p-name", p.name)}
       ${row(esc(t("op_plat_hosts")), "p-hosts", p.hosts.join(", "), "reddit.com, bsky.app")}
+      <p class="o-hint" id="p-warn" hidden></p>
     </fieldset>
     ${p.extractor ? `<p class="o-hint">${esc(t("op_extractor_note"))}</p>` : `<fieldset><legend>${esc(t("op_selectors_legend"))}</legend>
       ${SEL_FIELDS.map((k) => row(esc(t("sf_" + k)), `p-${k}`, sel[k], k === "container" ? t("sf_container_ph") : t("sf_relative_ph"))).join("")}
@@ -264,6 +265,9 @@ $("pform").addEventListener("input", () => {
     sel: { ...Object.fromEntries(SEL_FIELDS.map((k) => [k, v(`p-${k}`)])), stats: [0, 1, 2].map((i) => ({ icon: v(`p-si${i}`), sel: v(`p-ss${i}`) })) }
   });
   next.id = p.id;
+  const taken = shadowedBuiltin(next);        // a built-in site cannot be set up again: warn and do not save
+  $("p-warn").hidden = !taken;
+  if (taken) { $("p-warn").textContent = t("op_plat_taken", [next.hosts.find((h) => shadowedBuiltin({ hosts: [h] })) || next.hosts[0], taken.name]); return; }
   lib.userPlatforms = lib.userPlatforms.map((x) => (x.id === p.id ? next : x));
   lib.platforms = lib.platforms.map((x) => (x.id === p.id ? next : x));
   $("plist").querySelector(`[aria-selected=true] .n`).textContent = next.name;

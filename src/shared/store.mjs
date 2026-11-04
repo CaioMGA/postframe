@@ -4,9 +4,10 @@
 //   Every style is available on every platform; `defaults` only decides which one is used where.
 //   "*" is the default for platforms without a choice of their own.
 import { BUILTINS, normalizeStyle } from "./styles.mjs";
-import { BUILTIN_PLATFORMS, normalizePlatform } from "./platforms.mjs";
+import { BUILTIN_PLATFORMS, normalizePlatform, cleanStoredPlatforms } from "./platforms.mjs";
 
 export async function getAll() {
+  await cleanStoredPlatforms();   // copies of built-in platforms (made by "Reconfigure this site") are dropped
   const { styles = [], platforms = [], defaults, defaultStyle } = await chrome.storage.local.get(["styles", "platforms", "defaults", "defaultStyle"]);
   const userPlatforms = platforms.map(normalizePlatform).filter(Boolean);
   const custom = styles.map((s) => normalizeStyle(s)).filter(Boolean);

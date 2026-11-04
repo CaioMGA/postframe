@@ -57,3 +57,25 @@ export function builtinProblems() {
   }
   return bad;
 }
+
+// A user platform "shadows" a built-in when they share a site. Built-ins read posts with their own extractors, so a
+// copy made from the capture panel's "Reconfigure this site" only makes capture worse (the user's config takes precedence).
+const sameSite = (a, b) => a === b || a.endsWith("." + b) || b.endsWith("." + a);
+export const shadowedBuiltin = (p) => BUILTIN_PLATFORMS.find((b) => b.hosts.some((h) => (p.hosts || []).some((ph) => sameSite(ph, h))));
+
+// One-time cleanup of stored copies. The default style chosen for a dropped copy moves to the built-in it shadowed.
+export async function cleanStoredPlatforms() {
+  const { platforms = [], defaults } = await chrome.storage.local.get(["platforms", "defaults"]);
+  const user = platforms.map(normalizePlatform).filter(Boolean);
+  const dropped = user.filter(shadowedBuiltin);
+  if (!dropped.length) return [];
+  const defs = { ...(defaults || {}) };
+  for (const p of dropped) {
+    const b = shadowedBuiltin(p);
+    if (defs[p.id]) { if (!defs[b.id]) defs[b.id] = defs[p.id]; delete defs[p.id]; }
+  }
+  const patch = { platforms: user.filter((p) => !shadowedBuiltin(p)) };
+  if (defaults || Object.keys(defs).length) patch.defaults = defs;   // do not create `defaults` if only the legacy `defaultStyle` exists
+  await chrome.storage.local.set(patch);
+  return dropped;
+}

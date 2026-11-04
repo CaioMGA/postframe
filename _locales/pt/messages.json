@@ -585,7 +585,7 @@
     "message": "+ Nova plataforma"
   },
   "op_pro_note": {
-    "message": "Plataforma nativa (somente leitura). Para ajustá-la, duplique: a sua versão tem precedência no site."
+    "message": "Plataforma nativa (somente leitura)."
   },
   "op_dup_platform": {
     "message": "Duplicar para editar"
@@ -609,7 +609,7 @@
     "message": "Seletores CSS"
   },
   "op_extractor_note": {
-    "message": "Esta plataforma é lida por código próprio (não usa seletores). Para sobrescrever, use “Reconfigurar este site” no próprio site."
+    "message": "Esta plataforma é lida por código próprio (não usa seletores) e não pode ser editada."
   },
   "op_stat_ph": {
     "message": "seletor da contagem $1 (opcional)"
@@ -694,5 +694,8 @@
   },
   "o_w700": {
     "message": "Negrito"
+  },
+  "op_plat_taken": {
+    "message": "“$1” já vem pronto como $2, então não pode ser configurado de novo."
   }
 }

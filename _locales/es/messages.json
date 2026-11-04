@@ -585,7 +585,7 @@
     "message": "+ Nueva plataforma"
   },
   "op_pro_note": {
-    "message": "Plataforma integrada (solo lectura). Para ajustarla, duplícala: tu versión tiene prioridad en el sitio."
+    "message": "Plataforma integrada (solo lectura)."
   },
   "op_dup_platform": {
     "message": "Duplicar para editar"
@@ -609,7 +609,7 @@
     "message": "Selectores CSS"
   },
   "op_extractor_note": {
-    "message": "Esta plataforma se lee con código propio (no usa selectores). Para sustituirla, usa “Reconfigurar este sitio” en el propio sitio."
+    "message": "Esta plataforma se lee con código propio (sin selectores) y no se puede editar."
   },
   "op_stat_ph": {
     "message": "selector del contador $1 (opcional)"
@@ -694,5 +694,8 @@
   },
   "o_w700": {
     "message": "Negrita"
+  },
+  "op_plat_taken": {
+    "message": "“$1” ya viene integrado como $2, así que no se puede configurar de nuevo."
   }
 }

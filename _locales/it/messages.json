@@ -585,7 +585,7 @@
     "message": "+ Nuova piattaforma"
   },
   "op_pro_note": {
-    "message": "Piattaforma integrata (sola lettura). Per modificarla, duplicala: la tua versione ha la precedenza sul sito."
+    "message": "Piattaforma integrata (sola lettura)."
   },
   "op_dup_platform": {
     "message": "Duplica per modificare"
@@ -609,7 +609,7 @@
     "message": "Selettori CSS"
   },
   "op_extractor_note": {
-    "message": "Questa piattaforma viene letta da codice interno (non usa selettori). Per sovrascriverla, usa “Riconfigura questo sito” sul sito stesso."
+    "message": "Questa piattaforma è letta da codice interno (senza selettori) e non può essere modificata."
   },
   "op_stat_ph": {
     "message": "selettore del contatore $1 (facoltativo)"
@@ -694,5 +694,8 @@
   },
   "o_w700": {
     "message": "Grassetto"
+  },
+  "op_plat_taken": {
+    "message": "“$1” è già integrato come $2, quindi non può essere configurato di nuovo."
   }
 }
