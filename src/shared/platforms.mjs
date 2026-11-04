@@ -21,7 +21,24 @@ export const BLUESKY_PLATFORM = {
   }
 };
 
-export const BUILTIN_PLATFORMS = [X_PLATFORM, BLUESKY_PLATFORM];
+// BETA, verificado em página real (logado): só o `article` do feed; o resto é heurística em src/sites/instagram.js.
+export const INSTAGRAM_PLATFORM = { id: "instagram", name: "Instagram", builtin: true, beta: true, extractor: "instagram", hosts: ["instagram.com"], sel: { container: "article" } };
+
+// BETA NÃO VERIFICADO: o Reddit bloqueia navegador automatizado, então estes atributos de <shreddit-post>
+// vêm da documentação/memória, não de uma página real. Se falhar, duplique e ajuste ou use "Reconfigurar este site".
+export const REDDIT_PLATFORM = {
+  id: "reddit", name: "Reddit", builtin: true, beta: true, hosts: ["reddit.com"],
+  sel: {
+    container: "shreddit-post",
+    name: ":scope@author", handle: ":scope@subreddit-prefixed-name",
+    text: ":scope@post-title", body: '[slot="text-body"]',
+    media: '[slot="post-media-container"] img',
+    time: ":scope@created-timestamp",
+    stats: [{ icon: "upvote", sel: ":scope@score" }, { icon: "comment", sel: ":scope@comment-count" }]
+  }
+};
+
+export const BUILTIN_PLATFORMS = [X_PLATFORM, BLUESKY_PLATFORM, REDDIT_PLATFORM, INSTAGRAM_PLATFORM];
 export const BUILTIN_IDS = new Set(BUILTIN_PLATFORMS.map((p) => p.id));
 
 const sel = (v) => (typeof v === "string" ? v.trim().slice(0, 300) : "");
@@ -35,7 +52,7 @@ export function normalizePlatform(raw) {
     name: String(raw.name ?? "").trim().slice(0, 40) || "Sem nome",
     hosts: (Array.isArray(raw.hosts) ? raw.hosts : []).map(host).filter((h) => /^[a-z0-9.-]{3,80}$/.test(h)).slice(0, 10),
     sel: {
-      container: sel(s.container), avatar: sel(s.avatar), name: sel(s.name), handle: sel(s.handle), text: sel(s.text), time: sel(s.time), media: sel(s.media), repost: sel(s.repost), repostStrip: sel(s.repostStrip),
+      container: sel(s.container), avatar: sel(s.avatar), name: sel(s.name), handle: sel(s.handle), text: sel(s.text), time: sel(s.time), media: sel(s.media), repost: sel(s.repost), repostStrip: sel(s.repostStrip), body: sel(s.body),
       stats: (Array.isArray(s.stats) ? s.stats : []).slice(0, 3).map((x) => ({ icon: Object.hasOwn(ICON_KEYS, x?.icon) ? x.icon : "like", sel: sel(x?.sel) })).filter((x) => x.sel)
     }
   };

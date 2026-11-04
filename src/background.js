@@ -37,6 +37,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
 // Ícone da barra: abre o painel (captura / configuração) na aba atual.
 chrome.action.onClicked.addListener(async (tab) => {
-  try { await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["src/page/overlay.js"] }); }
+  try { await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["src/sites/instagram.js", "src/page/overlay.js"] }); }
   catch { chrome.runtime.openOptionsPage(); }   // páginas restritas (chrome://, loja)
 });

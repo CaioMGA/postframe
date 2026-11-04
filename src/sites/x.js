@@ -74,7 +74,7 @@
 
       // Repost: o artigo exibido é o original; quem repostou vem do socialContext.
       const ctx = article.querySelector('[data-testid="socialContext"]');
-      const ctxLink = ctx?.querySelector("a[href]");
+      const ctxLink = ctx?.closest("a[href]") || ctx?.querySelector("a[href]");   // no X real o bloco fica DENTRO do link do perfil
       if (ctx && ctxLink && /repost|retweet|retuit|retwit|reteue|reposte/i.test(ctx.textContent)) {
         const name = textOf(ctx).replace(/\s+\S+$/, "");
         const handle = "@" + (ctxLink.getAttribute("href") || "").replace(/^\/+/, "").split("/")[0];
@@ -97,4 +97,5 @@
       return { kind: "tweet", ...main, ...extra };
     }
   };
+  (globalThis.SP_EXTRACTORS = globalThis.SP_EXTRACTORS || {}).x = (a) => globalThis.SP_SITE.extract(a);
 })();

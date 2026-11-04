@@ -140,7 +140,7 @@
       return c.toDataURL("image/jpeg", 0.8);
     } catch { return /^https:/.test(url) ? url : ""; }
   }
-  const q = (c, s) => { try { return s ? c.querySelector(s) : null; } catch { return null; } };
+  const q = (c, s) => { try { return !s ? null : s === ":scope" ? c : c.querySelector(s); } catch { return null; } };   // ":scope" = o próprio container
 
   // "css" lê o texto; "css@atributo" lê o atributo (ex.: "a[data-tooltip]@aria-label").
   const parseSel = (x) => { const m = (x || "").match(/^(.*\S)@([A-Za-z][\w-]*)$/); return m ? { css: m[1], attr: m[2] } : { css: x || "", attr: null }; };
@@ -149,13 +149,14 @@
   const normTime = (t) => String(t || "").replace(/\s+(at|às|a las)\s+/i, " ");   // "November 4, 2026 at 2:32 PM" -> parseável
 
   async function extract(container, p) {
-    if (p.extractor === "x") return globalThis.SP_SITE.extract(container);
+    const ex = p.extractor && globalThis.SP_EXTRACTORS?.[p.extractor];   // extratores próprios (X, Instagram)
+    if (ex) return ex(container);
     const s = p.sel, avEl = q(container, parseSel(s.avatar).css);
     const imgs = s.media ? [...qa(container, parseSel(s.media).css)].filter((i) => !(avEl && (i === avEl || avEl.contains(i) || i.contains(avEl)))) : [];
     const urls = [...new Set(imgs.map((i) => i.currentSrc || i.src).filter(Boolean))].slice(0, 4);
     const main = {
       author: { name: field(container, s.name, txt), handle: field(container, s.handle, txt), verified: false, avatar: await toDataUrl(avatarUrl(avEl)) },
-      text: field(container, s.text, txt),
+      text: [field(container, s.text, txt), field(container, s.body, txt)].filter(Boolean).join("\n\n"),
       media: (await Promise.all(urls.map(mediaData))).filter(Boolean)
     };
     const extra = {
@@ -277,7 +278,7 @@
       panel.append(...title("Postframe", platform ? `Plataforma: ${platform.name}` : "Este site ainda não está configurado."));
       const row = h("div", { class: "row" });
       if (platform) row.append(h("button", { class: "pri", textContent: "Capturar um post", onclick: () => setMode("capture") }));
-      if (platform?.extractor !== "x") row.append(h("button", { class: platform ? "" : "pri", textContent: platform ? "Reconfigurar este site" : "Configurar este site", onclick: () => setMode("setup") }));
+      row.append(h("button", { class: platform ? "" : "pri", textContent: platform ? "Reconfigurar este site" : "Configurar este site", onclick: () => setMode("setup") }));
       row.append(h("button", { textContent: "Estilos…", onclick: () => chrome.runtime.sendMessage({ type: "sp:options" }) }), close);
       panel.append(row);
     } else if (mode === "capture") {
