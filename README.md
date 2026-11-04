@@ -63,6 +63,7 @@ Only X.com has been tested and is OK. The other platforms are implemented but no
 - **Beta** means the site may change or there are cases we do not cover yet. If something fails, use **Reconfigure this site** on the site itself: your configuration takes precedence over the built-in one.
 - On **Instagram** the DOM has no stable hooks (no `<header>`, obfuscated classes), so the caption is "the longest text outside links and buttons" and sponsored posts may come out without a time. Videos without a poster come out without an image.
 - **Reddit** was written from the documented attributes of `<shreddit-post>`, without a real page (Reddit blocks automated browsers). If you have Reddit open, the "Help validate Reddit" section below takes a minute.
+- On **Bluesky**, the feeds, profile pages and post pages (the focused post and its replies) are supported. Quote posts are not read yet.
 - Only **X** has the camera button inside the post. On the other platforms, click the extension icon and choose **Capture a post**.
 
 ## Install (developer mode)
