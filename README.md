@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icons/icon-512.png" width="128" height="128" alt="Postframe icon: two hands making the filmmaker framing pose">
+  <img src="icons/icon-512.png" width="128" height="128" alt="Postframe icon: viewfinder corners around a purple square">
 </p>
 
 # Postframe
@@ -136,4 +136,4 @@ npm run mockups
 
 ## License
 
-[MIT](LICENSE). The icon's hand artwork is in the public domain; see [icons/CREDITS.md](icons/CREDITS.md).
+[MIT](LICENSE)
