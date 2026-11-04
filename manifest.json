@@ -19,7 +19,8 @@
     "https://*.fbcdn.net/*",
     "https://i.redd.it/*",
     "https://preview.redd.it/*",
-    "https://external-preview.redd.it/*"
+    "https://external-preview.redd.it/*",
+    "https://styles.redditmedia.com/*"
   ],
   "background": {
     "service_worker": "src/background.js",

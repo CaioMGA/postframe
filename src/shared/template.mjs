@@ -39,13 +39,14 @@ const media = (list) => {
   return m.length ? `<div class="media n${m.length}">${m.map((u) => `<img src="${u}" alt="">`).join("")}</div>` : "";
 };
 const para = (t) => (t ? `<p class="text">${rich(t)}</p>` : "");
+const title = (t) => (t ? `<p class="title">${esc(t)}</p>` : "");   // post title (Reddit): bold, above the text
 
 // s = { kind: "tweet"|"repost"|"quote", author, text, original?: { author, text } }
 export function card(s) {
   const body = s.original
     ? `${s.kind === "repost" ? `<div class="rt">${esc(t("rt_label"))}</div>` : ""}${head(s.author)}${para(s.text)}${media(s.media)}
        <div class="orig">${head(s.original.author, "sm")}${para(s.original.text)}${media(s.original.media)}</div>${foot(s)}`
-    : `${head(s.author)}${para(s.text)}${media(s.media)}${foot(s)}`;
+    : `${head(s.author)}${title(s.title)}${para(s.text)}${media(s.media)}${foot(s)}`;
   return `<div class="card">${body}</div>`;
 }
 
@@ -70,6 +71,8 @@ export const baseCss = `
 .shot .handle{color:var(--muted);font-size:15px;line-height:1.3}
 .shot .ck{width:18px;height:18px;fill:var(--accent)}
 .shot .text{white-space:pre-wrap;font-size:var(--fs);font-weight:var(--fw);line-height:1.45;margin-top:16px;overflow-wrap:anywhere}
+.shot .title{font-size:calc(var(--fs) + 3px);font-weight:700;line-height:1.3;margin-top:16px;overflow-wrap:anywhere}
+.shot .title+.text{margin-top:10px}
 .shot .lnk{color:var(--accent)}
 .shot .rt{color:var(--muted);font-size:14px;font-weight:600;margin-bottom:12px}
 .shot .orig{margin-top:16px;border:var(--bw) solid var(--border);border-radius:var(--ir);padding:16px;background:var(--inner)}
