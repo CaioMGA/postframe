@@ -4,6 +4,8 @@ Extensão do Chrome que transforma um post (**X, Bluesky, Reddit, Instagram** ou
 
 A imagem não é um recorte da tela: ela é **montada a partir dos dados do post**, então sai sempre com 600 px de largura e até 350 KB, com a mesma aparência.
 
+> ⚠️ **Versão beta.** O Postframe está em desenvolvimento ativo. Pode haver bugs, e os sites mudam o HTML com frequência, o que pode quebrar a leitura dos posts. Só o **X.com** foi testado e está OK; veja o [checklist de plataformas](#plataformas).
+
 | Claro clássico | Moldura gradiente | Pôster pastel (retweet) |
 |---|---|---|
 | ![](mockups/images/1-tweet.png) | ![](mockups/images/3-tweet.png) | ![](mockups/images/6-retweet.png) |
@@ -23,13 +25,35 @@ A imagem não é um recorte da tela: ela é **montada a partir dos dados do post
 
 ## Plataformas
 
+### Checklist de suporte (beta)
+
+Só o X.com foi testado e está OK. As demais plataformas estão implementadas, mas ainda não foram validadas.
+
+- **X.com**
+  - [x] Testada
+  - [x] OK
+- **Bluesky**
+  - [ ] Testada
+  - [ ] OK
+- **Reddit**
+  - [ ] Testada
+  - [ ] OK
+- **Instagram**
+  - [ ] Testada
+  - [ ] OK
+- **Qualquer outro site** (ferramenta de seleção)
+  - [ ] Testada
+  - [ ] OK
+
+### O que cada plataforma lê
+
 | Plataforma | Status | Posts | Imagens | Contagens | Repost / citação |
 |---|---|---|---|---|---|
-| **X** | verificado em página real | ✅ | ✅ (e capa de vídeo) | ✅ | ✅ repost e citação |
-| **Bluesky** | verificado em página real (feed público) | ✅ | ✅ | ✅ | ✅ repost · ❌ citação |
-| **Instagram** | **beta**: extrator por heurística, verificado só estruturalmente no feed | ✅ | ✅ | ❌ (não estão no DOM) | — |
-| **Reddit** | **beta, não verificado em página real** | ✅ | ✅ | ✅ | — |
-| **Qualquer site** | ferramenta de seleção | ✅ | ✅ | ✅ | ❌ |
+| **X** | testada e OK | ✅ | ✅ (e capa de vídeo) | ✅ | ✅ repost e citação |
+| **Bluesky** | beta, ainda sem validação | ✅ | ✅ | ✅ | ✅ repost · ❌ citação |
+| **Instagram** | **beta**: extrator por heurística, ainda sem validação | ✅ | ✅ | ❌ (não estão no DOM) | — |
+| **Reddit** | **beta**, ainda sem validação | ✅ | ✅ | ✅ | — |
+| **Qualquer site** | beta, ainda sem validação | ✅ | ✅ | ✅ | ❌ |
 
 - **Beta** significa que o site pode mudar ou que há casos que ainda não cobrimos. Se algo falhar, use **Reconfigurar este site** no próprio site: a sua configuração tem precedência sobre a embutida.
 - No **Instagram**, o DOM não tem ganchos estáveis (sem `<header>`, classes ofuscadas), então a legenda é "o maior texto fora de links e botões" e posts patrocinados podem sair sem hora. Vídeos sem capa saem sem imagem.
