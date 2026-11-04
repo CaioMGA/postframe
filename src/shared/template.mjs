@@ -52,6 +52,7 @@ export function card(s) {
 // Fallback avatar (initial over a gradient) when the picture is not available.
 export function placeholderAvatar(name = "?", seed = name) {
   let h = 0; for (const c of seed) h = (h * 31 + c.charCodeAt(0)) % 360;
+  h %= 215;   // hues 0-215 only (red -> green -> teal-blue): the palette has no purple
   const letter = esc([...name.trim()][0]?.toUpperCase() || "?");
   return "data:image/svg+xml;utf8," + encodeURIComponent(
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${h},70%,55%)"/><stop offset="1" stop-color="hsl(${(h + 50) % 360},70%,40%)"/></linearGradient></defs><rect width="96" height="96" fill="url(#g)"/><text x="48" y="64" font-size="46" font-family="sans-serif" font-weight="700" fill="#fff" text-anchor="middle">${letter}</text></svg>`);

@@ -47,7 +47,7 @@ window.MOCKUPS = [
   "file": "images/3-tweet.png",
   "w": 600,
   "h": 427,
-  "kb": 57.6
+  "kb": 65.5
  },
  {
   "design": "3",
@@ -57,7 +57,7 @@ window.MOCKUPS = [
   "file": "images/3-retweet.png",
   "w": 600,
   "h": 471,
-  "kb": 58.9
+  "kb": 67.5
  },
  {
   "design": "4",
@@ -77,7 +77,7 @@ window.MOCKUPS = [
   "file": "images/4-retweet.png",
   "w": 600,
   "h": 448,
-  "kb": 29.2
+  "kb": 29.3
  },
  {
   "design": "5",
@@ -97,7 +97,7 @@ window.MOCKUPS = [
   "file": "images/5-retweet.png",
   "w": 600,
   "h": 526,
-  "kb": 37.4
+  "kb": 37.3
  },
  {
   "design": "6",
