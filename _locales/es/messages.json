@@ -182,15 +182,6 @@
   "gr_avatar": {
     "message": "Foto de perfil"
   },
-  "o_w400": {
-    "message": "Normal"
-  },
-  "o_w600": {
-    "message": "Seminegrita"
-  },
-  "o_w700": {
-    "message": "Negrita"
-  },
   "o_wm_none": {
     "message": "Ninguna"
   },
@@ -259,15 +250,6 @@
   },
   "icon_view": {
     "message": "Visualizaciones"
-  },
-  "cs_btn_title": {
-    "message": "Postframe: generar imágenes de esta publicación"
-  },
-  "cs_err_read": {
-    "message": "no se pudo leer la publicación"
-  },
-  "cs_err_prefix": {
-    "message": "Error: $1"
   },
   "ov_step_name": {
     "message": "Haz clic en el NOMBRE del autor"
@@ -497,12 +479,6 @@
   "op_tab_platforms": {
     "message": "Plataformas"
   },
-  "op_platform_label": {
-    "message": "Plataforma"
-  },
-  "op_all_platforms": {
-    "message": "Todas las plataformas"
-  },
   "op_new_style": {
     "message": "+ Nuevo estilo (duplica el seleccionado)"
   },
@@ -515,14 +491,8 @@
   "op_name_aria": {
     "message": "Nombre del estilo"
   },
-  "op_applies_to": {
-    "message": "Se aplica a"
-  },
   "op_set_default": {
     "message": "Establecer como predeterminado"
-  },
-  "op_set_default_in": {
-    "message": "Establecer como predeterminado en $1"
   },
   "op_is_default": {
     "message": "★ Estilo predeterminado"
@@ -531,7 +501,7 @@
     "message": "Eliminar"
   },
   "op_readonly_style": {
-    "message": "Estilo integrado (solo lectura). Usa “Nuevo estilo” para crear una copia editable y, si quieres, cambiar su plataforma."
+    "message": "Estilo integrado (solo lectura). Usa “Nuevo estilo” para crear una copia editable."
   },
   "op_fold_all": {
     "message": "Contraer todo"
@@ -699,27 +669,30 @@
     "message": "Predeterminados"
   },
   "op_defaults_intro": {
-    "message": "Elige el estilo predeterminado de cada plataforma y qué estilos están disponibles en ella. “General” se usa en las plataformas sin un valor propio."
+    "message": "Elige el estilo que se usa en cada plataforma. “Predeterminado” se aplica a todas las plataformas que no tienen una elección propia."
   },
-  "op_mx_style": {
-    "message": "Estilo"
+  "op_df_default": {
+    "message": "Predeterminado"
   },
-  "op_mx_all": {
-    "message": "Todas"
+  "op_df_create": {
+    "message": "Crear nuevo estilo…"
   },
-  "op_mx_general": {
-    "message": "General"
+  "cs_btn_title": {
+    "message": "Postframe: generar imágenes de esta publicación"
   },
-  "op_mx_default_row": {
-    "message": "Estilo predeterminado"
+  "cs_err_read": {
+    "message": "no se pudo leer la publicación"
   },
-  "op_mx_use_general": {
-    "message": "(usar el predeterminado general)"
+  "cs_err_prefix": {
+    "message": "Error: $1"
   },
-  "op_mx_keep_one": {
-    "message": "Un estilo debe seguir disponible en al menos una plataforma."
+  "o_w400": {
+    "message": "Normal"
   },
-  "op_scope_change": {
-    "message": "Cambiar…"
+  "o_w600": {
+    "message": "Seminegrita"
+  },
+  "o_w700": {
+    "message": "Negrita"
   }
 }

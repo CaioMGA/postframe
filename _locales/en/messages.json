@@ -182,15 +182,6 @@
   "gr_avatar": {
     "message": "Profile picture"
   },
-  "o_w400": {
-    "message": "Normal"
-  },
-  "o_w600": {
-    "message": "Semi-bold"
-  },
-  "o_w700": {
-    "message": "Bold"
-  },
   "o_wm_none": {
     "message": "None"
   },
@@ -259,15 +250,6 @@
   },
   "icon_view": {
     "message": "Views"
-  },
-  "cs_btn_title": {
-    "message": "Postframe: generate images of this post"
-  },
-  "cs_err_read": {
-    "message": "could not read the post"
-  },
-  "cs_err_prefix": {
-    "message": "Error: $1"
   },
   "ov_step_name": {
     "message": "Click the author's NAME"
@@ -497,12 +479,6 @@
   "op_tab_platforms": {
     "message": "Platforms"
   },
-  "op_platform_label": {
-    "message": "Platform"
-  },
-  "op_all_platforms": {
-    "message": "All platforms"
-  },
   "op_new_style": {
     "message": "+ New style (duplicates the selected one)"
   },
@@ -515,14 +491,8 @@
   "op_name_aria": {
     "message": "Style name"
   },
-  "op_applies_to": {
-    "message": "Applies to"
-  },
   "op_set_default": {
     "message": "Set as default"
-  },
-  "op_set_default_in": {
-    "message": "Set as default on $1"
   },
   "op_is_default": {
     "message": "★ Default style"
@@ -531,7 +501,7 @@
     "message": "Delete"
   },
   "op_readonly_style": {
-    "message": "Built-in style (read-only). Use “New style” to create an editable copy and, if you want, change its platform."
+    "message": "Built-in style (read-only). Use “New style” to create an editable copy."
   },
   "op_fold_all": {
     "message": "Collapse all"
@@ -699,27 +669,30 @@
     "message": "Defaults"
   },
   "op_defaults_intro": {
-    "message": "Choose the default style for each platform and which styles are available on it. “General” is the fallback for platforms without a default of their own."
+    "message": "Pick the style used on each platform. “Default” is used on every platform that has no choice of its own."
   },
-  "op_mx_style": {
-    "message": "Style"
+  "op_df_default": {
+    "message": "Default"
   },
-  "op_mx_all": {
-    "message": "All"
+  "op_df_create": {
+    "message": "Create new style…"
   },
-  "op_mx_general": {
-    "message": "General"
+  "cs_btn_title": {
+    "message": "Postframe: generate images of this post"
   },
-  "op_mx_default_row": {
-    "message": "Default style"
+  "cs_err_read": {
+    "message": "could not read the post"
   },
-  "op_mx_use_general": {
-    "message": "(use the general default)"
+  "cs_err_prefix": {
+    "message": "Error: $1"
   },
-  "op_mx_keep_one": {
-    "message": "A style must stay available on at least one platform."
+  "o_w400": {
+    "message": "Normal"
   },
-  "op_scope_change": {
-    "message": "Change…"
+  "o_w600": {
+    "message": "Semi-bold"
+  },
+  "o_w700": {
+    "message": "Bold"
   }
 }

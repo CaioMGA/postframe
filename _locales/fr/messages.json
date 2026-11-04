@@ -182,15 +182,6 @@
   "gr_avatar": {
     "message": "Photo de profil"
   },
-  "o_w400": {
-    "message": "Normal"
-  },
-  "o_w600": {
-    "message": "Demi-gras"
-  },
-  "o_w700": {
-    "message": "Gras"
-  },
   "o_wm_none": {
     "message": "Aucun"
   },
@@ -259,15 +250,6 @@
   },
   "icon_view": {
     "message": "Vues"
-  },
-  "cs_btn_title": {
-    "message": "Postframe : générer des images de cette publication"
-  },
-  "cs_err_read": {
-    "message": "impossible de lire la publication"
-  },
-  "cs_err_prefix": {
-    "message": "Erreur : $1"
   },
   "ov_step_name": {
     "message": "Cliquez sur le NOM de l'auteur"
@@ -497,12 +479,6 @@
   "op_tab_platforms": {
     "message": "Plateformes"
   },
-  "op_platform_label": {
-    "message": "Plateforme"
-  },
-  "op_all_platforms": {
-    "message": "Toutes les plateformes"
-  },
   "op_new_style": {
     "message": "+ Nouveau style (duplique celui sélectionné)"
   },
@@ -515,14 +491,8 @@
   "op_name_aria": {
     "message": "Nom du style"
   },
-  "op_applies_to": {
-    "message": "S'applique à"
-  },
   "op_set_default": {
     "message": "Définir par défaut"
-  },
-  "op_set_default_in": {
-    "message": "Définir par défaut sur $1"
   },
   "op_is_default": {
     "message": "★ Style par défaut"
@@ -531,7 +501,7 @@
     "message": "Supprimer"
   },
   "op_readonly_style": {
-    "message": "Style intégré (lecture seule). Utilisez « Nouveau style » pour créer une copie modifiable et, si vous le souhaitez, changer sa plateforme."
+    "message": "Style intégré (lecture seule). Utilisez « Nouveau style » pour créer une copie modifiable."
   },
   "op_fold_all": {
     "message": "Tout réduire"
@@ -699,27 +669,30 @@
     "message": "Par défaut"
   },
   "op_defaults_intro": {
-    "message": "Choisissez le style par défaut de chaque plateforme et les styles qui y sont disponibles. « Général » sert aux plateformes sans valeur par défaut propre."
+    "message": "Choisissez le style utilisé sur chaque plateforme. « Par défaut » s'applique à toutes les plateformes sans choix propre."
   },
-  "op_mx_style": {
-    "message": "Style"
+  "op_df_default": {
+    "message": "Par défaut"
   },
-  "op_mx_all": {
-    "message": "Toutes"
+  "op_df_create": {
+    "message": "Créer un nouveau style…"
   },
-  "op_mx_general": {
-    "message": "Général"
+  "cs_btn_title": {
+    "message": "Postframe : générer des images de cette publication"
   },
-  "op_mx_default_row": {
-    "message": "Style par défaut"
+  "cs_err_read": {
+    "message": "impossible de lire la publication"
   },
-  "op_mx_use_general": {
-    "message": "(utiliser le style général)"
+  "cs_err_prefix": {
+    "message": "Erreur : $1"
   },
-  "op_mx_keep_one": {
-    "message": "Un style doit rester disponible sur au moins une plateforme."
+  "o_w400": {
+    "message": "Normal"
   },
-  "op_scope_change": {
-    "message": "Modifier…"
+  "o_w600": {
+    "message": "Demi-gras"
+  },
+  "o_w700": {
+    "message": "Gras"
   }
 }

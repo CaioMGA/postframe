@@ -23,9 +23,6 @@
 
 <div class="o-layout" id="tab-styles">
   <aside class="o-side">
-    <label class="o-label"><span data-i18n="op_platform_label"></span>
-      <select id="filter"></select>
-    </label>
     <ul id="list" class="o-list"></ul>
     <div class="o-side-actions">
       <button id="new" class="o-primary" data-i18n="op_new_style"></button>
@@ -39,9 +36,6 @@
   <section class="o-editor">
     <div class="o-bar">
       <input id="name" class="o-name" maxlength="40" data-i18n-aria="op_name_aria">
-      <span class="o-inline"><span data-i18n="op_applies_to"></span>
-        <button id="scopebtn" class="o-scope" data-i18n-title="op_scope_change"></button>
-      </span>
       <button id="setdef"></button>
       <button id="del" class="o-danger" data-i18n="op_delete"></button>
     </div>
@@ -67,7 +61,7 @@
 <div class="o-layout o-defaults" id="tab-defaults" hidden>
   <section class="o-editor">
     <p class="o-hint o-intro" data-i18n="op_defaults_intro"></p>
-    <div class="o-matrix-wrap"><table id="matrix" class="o-matrix"></table></div>
+    <ul id="deflist" class="o-deflist"></ul>
   </section>
 </div>
 
