@@ -3,7 +3,7 @@ import { initI18n, applyI18n, t, LANGS, getLang, setLang } from "../src/shared/i
 import { baseCss, placeholderAvatar, esc } from "../src/shared/template.mjs";
 import { GENERIC_LABELS, CURATED, FONT_RE, isGoogle, familyOf, fontsUsed, loadFamily } from "../src/shared/fonts.mjs";
 import { ICON_KEYS, normalizePlatform, BUILTIN_IDS } from "../src/shared/platforms.mjs";
-import { getAll, stylesFor, defaultFor, saveStyles, savePlatforms, saveDefaults } from "../src/shared/store.mjs";
+import { getAll, stylesFor, defaultFor, appliesTo, saveStyles, savePlatforms, saveDefaults, saveScopes } from "../src/shared/store.mjs";
 
 const $ = (id) => document.getElementById(id);
 const savedLang = await initI18n();   // "" until the user picks a language
@@ -12,6 +12,8 @@ const clamp = (n) => Math.min(100, Math.max(0, Math.round(n)));
 
 let lib = await getAll();           // { all, custom, platforms, userPlatforms, defaults }
 let filter = "*", selId = "1", sample = "tweet", platSel = "x";
+// Where a style is available, as text ("All platforms" or "X (Twitter), Bluesky").
+const scopeSummary = (s) => (s.platforms ? s.platforms.map((id) => platName(id)).join(", ") : t("op_all_platforms"));
 const platName = (id) => (id === "*" ? t("op_all_platforms") : lib.platforms.find((p) => p.id === id)?.name || "?");
 const visible = () => (filter === "*" ? lib.all : stylesFor(lib.all, filter));
 const defaultInFilter = () => (filter === "*" ? (lib.all.some((s) => s.id === lib.defaults["*"]) ? lib.defaults["*"] : "1") : defaultFor(lib.all, lib.defaults, filter));
@@ -37,16 +39,16 @@ const sampleText = Object.values(SAMPLES).map((x) => x.data.text).join(" ");
 $("tabs").onclick = (e) => {
   const t = e.target.dataset.tab; if (!t) return;
   document.querySelectorAll("#tabs button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.tab === t));
-  $("tab-styles").hidden = t !== "styles"; $("tab-platforms").hidden = t !== "platforms";
-  if (t === "platforms") renderPlatforms(); else renderAll();
+  $("tab-styles").hidden = t !== "styles"; $("tab-platforms").hidden = t !== "platforms"; $("tab-defaults").hidden = t !== "defaults";
+  if (t === "platforms") renderPlatforms(); else if (t === "defaults") renderDefaults(); else renderAll();
 };
+const openTab = (name) => $("tabs").querySelector(`[data-tab="${name}"]`).click();
 
 // ===== STYLES =================================================================
 function renderFilters() {
   const opts = [["*", t("op_all_platforms")], ...lib.platforms.map((p) => [p.id, p.name])];
   $("filter").innerHTML = opts.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("");
   $("filter").value = filter;
-  $("platsel").innerHTML = opts.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("");
 }
 function renderList() {
   const def = defaultInFilter();
@@ -54,7 +56,7 @@ function renderList() {
     <li data-id="${esc(s.id)}" aria-selected="${s.id === selId}">
       <span class="n">${esc(styleName(s))}</span>
       ${s.id === def ? `<span class="o-badge def">${esc(t("op_badge_default"))}</span>` : ""}
-      ${filter === "*" && s.platform !== "*" ? `<span class="o-badge">${esc(platName(s.platform))}</span>` : ""}
+      ${filter === "*" && s.platforms ? `<span class="o-badge">${esc(scopeSummary(s))}</span>` : ""}
       ${s.builtin ? `<span class="o-badge">${esc(t("op_badge_builtin"))}</span>` : ""}
     </li>`).join("");
 }
@@ -99,7 +101,7 @@ function fillForm() {
   }
   document.querySelectorAll("#form [data-img],#form [data-imgclear]").forEach((e) => (e.disabled = ro));
   $("name").value = styleName(s); $("name").disabled = ro;
-  $("platsel").value = s.platform; $("platsel").disabled = ro;
+  $("scopebtn").textContent = scopeSummary(s);
   $("ro").hidden = !ro; $("del").hidden = ro;
   const isDef = s.id === defaultInFilter();
   $("setdef").disabled = isDef;
@@ -203,21 +205,18 @@ $("name").addEventListener("input", () => {
   const s = current(); if (!isCustom(s)) return;
   replaceCurrent({ ...s, name: $("name").value.slice(0, 40) || "Untitled" }); renderList();
 });
-$("platsel").onchange = () => {
-  const s = current(); if (!isCustom(s)) return;
-  replaceCurrent({ ...s, platform: $("platsel").value });
-  filter = $("platsel").value;           // keep the style visible in the list
-  renderAll();
-};
+$("scopebtn").onclick = () => openTab("defaults");   // where a style is available is edited in the Defaults tab
 $("filter").onchange = () => { filter = $("filter").value; if (!visible().some((s) => s.id === selId)) selId = defaultInFilter(); renderAll(); };
 $("list").addEventListener("click", (e) => { const li = e.target.closest("li"); if (li) { selId = li.dataset.id; renderAll(); } });
 $("seg").addEventListener("click", (e) => { if (e.target.dataset.s) { sample = e.target.dataset.s; renderPreview(); } });
 $("new").onclick = async () => {
   const s = current();
   const copy = normalizeStyle({ ...s, id: newId(), name: t("op_copy_of", styleName(s)).slice(0, 40) }, DEFAULT);
-  if (copy.platform === "*" && filter !== "*") copy.platform = filter;
+  // the copy keeps where the original applies; from a platform view of an "all platforms" style it starts on that platform
+  copy.platforms = s.platforms ? [...s.platforms] : filter !== "*" ? [filter] : null;
+  if (copy.platforms) lib.scopes[copy.id] = copy.platforms;
   lib.custom.push(copy); lib.all.push(copy); selId = copy.id;
-  await saveStyles(lib.custom); renderAll(); $("name").focus(); $("name").select();
+  await Promise.all([saveStyles(lib.custom), saveScopes(lib.scopes)]); renderAll(); $("name").focus(); $("name").select();
 };
 $("setdef").onclick = async () => { lib.defaults[filter] = selId; await saveDefaults(lib.defaults); renderAll(); };
 $("del").onclick = async () => {
@@ -225,11 +224,12 @@ $("del").onclick = async () => {
   if (!isCustom(s) || !confirm(t("op_confirm_delete_style", styleName(s)))) return;
   lib.custom = lib.custom.filter((x) => x.id !== s.id); lib.all = lib.all.filter((x) => x.id !== s.id);
   for (const k of Object.keys(lib.defaults)) if (lib.defaults[k] === s.id) delete lib.defaults[k];
-  await Promise.all([saveStyles(lib.custom), saveDefaults(lib.defaults)]);
+  delete lib.scopes[s.id];
+  await Promise.all([saveStyles(lib.custom), saveDefaults(lib.defaults), saveScopes(lib.scopes)]);
   selId = defaultInFilter(); renderAll();
 };
 $("export").onclick = () => {
-  const blob = new Blob([JSON.stringify({ app: "postframe", styles: lib.custom, platforms: lib.userPlatforms }, null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify({ app: "postframe", styles: lib.custom.map(({ platforms, ...s }) => s), scopes: Object.fromEntries(lib.custom.filter((s) => s.platforms).map((s) => [s.id, s.platforms])), platforms: lib.userPlatforms }, null, 2)], { type: "application/json" });
   Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: "postframe.json" }).click();
 };
 $("import").onclick = () => $("file").click();
@@ -239,12 +239,17 @@ $("file").onchange = async () => {
     const idMap = {}, plats = (Array.isArray(data.platforms) ? data.platforms : []).slice(0, 30)
       .map((r) => { const p = normalizePlatform({ ...r, id: undefined }); if (p && r?.id) idMap[r.id] = p.id; return p; }).filter(Boolean);
     const list = (Array.isArray(data) ? data : data.styles || []).slice(0, 50);
-    const added = list.map((r) => normalizeStyle({ ...r, id: newId(), platform: r?.platform === "*" || BUILTIN_IDS.has(r?.platform) ? r.platform : idMap[r?.platform] || "*" }, DEFAULT)).filter(Boolean);
+    const styleIds = {};   // old style id -> new id, to carry the scopes over
+    const mapPlat = (id) => (BUILTIN_IDS.has(id) ? id : idMap[id]);
+    const added = list.map((r) => { const copy = normalizeStyle({ ...r, id: newId(), platform: "*" }, DEFAULT); if (copy && r?.id) styleIds[r.id] = copy.id;
+      // new format: data.scopes[oldId]; old format: a single `platform` on the style
+      const sc = (Array.isArray(data.scopes?.[r?.id]) ? data.scopes[r.id] : r?.platform && r.platform !== "*" ? [r.platform] : []).map(mapPlat).filter(Boolean);
+      if (copy) { copy.platforms = sc.length ? [...new Set(sc)] : null; if (copy.platforms) lib.scopes[copy.id] = copy.platforms; } return copy; }).filter(Boolean);
     if (!added.length && !plats.length) throw new Error("vazio");
     lib.userPlatforms.push(...plats); lib.platforms.push(...plats);
     lib.custom.push(...added); lib.all.push(...added);
     if (added.length) selId = added[0].id;
-    await Promise.all([savePlatforms(lib.userPlatforms), saveStyles(lib.custom)]);
+    await Promise.all([savePlatforms(lib.userPlatforms), saveStyles(lib.custom), saveScopes(lib.scopes)]);
     renderAll();
   } catch { alert(t("op_bad_file")); }
   $("file").value = "";
@@ -302,16 +307,58 @@ $("pdel").onclick = async () => {
   const p = curPlat();
   if (p.builtin || !confirm(t("op_confirm_delete_platform", p.name))) return;
   lib.userPlatforms = lib.userPlatforms.filter((x) => x.id !== p.id); lib.platforms = lib.platforms.filter((x) => x.id !== p.id);
-  lib.custom = lib.custom.map((s) => (s.platform === p.id ? { ...s, platform: "*" } : s));
-  lib.all = [...lib.all.filter((s) => s.builtin), ...lib.custom];
+  for (const s of lib.all) if (s.platforms?.includes(p.id)) { s.platforms = s.platforms.filter((x) => x !== p.id); if (!s.platforms.length) s.platforms = null; s.platforms ? (lib.scopes[s.id] = s.platforms) : delete lib.scopes[s.id]; }
   delete lib.defaults[p.id];
-  await Promise.all([savePlatforms(lib.userPlatforms), saveStyles(lib.custom), saveDefaults(lib.defaults)]);
+  await Promise.all([savePlatforms(lib.userPlatforms), saveDefaults(lib.defaults), saveScopes(lib.scopes)]);
   platSel = "x"; if (filter === p.id) filter = "*"; renderPlatforms();
 };
 
 const setFold = (open) => document.querySelectorAll("#form details").forEach((d) => (d.open = open));
 $("foldAll").onclick = () => setFold(false);
 $("unfoldAll").onclick = () => setFold(true);
+
+
+// ===== DEFAULTS (default style per platform + where each style is available) =========
+// One column per platform; the first one ("General") is the fallback. A style with no scope is available everywhere.
+function renderDefaults() {
+  const cols = lib.platforms;
+  const styleSelect = (platform, id) => {
+    const list = platform === "*" ? lib.all : stylesFor(lib.all, platform);
+    const cur = lib.defaults[platform], has = list.some((x) => x.id === cur);
+    return `<select data-def="${esc(platform)}">${platform === "*" ? "" : `<option value="">${esc(t("op_mx_use_general"))}</option>`}${list.map((x) => `<option value="${esc(x.id)}" ${has && cur === x.id ? "selected" : ""}>${esc(styleName(x))}</option>`).join("")}</select>`;
+  };
+  const generalId = lib.all.some((x) => x.id === lib.defaults["*"]) ? lib.defaults["*"] : lib.all[0].id;
+  const row = (s) => `<tr><th scope="row"><span class="n">${esc(styleName(s))}</span>${s.builtin ? `<span class="o-badge">${esc(t("op_badge_builtin"))}</span>` : ""}</th>
+    <td><input type="checkbox" data-style="${esc(s.id)}" data-all aria-label="${esc(t("op_mx_all"))}" ${s.platforms ? "" : "checked"}></td>
+    ${cols.map((p) => `<td><input type="checkbox" data-style="${esc(s.id)}" data-plat="${esc(p.id)}" aria-label="${esc(p.name)}" ${appliesTo(s, p.id) ? "checked" : ""}></td>`).join("")}</tr>`;
+  $("matrix").innerHTML = `<thead><tr><th>${esc(t("op_mx_style"))}</th><th>${esc(t("op_mx_all"))}</th>${cols.map((p) => `<th>${esc(p.name)}</th>`).join("")}</tr></thead>
+    <tbody><tr class="o-mx-def"><th scope="row">${esc(t("op_mx_default_row"))}</th><td>${styleSelect("*", generalId)}<div class="o-mx-sub">${esc(t("op_mx_general"))}</div></td>${cols.map((p) => `<td>${styleSelect(p.id)}</td>`).join("")}</tr>
+    ${lib.all.map(row).join("")}</tbody>`;
+  $("matrix").querySelector('select[data-def="*"]').value = generalId;
+}
+
+$("matrix").addEventListener("change", async (e) => {
+  const el = e.target;
+  if (el.dataset.def !== undefined) {                       // default style for a platform
+    el.value ? (lib.defaults[el.dataset.def] = el.value) : delete lib.defaults[el.dataset.def];
+    await saveDefaults(lib.defaults); return;
+  }
+  const s = lib.all.find((x) => x.id === el.dataset.style); if (!s) return;
+  const ids = lib.platforms.map((p) => p.id);
+  let next;
+  if (el.dataset.all !== undefined) next = el.checked ? null : [...ids];          // "All" on = no scope; off = start from every platform
+  else {
+    const set = new Set(s.platforms ?? ids);
+    el.checked ? set.add(el.dataset.plat) : set.delete(el.dataset.plat);
+    if (!set.size) { el.checked = true; alert(t("op_mx_keep_one")); return; }     // a style has to stay available somewhere
+    next = set.size === ids.length ? null : ids.filter((id) => set.has(id));
+  }
+  s.platforms = next; next ? (lib.scopes[s.id] = next) : delete lib.scopes[s.id];
+  // a default that no longer applies to its platform is dropped (the general default takes over)
+  for (const [k, v] of Object.entries(lib.defaults)) if (v === s.id && k !== "*" && !appliesTo(s, k)) delete lib.defaults[k];
+  await Promise.all([saveScopes(lib.scopes), saveDefaults(lib.defaults)]);
+  renderDefaults();
+});
 
 // ===== LANGUAGE ==============================================================
 // First use: the picker below blocks the page until a language is chosen. Later it lives in the header.

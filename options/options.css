@@ -81,3 +81,19 @@ button:disabled{opacity:.45;cursor:default}
 
 h1,h2,.o-name,.o-sec>summary{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Noto Serif','DejaVu Serif',serif}
 h1{letter-spacing:-.01em}
+
+.o-scope{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px 12px;font-size:13px}
+.o-defaults{display:block}
+.o-intro{font-size:14px;margin-bottom:14px;max-width:760px}
+.o-matrix-wrap{overflow:auto;border:1px solid #d9cdb6;border-radius:14px;background:#fffaf0}
+.o-matrix{border-collapse:collapse;width:100%;min-width:640px}
+.o-matrix th,.o-matrix td{padding:10px 12px;border-bottom:1px solid #e5dac3;text-align:center;vertical-align:middle}
+.o-matrix thead th{background:#efe6d3;font-weight:600;font-size:13px;position:sticky;top:0}
+.o-matrix tbody th{text-align:left;font-weight:500;white-space:nowrap}
+.o-matrix tbody th .o-badge{margin-left:8px}
+.o-matrix th:first-child,.o-matrix td:first-child{position:sticky;left:0;background:#fffaf0}
+.o-matrix thead th:first-child{background:#efe6d3;text-align:left}
+.o-matrix input[type=checkbox]{width:18px;height:18px;accent-color:#b4472b;cursor:pointer}
+.o-matrix select{width:100%;min-width:130px;background:#fffaf0;color:#1f1a14;border:1px solid #cfc2a8;border-radius:8px;padding:6px;font:inherit;font-size:13px}
+.o-mx-def th,.o-mx-def td{background:#f6f0e4;border-bottom:2px solid #d9cdb6}
+.o-mx-sub{font-size:11px;color:#7a6f60;margin-top:3px}

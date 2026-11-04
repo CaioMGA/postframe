@@ -694,5 +694,32 @@
   },
   "actionTitle": {
     "message": "Postframe：投稿をキャプチャ、またはこのサイトを設定"
+  },
+  "op_tab_defaults": {
+    "message": "デフォルト"
+  },
+  "op_defaults_intro": {
+    "message": "プラットフォームごとにデフォルトのスタイルと、使えるスタイルを選びます。専用のデフォルトがないプラットフォームでは「全般」が使われます。"
+  },
+  "op_mx_style": {
+    "message": "スタイル"
+  },
+  "op_mx_all": {
+    "message": "すべて"
+  },
+  "op_mx_general": {
+    "message": "全般"
+  },
+  "op_mx_default_row": {
+    "message": "デフォルトのスタイル"
+  },
+  "op_mx_use_general": {
+    "message": "（全般のデフォルトを使う）"
+  },
+  "op_mx_keep_one": {
+    "message": "スタイルは少なくとも 1 つのプラットフォームで使える状態にしておく必要があります。"
+  },
+  "op_scope_change": {
+    "message": "変更…"
   }
 }

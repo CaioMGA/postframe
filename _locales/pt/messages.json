@@ -694,5 +694,32 @@
   },
   "actionTitle": {
     "message": "Postframe: capturar posts ou configurar este site"
+  },
+  "op_tab_defaults": {
+    "message": "Padrões"
+  },
+  "op_defaults_intro": {
+    "message": "Escolha o estilo padrão de cada plataforma e quais estilos ficam disponíveis nela. “Geral” é usado nas plataformas que não têm padrão próprio."
+  },
+  "op_mx_style": {
+    "message": "Estilo"
+  },
+  "op_mx_all": {
+    "message": "Todas"
+  },
+  "op_mx_general": {
+    "message": "Geral"
+  },
+  "op_mx_default_row": {
+    "message": "Estilo padrão"
+  },
+  "op_mx_use_general": {
+    "message": "(usar o padrão geral)"
+  },
+  "op_mx_keep_one": {
+    "message": "Um estilo precisa continuar disponível em pelo menos uma plataforma."
+  },
+  "op_scope_change": {
+    "message": "Alterar…"
   }
 }

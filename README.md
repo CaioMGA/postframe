@@ -22,7 +22,7 @@ The image is not a screen crop: it is **built from the post's data**, so it alwa
 - **Google Fonts:** pick a font from the list or type any Google Fonts family.
 - **Watermark** (text or image), draggable, with tilt and an option to **repeat it as a brick pattern** with adjustable spacing.
 - Optional **credit line** below the image.
-- **Per-platform styles:** the X style can differ from another site's, and you can duplicate a style and change its platform. The default style is per platform too.
+- **Defaults per platform:** pick a **general default style** and, in the **Defaults** tab, a different default for any platform, plus which styles are available on which platforms (built-in styles included). A style can be available on one platform, several, or all. A style duplicated from another keeps where it applies, so you can reuse the X look on Reddit by ticking Reddit.
 - **Any site:** a point-and-click picker lets you select the post, name, handle, picture, text, images, time and counts. The setup is saved per site.
 - **Export and import** styles and platforms as JSON.
 - Quick toggles for **Credit**, **Watermark** and **Images** on the result page.

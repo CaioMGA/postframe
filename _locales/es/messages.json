@@ -694,5 +694,32 @@
   },
   "actionTitle": {
     "message": "Postframe: capturar publicaciones o configurar este sitio"
+  },
+  "op_tab_defaults": {
+    "message": "Predeterminados"
+  },
+  "op_defaults_intro": {
+    "message": "Elige el estilo predeterminado de cada plataforma y qué estilos están disponibles en ella. “General” se usa en las plataformas sin un valor propio."
+  },
+  "op_mx_style": {
+    "message": "Estilo"
+  },
+  "op_mx_all": {
+    "message": "Todas"
+  },
+  "op_mx_general": {
+    "message": "General"
+  },
+  "op_mx_default_row": {
+    "message": "Estilo predeterminado"
+  },
+  "op_mx_use_general": {
+    "message": "(usar el predeterminado general)"
+  },
+  "op_mx_keep_one": {
+    "message": "Un estilo debe seguir disponible en al menos una plataforma."
+  },
+  "op_scope_change": {
+    "message": "Cambiar…"
   }
 }

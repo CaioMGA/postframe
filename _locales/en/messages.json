@@ -694,5 +694,32 @@
   },
   "actionTitle": {
     "message": "Postframe: capture posts or set up this site"
+  },
+  "op_tab_defaults": {
+    "message": "Defaults"
+  },
+  "op_defaults_intro": {
+    "message": "Choose the default style for each platform and which styles are available on it. “General” is the fallback for platforms without a default of their own."
+  },
+  "op_mx_style": {
+    "message": "Style"
+  },
+  "op_mx_all": {
+    "message": "All"
+  },
+  "op_mx_general": {
+    "message": "General"
+  },
+  "op_mx_default_row": {
+    "message": "Default style"
+  },
+  "op_mx_use_general": {
+    "message": "(use the general default)"
+  },
+  "op_mx_keep_one": {
+    "message": "A style must stay available on at least one platform."
+  },
+  "op_scope_change": {
+    "message": "Change…"
   }
 }

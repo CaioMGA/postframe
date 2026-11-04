@@ -694,5 +694,32 @@
   },
   "actionTitle": {
     "message": "Postframe: Beiträge erfassen oder diese Website einrichten"
+  },
+  "op_tab_defaults": {
+    "message": "Standards"
+  },
+  "op_defaults_intro": {
+    "message": "Lege den Standardstil jeder Plattform fest und welche Stile dort verfügbar sind. „Allgemein“ gilt für Plattformen ohne eigenen Standard."
+  },
+  "op_mx_style": {
+    "message": "Stil"
+  },
+  "op_mx_all": {
+    "message": "Alle"
+  },
+  "op_mx_general": {
+    "message": "Allgemein"
+  },
+  "op_mx_default_row": {
+    "message": "Standardstil"
+  },
+  "op_mx_use_general": {
+    "message": "(allgemeinen Standard verwenden)"
+  },
+  "op_mx_keep_one": {
+    "message": "Ein Stil muss auf mindestens einer Plattform verfügbar bleiben."
+  },
+  "op_scope_change": {
+    "message": "Ändern …"
   }
 }
