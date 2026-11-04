@@ -136,4 +136,4 @@ npm run mockups
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE). The icon's hand artwork is in the public domain; see [icons/CREDITS.md](icons/CREDITS.md).
