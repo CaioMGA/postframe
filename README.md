@@ -8,7 +8,7 @@ A Chrome extension that turns a post (**X, Bluesky, Reddit, Instagram**, or any 
 
 The image is not a screen crop: it is **built from the post's data**, so it always comes out 600 px wide, up to 350 KB, with the same look.
 
-> ⚠️ **Beta.** Postframe is under active development. Expect bugs, and sites change their HTML often, which can break post reading. Only **X.com** has been tested and is OK; see the [platform checklist](#platforms).
+> ⚠️ **Beta.** Postframe is under active development. Expect bugs, and sites change their HTML often, which can break post reading. Only **X.com** and **Bluesky** have been tested and are OK (both tested on 2026-11-04); see the [platform checklist](#platforms).
 
 | Classic light | Gradient frame | Pastel poster (repost) |
 |---|---|---|
@@ -32,14 +32,14 @@ The image is not a screen crop: it is **built from the post's data**, so it alwa
 
 ### Support checklist (beta)
 
-Only X.com has been tested and is OK. The other platforms are implemented but not yet validated.
+X.com and Bluesky have been tested and are OK (both tested on **2026-11-04**). The other platforms are implemented but not yet validated.
 
 - **X.com**
-  - [x] Tested
+  - [x] Tested (2026-11-04)
   - [x] OK
 - **Bluesky**
-  - [ ] Tested
-  - [ ] OK
+  - [x] Tested (2026-11-04)
+  - [x] OK
 - **Reddit**
   - [ ] Tested
   - [ ] OK
@@ -54,8 +54,8 @@ Only X.com has been tested and is OK. The other platforms are implemented but no
 
 | Platform | Status | Posts | Images | Counts | Repost / quote |
 |---|---|---|---|---|---|
-| **X** | tested and OK | ✅ | ✅ (and video posters) | ✅ | ✅ repost and quote |
-| **Bluesky** | beta, not yet validated | ✅ | ✅ | ✅ | ✅ repost · ❌ quote |
+| **X** | tested and OK (2026-11-04) | ✅ | ✅ (and video posters) | ✅ | ✅ repost and quote |
+| **Bluesky** | tested and OK (2026-11-04) | ✅ | ✅ | ✅ | ✅ repost · ❌ quote |
 | **Instagram** | **beta**: heuristic extractor, not yet validated | ✅ | ✅ | ❌ (not in the DOM) | — |
 | **Reddit** | **beta**, not yet validated | ✅ | ✅ | ✅ | — |
 | **Any site** | beta, not yet validated | ✅ | ✅ | ✅ | ❌ |
