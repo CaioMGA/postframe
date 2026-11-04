@@ -8,7 +8,7 @@ A Chrome extension that turns a post (**X, Bluesky, Reddit, Instagram**, or any 
 
 The image is not a screen crop: it is **built from the post's data**, so it always comes out 600 px wide, up to 350 KB, with the same look.
 
-> ⚠️ **Beta.** Postframe is under active development. Expect bugs, and sites change their HTML often, which can break post reading. Only **X.com** has been tested and is OK; see the [platform checklist](#platforms).
+> ⚠️ **Beta.** Postframe is under active development. Expect bugs, and sites change their HTML often, which can break post reading. Only **X.com** and **Bluesky** have been tested and are OK (both tested on 2026-11-04); see the [platform checklist](#platforms).
 
 | Classic light | Gradient frame | Pastel poster (repost) |
 |---|---|---|
@@ -32,14 +32,14 @@ The image is not a screen crop: it is **built from the post's data**, so it alwa
 
 ### Support checklist (beta)
 
-Only X.com has been tested and is OK. The other platforms are implemented but not yet validated.
+X.com and Bluesky have been tested and are OK (both tested on **2026-11-04**). The other platforms are implemented but not yet validated.
 
 - **X.com**
-  - [x] Tested
+  - [x] Tested (2026-11-04)
   - [x] OK
 - **Bluesky**
-  - [ ] Tested
-  - [ ] OK
+  - [x] Tested (2026-11-04)
+  - [x] OK
 - **Reddit**
   - [ ] Tested
   - [ ] OK
@@ -54,8 +54,8 @@ Only X.com has been tested and is OK. The other platforms are implemented but no
 
 | Platform | Status | Posts | Images | Counts | Repost / quote |
 |---|---|---|---|---|---|
-| **X** | tested and OK | ✅ | ✅ (and video posters) | ✅ | ✅ repost and quote |
-| **Bluesky** | beta, not yet validated | ✅ | ✅ | ✅ | ✅ repost · ❌ quote |
+| **X** | tested and OK (2026-11-04) | ✅ | ✅ (and video posters) | ✅ | ✅ repost and quote |
+| **Bluesky** | tested and OK (2026-11-04) | ✅ | ✅ | ✅ | ✅ repost · ❌ quote |
 | **Instagram** | **beta**: heuristic extractor, not yet validated | ✅ | ✅ | ❌ (not in the DOM) | — |
 | **Reddit** | **beta**, not yet validated | ✅ | ✅ | ✅ | — |
 | **Any site** | beta, not yet validated | ✅ | ✅ | ✅ | ❌ |
@@ -63,7 +63,8 @@ Only X.com has been tested and is OK. The other platforms are implemented but no
 - **Beta** means the site may change or there are cases we do not cover yet. If something fails, use **Reconfigure this site** on the site itself: your configuration takes precedence over the built-in one.
 - On **Instagram** the DOM has no stable hooks (no `<header>`, obfuscated classes), so the caption is "the longest text outside links and buttons" and sponsored posts may come out without a time. Videos without a poster come out without an image.
 - **Reddit** was written from the documented attributes of `<shreddit-post>`, without a real page (Reddit blocks automated browsers). If you have Reddit open, the "Help validate Reddit" section below takes a minute.
-- Only **X** has the camera button inside the post. On the other platforms, click the extension icon and choose **Capture a post**.
+- On **Bluesky**, the feeds, profile pages and post pages (the focused post and its replies) are supported. Quote posts are not read yet.
+- **X** and **Bluesky** have the camera button inside each post. On the other platforms, click the extension icon and choose **Capture a post**.
 
 ## Install (developer mode)
 
@@ -74,7 +75,7 @@ Only X.com has been tested and is OK. The other platforms are implemented but no
 
 ## Usage
 
-**On X:** hover a tweet and click the camera icon in its action bar. A new tab opens with the images in the available styles (starting with your default). Download or copy the one you like.
+**On X and Bluesky:** click the camera icon in the post's action bar. A new tab opens with the images in the available styles (starting with your default). Download or copy the one you like.
 
 **Bluesky, Reddit, Instagram:** open the site, click the extension icon, choose **Capture a post** and click the post you want.
 
@@ -88,7 +89,7 @@ Only X.com has been tested and is OK. The other platforms are implemented but no
 - The extension only uses the network to:
   - **Google Fonts** (`fonts.googleapis.com`, `fonts.gstatic.com`), when you use a Google font, to download it;
   - **image CDNs** (`pbs.twimg.com`, `cdn.bsky.app`, `*.cdninstagram.com`, `*.fbcdn.net`, `i.redd.it`, `preview.redd.it`, `external-preview.redd.it`), only when a site blocks direct download of the post images and profile pictures that go into the image.
-- `storage`: keep your settings. `activeTab` and `scripting`: open the capture/setup panel only on the tab where you click the icon (the extension has no permanent access to all sites). Automatic scripts run only on `x.com` and `twitter.com`.
+- `storage`: keep your settings. `activeTab` and `scripting`: open the capture/setup panel only on the tab where you click the icon (the extension has no permanent access to all sites). Automatic scripts (the camera button) run only on `x.com`, `twitter.com` and `bsky.app`.
 
 ## Limitations
 
