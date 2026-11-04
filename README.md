@@ -64,7 +64,7 @@ Only X.com has been tested and is OK. The other platforms are implemented but no
 - On **Instagram** the DOM has no stable hooks (no `<header>`, obfuscated classes), so the caption is "the longest text outside links and buttons" and sponsored posts may come out without a time. Videos without a poster come out without an image.
 - **Reddit** was written from the documented attributes of `<shreddit-post>`, without a real page (Reddit blocks automated browsers). If you have Reddit open, the "Help validate Reddit" section below takes a minute.
 - On **Bluesky**, the feeds, profile pages and post pages (the focused post and its replies) are supported. Quote posts are not read yet.
-- Only **X** has the camera button inside the post. On the other platforms, click the extension icon and choose **Capture a post**.
+- **X** and **Bluesky** have the camera button inside each post. On the other platforms, click the extension icon and choose **Capture a post**.
 
 ## Install (developer mode)
 
@@ -75,7 +75,7 @@ Only X.com has been tested and is OK. The other platforms are implemented but no
 
 ## Usage
 
-**On X:** hover a tweet and click the camera icon in its action bar. A new tab opens with the images in the available styles (starting with your default). Download or copy the one you like.
+**On X and Bluesky:** click the camera icon in the post's action bar. A new tab opens with the images in the available styles (starting with your default). Download or copy the one you like.
 
 **Bluesky, Reddit, Instagram:** open the site, click the extension icon, choose **Capture a post** and click the post you want.
 
@@ -89,7 +89,7 @@ Only X.com has been tested and is OK. The other platforms are implemented but no
 - The extension only uses the network to:
   - **Google Fonts** (`fonts.googleapis.com`, `fonts.gstatic.com`), when you use a Google font, to download it;
   - **image CDNs** (`pbs.twimg.com`, `cdn.bsky.app`, `*.cdninstagram.com`, `*.fbcdn.net`, `i.redd.it`, `preview.redd.it`, `external-preview.redd.it`), only when a site blocks direct download of the post images and profile pictures that go into the image.
-- `storage`: keep your settings. `activeTab` and `scripting`: open the capture/setup panel only on the tab where you click the icon (the extension has no permanent access to all sites). Automatic scripts run only on `x.com` and `twitter.com`.
+- `storage`: keep your settings. `activeTab` and `scripting`: open the capture/setup panel only on the tab where you click the icon (the extension has no permanent access to all sites). Automatic scripts (the camera button) run only on `x.com`, `twitter.com` and `bsky.app`.
 
 ## Limitations
 

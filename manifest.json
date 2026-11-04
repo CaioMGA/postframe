@@ -39,6 +39,20 @@
         "src/content.css"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://bsky.app/*"
+      ],
+      "js": [
+        "src/sites/bluesky.js",
+        "src/sites/bluesky-page.js",
+        "src/content.js"
+      ],
+      "css": [
+        "src/content.css"
+      ],
+      "run_at": "document_idle"
     }
   ],
   "icons": {
