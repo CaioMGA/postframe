@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="icons/icon-512.png" width="128" height="128" alt="Ícone do Postframe: duas mãos formando um quadro de enquadramento">
+</p>
+
 # Postframe
 
 Extensão do Chrome que transforma um post (**X, Bluesky, Reddit, Instagram** ou qualquer site que você configurar) em uma **imagem padronizada**: foto, nome, @, texto completo, imagens em mosaico, contagens e hora, dentro de um estilo que você controla.
