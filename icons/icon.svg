@@ -1,9 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <!-- Two hands reduced to their framing "L" (thumb + index finger), at opposite corners -->
+  <!-- Two hands making the filmmaker's framing pose: index finger along one edge, thumb along the other,
+       the other three fingers curled and stacked. The second hand is the first one rotated 180 degrees. -->
+  <defs><clipPath id="tile"><rect width="128" height="128" rx="28"/></clipPath></defs>
   <rect width="128" height="128" rx="28" fill="#000"/>
-  <g id="hand" fill="#fff">
-    <rect x="24" y="24" width="56" height="18" rx="9"/>   <!-- index finger -->
-    <rect x="24" y="24" width="18" height="56" rx="9"/>   <!-- thumb -->
+  <g clip-path="url(#tile)">
+    <g id="hand" fill="#fff" stroke="#000" stroke-width="2.4" stroke-linejoin="round">
+      <rect x="-26" y="26" width="54" height="28" rx="14" transform="rotate(-6 0 40)"/>        <!-- wrist / arm -->
+      <rect x="36" y="4"  width="26" height="11" rx="5.5"/>                                  <!-- curled fingers -->
+      <rect x="36" y="13" width="26" height="11" rx="5.5"/>
+      <rect x="36" y="22" width="26" height="11" rx="5.5"/>
+      <rect x="20" y="24" width="40" height="36" rx="13"/>                                   <!-- palm -->
+      <rect x="23" y="44" width="15" height="46" rx="7.5" transform="rotate(-5 30 50)"/>        <!-- thumb -->
+      <rect x="38" y="25" width="64" height="13" rx="6.5"/>                                  <!-- index finger -->
+    </g>
+    <use href="#hand" transform="rotate(180 64 64)"/>
   </g>
-  <use href="#hand" transform="rotate(180 64 64)"/>
 </svg>

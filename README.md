@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icons/icon-512.png" width="128" height="128" alt="Postframe icon: two L-shaped hands framing a rectangle">
+  <img src="icons/icon-512.png" width="128" height="128" alt="Postframe icon: two hands making the filmmaker framing pose">
 </p>
 
 # Postframe
