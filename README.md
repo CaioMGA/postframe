@@ -1,8 +1,14 @@
+<p align="center">
+  <img src="icons/icon-512.png" width="128" height="128" alt="Ícone do Postframe: duas mãos formando um quadro de enquadramento">
+</p>
+
 # Postframe
 
-Extensão do Chrome que transforma um post (X/Twitter ou qualquer site que você configurar) em uma **imagem padronizada**: foto, nome, @, texto completo, imagens em mosaico, contagens e hora, dentro de um estilo que você controla.
+Extensão do Chrome que transforma um post (**X, Bluesky, Reddit, Instagram** ou qualquer site que você configurar) em uma **imagem padronizada**: foto, nome, @, texto completo, imagens em mosaico, contagens e hora, dentro de um estilo que você controla.
 
 A imagem não é um recorte da tela: ela é **montada a partir dos dados do post**, então sai sempre com 600 px de largura e até 350 KB, com a mesma aparência.
+
+> ⚠️ **Versão beta.** O Postframe está em desenvolvimento ativo. Pode haver bugs, e os sites mudam o HTML com frequência, o que pode quebrar a leitura dos posts. Só o **X.com** foi testado e está OK; veja o [checklist de plataformas](#plataformas).
 
 | Claro clássico | Moldura gradiente | Pôster pastel (retweet) |
 |---|---|---|
@@ -21,6 +27,43 @@ A imagem não é um recorte da tela: ela é **montada a partir dos dados do post
 - **Exportar e importar** estilos e plataformas em JSON.
 - Liga/desliga rápido de **Crédito**, **Marca d'água** e **Imagens** na página de resultado.
 
+## Plataformas
+
+### Checklist de suporte (beta)
+
+Só o X.com foi testado e está OK. As demais plataformas estão implementadas, mas ainda não foram validadas.
+
+- **X.com**
+  - [x] Testada
+  - [x] OK
+- **Bluesky**
+  - [ ] Testada
+  - [ ] OK
+- **Reddit**
+  - [ ] Testada
+  - [ ] OK
+- **Instagram**
+  - [ ] Testada
+  - [ ] OK
+- **Qualquer outro site** (ferramenta de seleção)
+  - [ ] Testada
+  - [ ] OK
+
+### O que cada plataforma lê
+
+| Plataforma | Status | Posts | Imagens | Contagens | Repost / citação |
+|---|---|---|---|---|---|
+| **X** | testada e OK | ✅ | ✅ (e capa de vídeo) | ✅ | ✅ repost e citação |
+| **Bluesky** | beta, ainda sem validação | ✅ | ✅ | ✅ | ✅ repost · ❌ citação |
+| **Instagram** | **beta**: extrator por heurística, ainda sem validação | ✅ | ✅ | ❌ (não estão no DOM) | — |
+| **Reddit** | **beta**, ainda sem validação | ✅ | ✅ | ✅ | — |
+| **Qualquer site** | beta, ainda sem validação | ✅ | ✅ | ✅ | ❌ |
+
+- **Beta** significa que o site pode mudar ou que há casos que ainda não cobrimos. Se algo falhar, use **Reconfigurar este site** no próprio site: a sua configuração tem precedência sobre a embutida.
+- No **Instagram**, o DOM não tem ganchos estáveis (sem `<header>`, classes ofuscadas), então a legenda é "o maior texto fora de links e botões" e posts patrocinados podem sair sem hora. Vídeos sem capa saem sem imagem.
+- O **Reddit** foi escrito a partir dos atributos documentados do `<shreddit-post>`, sem página real (o Reddit bloqueia navegador automatizado). Se você tiver o Reddit logado, a seção "Ajude a validar o Reddit" abaixo leva um minuto.
+- Só o **X** tem o botão de câmera dentro do post. Nas demais, clique no ícone da extensão e use **Capturar um post**.
+
 ## Instalação (modo desenvolvedor)
 
 1. Baixe ou clone este repositório.
@@ -31,6 +74,8 @@ A imagem não é um recorte da tela: ela é **montada a partir dos dados do post
 
 **No X:** passe o mouse em um tweet e clique no ícone de câmera na barra de ações. Uma nova aba abre com as imagens nos estilos disponíveis (começando pelo padrão). Baixe ou copie a que preferir.
 
+**Bluesky, Reddit, Instagram:** abra o site, clique no ícone da extensão, escolha **Capturar um post** e clique no post desejado.
+
 **Em outro site:** abra o site, clique no ícone da extensão e escolha **Configurar este site**. Clique em um post inteiro e depois nos campos que quiser (nome, texto, imagens…). Salve e use **Capturar um post**.
 
 **Estilos e plataformas:** botão direito no ícone → *Opções* (ou **Estilos…** na página de resultado).
@@ -40,15 +85,29 @@ A imagem não é um recorte da tela: ela é **montada a partir dos dados do post
 - Os estilos, plataformas e preferências ficam em `chrome.storage.local`, no seu navegador. Não há contas, servidor próprio nem análise de uso.
 - A extensão acessa a rede apenas para:
   - **Google Fonts** (`fonts.googleapis.com`, `fonts.gstatic.com`), quando você usa uma fonte do Google, para baixar a fonte;
-  - **`pbs.twimg.com`**, para baixar fotos de perfil e imagens de tweets do X que entram na imagem.
+  - **CDNs de imagem** (`pbs.twimg.com`, `cdn.bsky.app`, `*.cdninstagram.com`, `*.fbcdn.net`, `i.redd.it`, `preview.redd.it`, `external-preview.redd.it`), apenas quando o site bloqueia o download direto das imagens do post e das fotos de perfil que entram na imagem.
 - `storage`: guardar suas configurações. `activeTab` e `scripting`: abrir o painel de captura/configuração só na aba em que você clica no ícone (a extensão não tem acesso permanente a todos os sites). Os scripts automáticos rodam apenas em `x.com` e `twitter.com`.
 
 ## Limitações
 
-- Os seletores do X (`data-testid`) podem mudar com atualizações do site.
+- Os sites mudam o HTML com frequência: os seletores embutidos podem quebrar (veja **Plataformas**).
 - Em sites configurados pelo seletor, fotos bloqueadas por CORS aparecem como um avatar com a inicial, e imagens bloqueadas ficam de fora.
 - Vídeos aparecem só como a capa. O seletor não enxerga shadow DOM fechado nem iframes de outro domínio.
 - Postframe não é afiliado ao X Corp. "X" e "Twitter" são marcas de seus donos.
+
+## Ajude a validar o Reddit
+
+Em uma página do Reddit (logado ou não), abra o console do navegador (F12) e rode o código abaixo. Ele copia **só a estrutura** (nomes de atributos e contagens), sem texto nem links. Cole o resultado em uma issue.
+
+```js
+const p = document.querySelector('shreddit-post');
+copy(JSON.stringify({
+  posts: document.querySelectorAll('shreddit-post').length,
+  atributos: p && p.getAttributeNames(),
+  slots: p && [...p.querySelectorAll('[slot]')].map(e => e.getAttribute('slot')),
+  imagens: p && p.querySelectorAll('[slot="post-media-container"] img').length
+}));
+```
 
 ## Desenvolvimento
 

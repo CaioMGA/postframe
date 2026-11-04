@@ -1,7 +1,7 @@
 import { FIELDS, DEFAULT, newId, normalizeStyle, styleCss, shotInner } from "../src/shared/styles.mjs";
 import { baseCss, placeholderAvatar, esc } from "../src/shared/template.mjs";
 import { GENERIC_LABELS, CURATED, FONT_RE, isGoogle, familyOf, fontsUsed, loadFamily } from "../src/shared/fonts.mjs";
-import { ICON_KEYS, normalizePlatform } from "../src/shared/platforms.mjs";
+import { ICON_KEYS, normalizePlatform, BUILTIN_IDS } from "../src/shared/platforms.mjs";
 import { getAll, stylesFor, defaultFor, saveStyles, savePlatforms, saveDefaults } from "../src/shared/store.mjs";
 
 const $ = (id) => document.getElementById(id);
@@ -236,7 +236,7 @@ $("file").onchange = async () => {
     const idMap = {}, plats = (Array.isArray(data.platforms) ? data.platforms : []).slice(0, 30)
       .map((r) => { const p = normalizePlatform({ ...r, id: undefined }); if (p && r?.id) idMap[r.id] = p.id; return p; }).filter(Boolean);
     const list = (Array.isArray(data) ? data : data.styles || []).slice(0, 50);
-    const added = list.map((r) => normalizeStyle({ ...r, id: newId(), platform: r?.platform === "*" || r?.platform === "x" ? r.platform : idMap[r?.platform] || "*" }, DEFAULT)).filter(Boolean);
+    const added = list.map((r) => normalizeStyle({ ...r, id: newId(), platform: r?.platform === "*" || BUILTIN_IDS.has(r?.platform) ? r.platform : idMap[r?.platform] || "*" }, DEFAULT)).filter(Boolean);
     if (!added.length && !plats.length) throw new Error("vazio");
     lib.userPlatforms.push(...plats); lib.platforms.push(...plats);
     lib.custom.push(...added); lib.all.push(...added);
@@ -249,13 +249,14 @@ $("file").onchange = async () => {
 addEventListener("resize", () => !$("tab-styles").hidden && renderPreview());
 
 // ===== PLATAFORMAS ===========================================================
-const SEL_FIELDS = [["container", "Container do post"], ["avatar", "Foto do perfil"], ["name", "Nome"], ["handle", "@usuário"], ["text", "Texto"], ["time", "Hora"], ["media", "Imagens do post"]];
+const SEL_FIELDS = [["container", "Container do post"], ["avatar", "Foto do perfil"], ["name", "Nome"], ["handle", "@usuário"], ["text", "Texto"], ["time", "Hora"], ["media", "Imagens do post"], ["body", "Corpo do post (opcional, após o texto)"], ["repost", "Contexto de repost (opcional)"], ["repostStrip", "Texto a remover do nome de quem repostou"]];
 const curPlat = () => lib.platforms.find((p) => p.id === platSel) || lib.platforms[0];
 
 function renderPlatforms() {
-  $("plist").innerHTML = lib.platforms.map((p) => `<li data-id="${esc(p.id)}" aria-selected="${p.id === platSel}"><span class="n">${esc(p.name)}</span>${p.builtin ? '<span class="o-badge">nativo</span>' : ""}</li>`).join("");
+  $("plist").innerHTML = lib.platforms.map((p) => `<li data-id="${esc(p.id)}" aria-selected="${p.id === platSel}"><span class="n">${esc(p.name)}</span>${p.beta ? '<span class="o-badge">beta</span>' : ""}${p.builtin ? '<span class="o-badge">nativo</span>' : ""}</li>`).join("");
   const p = curPlat(), ro = !!p.builtin;
   $("pro").hidden = !ro; $("pdel").hidden = ro;
+  $("pdup").hidden = !ro || !!p.extractor;      // o X tem leitura própria; as demais embutidas podem ser duplicadas
   const sel = p.sel || {}, stats = sel.stats || [];
   const row = (label, id, val, ph = "") => `<div class="o-field"><label for="${id}">${label}</label><div class="ctl"><input type="text" id="${id}" value="${esc(val || "")}" placeholder="${esc(ph)}" ${ro ? "disabled" : ""}></div></div>`;
   $("pform").className = "o-form o-plat";
@@ -263,9 +264,9 @@ function renderPlatforms() {
       ${row("Nome", "p-name", p.name)}
       ${row("Sites (domínios)", "p-hosts", p.hosts.join(", "), "reddit.com, bsky.app")}
     </fieldset>
-    ${ro ? '<p class="o-hint">O X lê os posts com um extrator embutido (não usa seletores).</p>' : `<fieldset><legend>Seletores CSS</legend>
+    ${p.extractor ? '<p class="o-hint">Esta plataforma é lida por código próprio (não usa seletores). Para sobrescrever, use “Reconfigurar este site” no próprio site.</p>' : `<fieldset><legend>Seletores CSS</legend>
       ${SEL_FIELDS.map(([k, l]) => row(l, `p-${k}`, sel[k], k === "container" ? "ex.: article, shreddit-post" : "relativo ao container")).join("")}
-      ${[0, 1, 2].map((i) => `<div class="o-statrow"><select id="p-si${i}">${Object.entries(ICON_KEYS).map(([v, l]) => `<option value="${v}" ${stats[i]?.icon === v ? "selected" : ""}>${l}</option>`).join("")}</select><input type="text" id="p-ss${i}" value="${esc(stats[i]?.sel || "")}" placeholder="seletor da contagem ${i + 1} (opcional)"></div>`).join("")}
+      ${[0, 1, 2].map((i) => `<div class="o-statrow"><select id="p-si${i}" ${ro ? "disabled" : ""}>${Object.entries(ICON_KEYS).map(([v, l]) => `<option value="${v}" ${stats[i]?.icon === v ? "selected" : ""}>${l}</option>`).join("")}</select><input type="text" id="p-ss${i}" ${ro ? "disabled" : ""} value="${esc(stats[i]?.sel || "")}" placeholder="seletor da contagem ${i + 1} (opcional)"></div>`).join("")}
     </fieldset>`}`;
 }
 let ptimer;
@@ -286,6 +287,12 @@ $("plist").addEventListener("click", (e) => { const li = e.target.closest("li");
 $("pnew").onclick = async () => {
   const p = normalizePlatform({ name: "Nova plataforma", hosts: [], sel: {} });
   lib.userPlatforms.push(p); lib.platforms.push(p); platSel = p.id;
+  await savePlatforms(lib.userPlatforms); renderPlatforms(); $("p-name").select();
+};
+$("pdup").onclick = async () => {
+  const p = curPlat();
+  const copy = normalizePlatform({ ...p, id: undefined, name: `Cópia de ${p.name}`.slice(0, 40) });
+  lib.userPlatforms.push(copy); lib.platforms.push(copy); platSel = copy.id;
   await savePlatforms(lib.userPlatforms); renderPlatforms(); $("p-name").select();
 };
 $("pdel").onclick = async () => {

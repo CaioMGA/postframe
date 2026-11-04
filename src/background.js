@@ -1,4 +1,4 @@
-import { normalizePlatform } from "./shared/platforms.mjs";
+import { normalizePlatform, BUILTIN_PLATFORMS, hostMatches } from "./shared/platforms.mjs";
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg?.type === "sp:open") {            // dados do post -> guarda e abre a página com os estilos
@@ -24,11 +24,19 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       sendResponse({ ok: true, platform: p });
     })();
     return true;
+  } else if (msg?.type === "sp:getPlatform") {     // o painel não importa módulos: pede a plataforma do site
+    (async () => {
+      const { platforms = [] } = await chrome.storage.local.get("platforms");
+      const host = String(msg.hostname || "");
+      const user = platforms.map(normalizePlatform).filter(Boolean).find((p) => hostMatches(host, p.hosts));
+      sendResponse(user || BUILTIN_PLATFORMS.find((p) => hostMatches(host, p.hosts)) || null);   // configuração do usuário tem precedência
+    })();
+    return true;
   } else if (msg?.type === "sp:options") chrome.runtime.openOptionsPage();
 });
 
 // Ícone da barra: abre o painel (captura / configuração) na aba atual.
 chrome.action.onClicked.addListener(async (tab) => {
-  try { await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["src/page/overlay.js"] }); }
+  try { await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["src/sites/instagram.js", "src/page/overlay.js"] }); }
   catch { chrome.runtime.openOptionsPage(); }   // páginas restritas (chrome://, loja)
 });

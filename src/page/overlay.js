@@ -46,17 +46,14 @@
   };
 
   // ---------- estado ----------
-  let platform = null;                     // { id, name, hosts, sel } | { id:"x", builtin:true }
+  let platform = null;                     // { id, name, hosts, sel, builtin?, extractor? }  (extractor "x" = leitura própria do X)
   let mode = "menu", step = 0, draft = null, cand = null, picking = null, containerEl = null;
   const hostname = location.hostname.replace(/^www\./, "");
   const matchHost = (hosts) => hosts.some((x) => hostname === x || hostname.endsWith("." + x));
 
+  // O background resolve pelo host: configuração do usuário vence a embutida.
   async function loadPlatform() {
-    const { platforms = [] } = await chrome.storage.local.get("platforms");
-    const user = platforms.find((p) => matchHost(p.hosts || []));
-    if (user) return user;
-    if (globalThis.SP_SITE && matchHost(["x.com", "twitter.com"])) return { id: "x", name: "X (Twitter)", builtin: true, hosts: ["x.com", "twitter.com"] };
-    return null;
+    try { return (await chrome.runtime.sendMessage({ type: "sp:getPlatform", hostname })) || null; } catch { return null; }
   }
 
   // ---------- seletores ----------
@@ -127,37 +124,55 @@
     try {
       const ctl = new AbortController(); setTimeout(() => ctl.abort(), 4000);
       const blob = await (await fetch(url, { credentials: "omit", signal: ctl.signal })).blob();
-      if (!blob.type.startsWith("image/")) return "";
+      if (!blob.type.startsWith("image/")) return /^https:/.test(url) ? url : "";
       return await new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = no; r.readAsDataURL(blob); });
-    } catch { return ""; }    // CORS/bloqueio: a imagem final usa um avatar com a inicial
+    } catch { return /^https:/.test(url) ? url : ""; }    // CORS: repassa a URL; o viewer tenta baixar (senão, avatar com a inicial)
   }
   // Imagens do post: baixa e reduz (≤ 800 px, JPEG). Sites que bloqueiam por CORS ficam sem a imagem.
   async function mediaData(url) {
     try {
       if (!url) return "";
       const ctl = new AbortController(); setTimeout(() => ctl.abort(), 6000);
-      const res = await fetch(url, { credentials: "omit", signal: ctl.signal }); if (!res.ok) return "";
+      const res = await fetch(url, { credentials: "omit", signal: ctl.signal }); if (!res.ok) return /^https:/.test(url) ? url : "";
       const bmp = await createImageBitmap(await res.blob()), sc = Math.min(1, 800 / Math.max(bmp.width, bmp.height));
       const c = Object.assign(document.createElement("canvas"), { width: Math.round(bmp.width * sc), height: Math.round(bmp.height * sc) });
       c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
       return c.toDataURL("image/jpeg", 0.8);
-    } catch { return ""; }
+    } catch { return /^https:/.test(url) ? url : ""; }
   }
-  const q = (c, s) => { try { return s ? c.querySelector(s) : null; } catch { return null; } };
+  const q = (c, s) => { try { return !s ? null : s === ":scope" ? c : c.querySelector(s); } catch { return null; } };   // ":scope" = o próprio container
+
+  // "css" lê o texto; "css@atributo" lê o atributo (ex.: "a[data-tooltip]@aria-label").
+  const parseSel = (x) => { const m = (x || "").match(/^(.*\S)@([A-Za-z][\w-]*)$/); return m ? { css: m[1], attr: m[2] } : { css: x || "", attr: null }; };
+  const field = (c, x, fromEl) => { const { css, attr } = parseSel(x); const el = css ? q(c, css) : null; return !el ? "" : attr ? (el.getAttribute(attr) || "") : fromEl(el); };
+  const countText = (t) => { const m = String(t || "").match(/\d[\d.,]*\s*(mil|mi|k|m|b)?\b/i); return m ? m[0].trim() : "0"; };
+  const normTime = (t) => String(t || "").replace(/\s+(at|às|a las)\s+/i, " ");   // "November 4, 2026 at 2:32 PM" -> parseável
 
   async function extract(container, p) {
-    if (p.builtin) return globalThis.SP_SITE.extract(container);
-    const s = p.sel, avEl = q(container, s.avatar);
-    const imgs = s.media ? [...qa(container, s.media)].filter((i) => !(avEl && (i === avEl || avEl.contains(i) || i.contains(avEl)))) : [];
+    const ex = p.extractor && globalThis.SP_EXTRACTORS?.[p.extractor];   // extratores próprios (X, Instagram)
+    if (ex) return ex(container);
+    const s = p.sel, avEl = q(container, parseSel(s.avatar).css);
+    const imgs = s.media ? [...qa(container, parseSel(s.media).css)].filter((i) => !(avEl && (i === avEl || avEl.contains(i) || i.contains(avEl)))) : [];
     const urls = [...new Set(imgs.map((i) => i.currentSrc || i.src).filter(Boolean))].slice(0, 4);
-    return {
-      kind: "tweet", platform: p.id,
-      author: { name: txt(q(container, s.name)), handle: txt(q(container, s.handle)), verified: false, avatar: await toDataUrl(avatarUrl(q(container, s.avatar))) },
-      text: txt(q(container, s.text)),
-      media: (await Promise.all(urls.map(mediaData))).filter(Boolean),
-      stats: (s.stats || []).map((x) => ({ icon: x.icon, n: countOf(q(container, x.sel)) })),
-      time: timeOf(q(container, s.time))
+    const main = {
+      author: { name: field(container, s.name, txt), handle: field(container, s.handle, txt), verified: false, avatar: await toDataUrl(avatarUrl(avEl)) },
+      text: [field(container, s.text, txt), field(container, s.body, txt)].filter(Boolean).join("\n\n"),
+      media: (await Promise.all(urls.map(mediaData))).filter(Boolean)
     };
+    const extra = {
+      platform: p.id,
+      stats: (s.stats || []).map((x) => ({ icon: x.icon, n: countText(field(container, x.sel, txt)) })),
+      time: normTime(field(container, s.time, timeOf))
+    };
+    // repost: o post exibido é o original; quem repostou vem do elemento de contexto
+    const rp = s.repost ? q(container, parseSel(s.repost).css) : null;
+    if (rp) {
+      const strip = s.repostStrip ? new RegExp("^\\s*" + s.repostStrip.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s*", "i") : null;
+      const name = txt(rp).replace(strip || /^$/, "").trim();
+      const handle = "@" + ((rp.getAttribute("href") || "").split("/").filter(Boolean).pop() || "");
+      return { kind: "repost", ...extra, author: { name, handle, verified: false, avatar: "" }, text: "", original: main };
+    }
+    return { kind: "tweet", ...extra, ...main };
   }
 
   // ---------- seleção com o mouse ----------
@@ -210,8 +225,8 @@
   }
 
   async function startCapture() {
-    const sel = platform.builtin ? 'article[data-testid="tweet"]' : platform.sel.container;
-    render();
+    const sel = platform.sel.container;
+    render(document.querySelector(sel) ? undefined : "Nenhum post encontrado nesta página (o layout pode não ser suportado). Tente “Reconfigurar este site”.");
     startPick((el) => { try { return el.closest(sel); } catch { return null; } }, async (el) => {
       render("Gerando…");
       try { chrome.runtime.sendMessage({ type: "sp:open", tweet: await extract(el, platform) }); } catch (e) { console.error("[postframe]", e); }
@@ -263,7 +278,7 @@
       panel.append(...title("Postframe", platform ? `Plataforma: ${platform.name}` : "Este site ainda não está configurado."));
       const row = h("div", { class: "row" });
       if (platform) row.append(h("button", { class: "pri", textContent: "Capturar um post", onclick: () => setMode("capture") }));
-      if (!platform?.builtin) row.append(h("button", { class: platform ? "" : "pri", textContent: platform ? "Reconfigurar este site" : "Configurar este site", onclick: () => setMode("setup") }));
+      row.append(h("button", { class: platform ? "" : "pri", textContent: platform ? "Reconfigurar este site" : "Configurar este site", onclick: () => setMode("setup") }));
       row.append(h("button", { textContent: "Estilos…", onclick: () => chrome.runtime.sendMessage({ type: "sp:options" }) }), close);
       panel.append(row);
     } else if (mode === "capture") {
@@ -290,7 +305,7 @@
         h("button", { textContent: "← Voltar", onclick: back }),
         h("button", { textContent: "Cancelar", onclick: () => setMode("menu") })));
     } else if (mode === "review") {
-      const name = h("input", { value: platform && !platform.builtin ? platform.name : hostname.replace(/\..*$/, "").replace(/^./, (c) => c.toUpperCase()), maxLength: 40 });
+      const name = h("input", { value: platform ? platform.name : hostname.replace(/\..*$/, "").replace(/^./, (c) => c.toUpperCase()), maxLength: 40 });
       panel.append(...title("Pronto!", `Será usado em ${hostname}`), h("div", { class: "col" }, h("span", { class: "sub", textContent: "Nome da plataforma:" }), name), logList(),
         h("div", { class: "row" }, h("button", { class: "pri", textContent: "Salvar e capturar", onclick: () => save(name.value || hostname) }), h("button", { textContent: "← Voltar", onclick: back }), h("button", { textContent: "Cancelar", onclick: () => setMode("menu") })));
     }
