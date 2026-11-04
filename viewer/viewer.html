@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Postframe</title>
+<link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+<header>
+  <h1 id="title">Postframe</h1>
+  <div class="actions">
+    <label class="tg"><input type="checkbox" id="tgMedia"> Imagens</label>
+    <label class="tg"><input type="checkbox" id="tgCredit"> Crédito</label>
+    <label class="tg"><input type="checkbox" id="tgWm"> Marca d'água</label>
+    <button id="def">☆ Definir como padrão</button>
+    <button id="styles">Estilos…</button>
+    <button id="copy">Copiar</button>
+    <button id="download" class="primary">Baixar</button>
+  </div>
+</header>
+<main>
+  <button class="nav" id="prev" aria-label="Anterior">←</button>
+  <figure>
+    <div class="stagebox"><img id="img" alt=""><div id="msg"></div></div>
+    <figcaption id="cap"></figcaption>
+  </figure>
+  <button class="nav" id="next" aria-label="Próxima">→</button>
+</main>
+<div class="thumbs" id="thumbs"></div>
+<script type="module" src="viewer.js"></script>
+</body>
+</html>

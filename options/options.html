@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Postframe · Configurações</title>
+<link rel="stylesheet" href="options.css">
+</head>
+<body>
+<header class="o-top">
+  <div><h1>Postframe</h1><p>Estilos e plataformas. Tudo fica salvo neste navegador.</p></div>
+  <nav class="o-tabs" id="tabs">
+    <button data-tab="styles" aria-pressed="true">Estilos</button>
+    <button data-tab="platforms" aria-pressed="false">Plataformas</button>
+  </nav>
+</header>
+
+<div class="o-layout" id="tab-styles">
+  <aside class="o-side">
+    <label class="o-label">Plataforma
+      <select id="filter"></select>
+    </label>
+    <ul id="list" class="o-list"></ul>
+    <div class="o-side-actions">
+      <button id="new" class="o-primary">+ Novo estilo (duplica o selecionado)</button>
+      <div class="o-row">
+        <button id="export">Exportar</button>
+        <button id="import">Importar</button>
+        <input id="file" type="file" accept="application/json,.json" hidden>
+      </div>
+    </div>
+  </aside>
+  <section class="o-editor">
+    <div class="o-bar">
+      <input id="name" class="o-name" maxlength="40" aria-label="Nome do estilo">
+      <label class="o-inline">Aplica-se a
+        <select id="platsel"></select>
+      </label>
+      <button id="setdef">Definir como padrão</button>
+      <button id="del" class="o-danger">Excluir</button>
+    </div>
+    <p id="ro" class="o-note" hidden>Estilo nativo (somente leitura). Use “Novo estilo” para criar uma cópia editável e, se quiser, mudar a plataforma dela.</p>
+    <div class="o-grid">
+      <div class="o-formcol">
+        <div class="o-foldbar">
+          <button type="button" id="foldAll">Recolher tudo</button>
+          <button type="button" id="unfoldAll">Expandir tudo</button>
+        </div>
+        <form id="form" class="o-form" autocomplete="off"></form>
+      </div>
+      <div class="o-preview">
+        <div class="o-seg" id="seg"></div>
+        <div id="pvwrap"><style id="pvstyle"></style><div id="pv"></div></div>
+        <p id="fontstatus" class="o-hint"></p>
+        <p class="o-hint">Pré-visualização com dados fictícios. A imagem final tem sempre 600 px de largura. Arraste a marca d'água para posicioná-la.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="o-layout" id="tab-platforms" hidden>
+  <aside class="o-side">
+    <ul id="plist" class="o-list"></ul>
+    <div class="o-side-actions"><button id="pnew" class="o-primary">+ Nova plataforma</button></div>
+  </aside>
+  <section class="o-editor">
+    <p id="pro" class="o-note" hidden>O X vem pronto e não pode ser editado.</p>
+    <form id="pform" class="o-form" autocomplete="off"></form>
+    <button id="pdel" class="o-danger" style="margin-top:14px">Excluir plataforma</button>
+    <p class="o-hint" style="margin-top:14px">Dica: em vez de preencher os seletores à mão, abra o site, clique no ícone da extensão e use “Configurar este site”.</p>
+  </section>
+</div>
+<script type="module" src="options.js"></script>
+</body>
+</html>

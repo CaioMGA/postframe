@@ -1,0 +1,13 @@
+.sp-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 9999px; border: 0;
+  background: transparent; color: rgb(113,118,123); cursor: pointer;
+}
+.sp-btn:hover { background: rgba(109,94,252,.15); color: #6d5efc; }
+.sp-btn[data-state="busy"] { opacity: .5; pointer-events: none; }
+.sp-btn svg { width: 18px; height: 18px; fill: currentColor; }
+.sp-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: #111; color: #fff; padding: 10px 16px; border-radius: 10px;
+  font: 14px system-ui, sans-serif; z-index: 2147483647;
+}

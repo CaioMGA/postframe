@@ -1,0 +1,24 @@
+// Persistência local (chrome.storage.local): estilos, plataformas e padrão por plataforma.
+import { BUILTINS, normalizeStyle } from "./styles.mjs";
+import { X_PLATFORM, normalizePlatform } from "./platforms.mjs";
+
+export async function getAll() {
+  const { styles = [], platforms = [], defaults, defaultStyle } = await chrome.storage.local.get(["styles", "platforms", "defaults", "defaultStyle"]);
+  const userPlatforms = platforms.map(normalizePlatform).filter(Boolean);
+  const allPlatforms = [X_PLATFORM, ...userPlatforms];
+  const known = new Set(allPlatforms.map((p) => p.id));
+  const custom = styles.map((s) => normalizeStyle(s)).filter(Boolean).map((s) => (s.platform === "*" || known.has(s.platform) ? s : { ...s, platform: "*" }));
+  const all = [...BUILTINS, ...custom];
+  // migração: antes havia um único "defaultStyle"
+  const defs = { ...(defaults || (defaultStyle ? { "*": defaultStyle } : {})) };
+  return { all, custom, userPlatforms, platforms: allPlatforms, defaults: defs };
+}
+// Estilos que valem para uma plataforma ("*" = todas).
+export const stylesFor = (all, platform) => all.filter((s) => s.platform === "*" || s.platform === platform);
+export function defaultFor(all, defaults, platform) {
+  const ok = (id) => id && stylesFor(all, platform).some((s) => s.id === id);
+  return [defaults[platform], defaults["*"]].find(ok) || "1";
+}
+export const saveStyles = (custom) => chrome.storage.local.set({ styles: custom });
+export const savePlatforms = (userPlatforms) => chrome.storage.local.set({ platforms: userPlatforms });
+export const saveDefaults = (defaults) => chrome.storage.local.set({ defaults });

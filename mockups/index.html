@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Postframe · Versões</title>
+<style>
+  *{box-sizing:border-box;margin:0}
+  body{background:#16181d;color:#e8e9ee;font-family:system-ui,'Noto Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;border-bottom:1px solid #2a2d35;flex-wrap:wrap}
+  h1{font-size:16px;font-weight:600}
+  .seg{display:inline-flex;background:#23262e;border-radius:10px;padding:3px}
+  .seg button{background:none;border:0;color:#9aa0ae;padding:7px 14px;border-radius:8px;cursor:pointer;font:inherit;font-size:14px}
+  .seg button[aria-pressed=true]{background:#3a3f4d;color:#fff}
+  main{flex:1;display:flex;align-items:center;justify-content:center;gap:24px;padding:24px}
+  .nav{width:48px;height:48px;border-radius:50%;border:1px solid #333845;background:#1f222a;color:#e8e9ee;font-size:22px;cursor:pointer;flex:none}
+  .nav:hover{background:#2c303a}
+  figure{display:flex;flex-direction:column;align-items:center;gap:14px}
+  figure img{width:600px;max-width:100%;height:auto;display:block;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+  figcaption{text-align:center;font-size:14px;color:#9aa0ae;line-height:1.6}
+  figcaption b{color:#fff;font-size:16px}
+  .thumbs{display:flex;gap:10px;justify-content:center;padding:16px 24px 24px;overflow-x:auto}
+  .thumbs button{border:2px solid transparent;border-radius:8px;background:#23262e;color:#9aa0ae;padding:8px 14px;cursor:pointer;font:inherit;font-size:13px;white-space:nowrap}
+  .thumbs button[aria-current=true]{border-color:#8b7cff;color:#fff}
+  @media(max-width:760px){main{gap:8px;padding:12px}.nav{width:38px;height:38px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Postframe · 6 versões de imagem</h1>
+  <div class="seg" id="seg"></div>
+</header>
+<main>
+  <button class="nav" id="prev" aria-label="Anterior">←</button>
+  <figure><img id="img" alt=""><figcaption id="cap"></figcaption></figure>
+  <button class="nav" id="next" aria-label="Próxima">→</button>
+</main>
+<div class="thumbs" id="thumbs"></div>
+<script src="data.js"></script>
+<script>
+  const all = window.MOCKUPS;
+  const samples = [...new Map(all.map(m => [m.sample, m.sampleLabel]))];
+  const designs = [...new Map(all.map(m => [m.design, m.name]))];
+  let sample = samples[0][0], idx = 0;
+
+  const $ = id => document.getElementById(id);
+  const current = () => all.find(m => m.design === designs[idx][0] && m.sample === sample);
+
+  function render() {
+    const m = current();
+    $("img").src = m.file; $("img").alt = `${m.name} – ${m.sampleLabel}`;
+    $("cap").innerHTML = `<b>${idx + 1}/${designs.length} · ${m.name}</b><br>${m.w}×${m.h}px · ${m.kb} KB`;
+    $("seg").innerHTML = samples.map(([id, label]) => `<button aria-pressed="${id === sample}" data-s="${id}">${label}</button>`).join("");
+    $("thumbs").innerHTML = designs.map(([, name], i) => `<button data-i="${i}" ${i === idx ? 'aria-current="true"' : ""}>${i + 1} · ${name}</button>`).join("");
+    location.hash = `${idx + 1}-${sample}`;
+  }
+  const go = d => { idx = (idx + d + designs.length) % designs.length; render(); };
+  $("prev").onclick = () => go(-1);
+  $("next").onclick = () => go(1);
+  $("seg").onclick = e => { if (e.target.dataset.s) { sample = e.target.dataset.s; render(); } };
+  $("thumbs").onclick = e => { if (e.target.dataset.i) { idx = +e.target.dataset.i; render(); } };
+  addEventListener("keydown", e => {
+    if (e.key === "ArrowLeft") go(-1);
+    else if (e.key === "ArrowRight") go(1);
+    else if (e.key === "t" || e.key === " ") { e.preventDefault(); sample = samples[(samples.findIndex(s => s[0] === sample) + 1) % samples.length][0]; render(); }
+  });
+  const h = location.hash.match(/^#(\d)-(\w+)$/);
+  if (h && designs[h[1] - 1] && samples.some(s => s[0] === h[2])) { idx = h[1] - 1; sample = h[2]; }
+  render();
+</script>
+</body>
+</html>
