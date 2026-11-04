@@ -1,4 +1,4 @@
-// Dados fictícios de exemplo. Na extensão, virão do DOM do tweet.
+// Made-up sample data. In the extension the real data comes from the post's DOM.
 const avatar = (letter, c1, c2) =>
   "data:image/svg+xml;utf8," + encodeURIComponent(
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><rect width="96" height="96" fill="url(#g)"/><text x="48" y="64" font-size="46" font-family="Liberation Sans, sans-serif" font-weight="700" fill="#fff" text-anchor="middle">${letter}</text></svg>`);
@@ -11,16 +11,16 @@ export const samples = [
   {
     id: "tweet", label: "Tweet",
     author: marina,
-    stats: [{ icon: "reply", n: "128" }, { icon: "retweet", n: "1,4 mil" }, { icon: "like", n: "9,8 mil" }], time: "2026-11-04T14:32:00-03:00",
-    text: "Passei o fim de semana reescrevendo um sistema legado e descobri que 60% do código nunca era executado.\n\nDeletar linhas é o melhor tipo de produtividade. 🧹\n\n#dev #refatoração"
+    stats: [{ icon: "reply", n: "128" }, { icon: "retweet", n: "1.4K" }, { icon: "like", n: "9.8K" }], time: "2026-11-04T14:32:00-03:00",
+    text: "I spent the weekend rewriting a legacy system and found out that 60% of the code never ran.\n\nDeleting lines is the best kind of productivity. 🧹\n\n#dev #refactoring"
   },
   {
     id: "retweet", label: "Retweet", kind: "repost",
     author: lucas,
-    stats: [{ icon: "reply", n: "42" }, { icon: "retweet", n: "310" }, { icon: "like", n: "2,1 mil" }], time: "2026-11-04T09:05:00-03:00",
+    stats: [{ icon: "reply", n: "42" }, { icon: "retweet", n: "310" }, { icon: "like", n: "2.1K" }], time: "2026-11-04T09:05:00-03:00",
     original: {
       author: pedro,
-      text: "Dica de ouro: antes de otimizar, meça.\n\nMetade das vezes o gargalo está onde você menos espera. 📉 #performance"
+      text: "Golden rule: measure before you optimize.\n\nHalf of the time the bottleneck is where you least expect it. 📉 #performance"
     }
   }
 ];

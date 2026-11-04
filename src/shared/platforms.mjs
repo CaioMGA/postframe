@@ -1,11 +1,11 @@
-// Plataformas: onde cada estilo se aplica e como ler os posts de cada site.
-export const ICON_KEYS = { reply: "Resposta", comment: "Comentário", retweet: "Repost", like: "Curtida", upvote: "Voto", share: "Compartilhar", view: "Visualizações" };
+// Platforms: where each style applies and how to read the posts of each site.
+export const ICON_KEYS = { reply: "icon_reply", comment: "icon_comment", retweet: "icon_retweet", like: "icon_like", upvote: "icon_upvote", share: "icon_share", view: "icon_view" };   // i18n keys
 
-// Plataformas que já vêm prontas. Dados puros: o X tem extrator próprio (`extractor`), as demais são só seletores.
-// Sintaxe dos seletores: "css" lê o texto do elemento; "css@atributo" lê o atributo (ex.: "a[data-tooltip]@aria-label").
+// Built-in platforms. Plain data: X has its own extractor (`extractor`), the others are just selectors.
+// Selector syntax: "css" reads the element text; "css@attribute" reads an attribute (e.g. "a[data-tooltip]@aria-label").
 export const X_PLATFORM = { id: "x", name: "X (Twitter)", builtin: true, extractor: "x", hosts: ["x.com", "twitter.com"], sel: { container: 'article[data-testid="tweet"]' } };
 
-// Verificado em página real (bsky.app, sem login). Quote tweets não são lidos; reposts sim.
+// Checked against a real page (bsky.app, logged out). Quote posts are not read; reposts are.
 export const BLUESKY_PLATFORM = {
   id: "bluesky", name: "Bluesky", builtin: true, hosts: ["bsky.app"],
   sel: {
@@ -21,11 +21,11 @@ export const BLUESKY_PLATFORM = {
   }
 };
 
-// BETA, verificado em página real (logado): só o `article` do feed; o resto é heurística em src/sites/instagram.js.
+// BETA. Only the feed `article` was checked against a real (logged-in) page; the rest is heuristics in src/sites/instagram.js.
 export const INSTAGRAM_PLATFORM = { id: "instagram", name: "Instagram", builtin: true, beta: true, extractor: "instagram", hosts: ["instagram.com"], sel: { container: "article" } };
 
-// BETA NÃO VERIFICADO: o Reddit bloqueia navegador automatizado, então estes atributos de <shreddit-post>
-// vêm da documentação/memória, não de uma página real. Se falhar, duplique e ajuste ou use "Reconfigurar este site".
+// BETA, UNVERIFIED: Reddit blocks automated browsers, so these <shreddit-post> attributes come from
+// documentation/memory, not from a real page. If it fails, duplicate and adjust it, or use "Reconfigure this site".
 export const REDDIT_PLATFORM = {
   id: "reddit", name: "Reddit", builtin: true, beta: true, hosts: ["reddit.com"],
   sel: {
@@ -49,7 +49,7 @@ export function normalizePlatform(raw) {
   const s = raw.sel || {};
   return {
     id: typeof raw.id === "string" && /^[\w-]{1,24}$/.test(raw.id) && !BUILTIN_IDS.has(raw.id) ? raw.id : "p-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5),
-    name: String(raw.name ?? "").trim().slice(0, 40) || "Sem nome",
+    name: String(raw.name ?? "").trim().slice(0, 40) || "Untitled",
     hosts: (Array.isArray(raw.hosts) ? raw.hosts : []).map(host).filter((h) => /^[a-z0-9.-]{3,80}$/.test(h)).slice(0, 10),
     sel: {
       container: sel(s.container), avatar: sel(s.avatar), name: sel(s.name), handle: sel(s.handle), text: sel(s.text), time: sel(s.time), media: sel(s.media), repost: sel(s.repost), repostStrip: sel(s.repostStrip), body: sel(s.body),
@@ -61,7 +61,7 @@ export function normalizePlatform(raw) {
 export const hostMatches = (hostname, hosts) => hosts.some((h) => hostname === h || hostname.endsWith("." + h));
 export const findPlatform = (platforms, hostname) => platforms.find((p) => hostMatches(hostname, p.hosts));
 
-// Garante que nenhum campo de um embutido seja descartado em silêncio pelo normalizador (ex.: seletor > 300 caracteres).
+// Makes sure the normalizer does not silently drop any field of a built-in (e.g. a selector over 300 characters).
 export function builtinProblems() {
   const bad = [];
   for (const b of BUILTIN_PLATFORMS) {

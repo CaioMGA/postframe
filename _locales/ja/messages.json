@@ -1,0 +1,698 @@
+{
+  "fd_font": {
+    "message": "フォント"
+  },
+  "fd_fontSize": {
+    "message": "文字サイズ"
+  },
+  "fd_textWeight": {
+    "message": "文字の太さ"
+  },
+  "fd_fg": {
+    "message": "文字色"
+  },
+  "fd_muted": {
+    "message": "サブカラー（@、時刻）"
+  },
+  "fd_accent": {
+    "message": "アクセントカラー（#、@、バッジ）"
+  },
+  "fd_cardBg": {
+    "message": "背景"
+  },
+  "fd_cardPadding": {
+    "message": "内側の余白"
+  },
+  "fd_cardRadius": {
+    "message": "角の丸み"
+  },
+  "fd_borderWidth": {
+    "message": "枠線の太さ"
+  },
+  "fd_borderColor": {
+    "message": "枠線の色"
+  },
+  "fd_topBar": {
+    "message": "上部のバー"
+  },
+  "fd_topBarColor": {
+    "message": "バーの色"
+  },
+  "fd_quoteMark": {
+    "message": "装飾の引用符"
+  },
+  "fd_hideMedia": {
+    "message": "投稿の画像を隠す"
+  },
+  "fd_shadowOpacity": {
+    "message": "影の不透明度"
+  },
+  "fd_shadowX": {
+    "message": "影 X"
+  },
+  "fd_shadowY": {
+    "message": "影 Y"
+  },
+  "fd_shadowBlur": {
+    "message": "影のぼかし"
+  },
+  "fd_shadowColor": {
+    "message": "影の色"
+  },
+  "fd_glowBlur": {
+    "message": "グロー（0 = オフ）"
+  },
+  "fd_glowColor": {
+    "message": "グローの色"
+  },
+  "fd_framePadding": {
+    "message": "フレームの幅（0 = なし）"
+  },
+  "fd_frameC1": {
+    "message": "色 1"
+  },
+  "fd_frameC2": {
+    "message": "色 2（1と同じ = 単色）"
+  },
+  "fd_frameAngle": {
+    "message": "グラデーションの角度"
+  },
+  "fd_innerBorder": {
+    "message": "枠線・区切り線の色"
+  },
+  "fd_innerBorderWidth": {
+    "message": "枠線の太さ"
+  },
+  "fd_innerRadius": {
+    "message": "角の丸み"
+  },
+  "fd_innerBgOn": {
+    "message": "専用の背景を使う"
+  },
+  "fd_innerBg": {
+    "message": "背景色"
+  },
+  "fd_creditOn": {
+    "message": "クレジットを表示"
+  },
+  "fd_creditText": {
+    "message": "テキスト"
+  },
+  "fd_creditFont": {
+    "message": "フォント"
+  },
+  "fd_creditColor": {
+    "message": "色"
+  },
+  "fd_creditSize": {
+    "message": "サイズ"
+  },
+  "fd_wmMode": {
+    "message": "種類"
+  },
+  "fd_wmText": {
+    "message": "テキスト"
+  },
+  "fd_wmFont": {
+    "message": "フォント"
+  },
+  "fd_wmColor": {
+    "message": "色"
+  },
+  "fd_wmSize": {
+    "message": "文字サイズ"
+  },
+  "fd_wmImage": {
+    "message": "画像"
+  },
+  "fd_wmImgWidth": {
+    "message": "画像の幅"
+  },
+  "fd_wmImgRatio": {
+    "message": "画像の縦横比"
+  },
+  "fd_wmOpacity": {
+    "message": "不透明度"
+  },
+  "fd_wmRotate": {
+    "message": "傾き（度）"
+  },
+  "fd_wmPattern": {
+    "message": "パターンとして繰り返す"
+  },
+  "fd_wmGap": {
+    "message": "パターンの間隔（px）"
+  },
+  "fd_wmX": {
+    "message": "水平位置（%）"
+  },
+  "fd_wmY": {
+    "message": "垂直位置（%）"
+  },
+  "fd_avatarShape": {
+    "message": "形"
+  },
+  "fd_avatarBorderWidth": {
+    "message": "枠線の太さ"
+  },
+  "fd_avatarBorderColor": {
+    "message": "枠線の色"
+  },
+  "gr_text": {
+    "message": "テキスト"
+  },
+  "gr_card": {
+    "message": "カード"
+  },
+  "gr_shadow": {
+    "message": "影とグロー"
+  },
+  "gr_frame": {
+    "message": "フレーム"
+  },
+  "gr_inner": {
+    "message": "埋め込み投稿とフッター"
+  },
+  "gr_credit": {
+    "message": "画像下のクレジット"
+  },
+  "gr_wm": {
+    "message": "透かし"
+  },
+  "gr_avatar": {
+    "message": "プロフィール画像"
+  },
+  "o_w400": {
+    "message": "標準"
+  },
+  "o_w600": {
+    "message": "やや太字"
+  },
+  "o_w700": {
+    "message": "太字"
+  },
+  "o_wm_none": {
+    "message": "なし"
+  },
+  "o_wm_text": {
+    "message": "テキスト"
+  },
+  "o_wm_image": {
+    "message": "画像"
+  },
+  "o_av_circle": {
+    "message": "円"
+  },
+  "o_av_rounded": {
+    "message": "角丸"
+  },
+  "o_av_square": {
+    "message": "四角"
+  },
+  "st_1": {
+    "message": "クラシック（ライト）"
+  },
+  "st_2": {
+    "message": "ダーク"
+  },
+  "st_3": {
+    "message": "グラデーションフレーム"
+  },
+  "st_4": {
+    "message": "エディトリアル"
+  },
+  "st_5": {
+    "message": "ネオン"
+  },
+  "st_6": {
+    "message": "パステルポスター"
+  },
+  "font_sans": {
+    "message": "サンセリフ（システム）"
+  },
+  "font_serif": {
+    "message": "セリフ（システム）"
+  },
+  "font_mono": {
+    "message": "等幅（システム）"
+  },
+  "rt_label": {
+    "message": "↻ リポスト"
+  },
+  "icon_reply": {
+    "message": "返信"
+  },
+  "icon_comment": {
+    "message": "コメント"
+  },
+  "icon_retweet": {
+    "message": "リポスト"
+  },
+  "icon_like": {
+    "message": "いいね"
+  },
+  "icon_upvote": {
+    "message": "高評価"
+  },
+  "icon_share": {
+    "message": "共有"
+  },
+  "icon_view": {
+    "message": "表示回数"
+  },
+  "cs_btn_title": {
+    "message": "Postframe：この投稿の画像を生成"
+  },
+  "cs_err_read": {
+    "message": "投稿を読み取れませんでした"
+  },
+  "cs_err_prefix": {
+    "message": "エラー：$1"
+  },
+  "ov_step_name": {
+    "message": "投稿者の名前をクリック"
+  },
+  "ov_step_handle": {
+    "message": "@ユーザー名をクリック（またはスキップ）"
+  },
+  "ov_step_avatar": {
+    "message": "プロフィール画像をクリック（またはスキップ）"
+  },
+  "ov_step_text": {
+    "message": "投稿の本文をクリック"
+  },
+  "ov_step_media": {
+    "message": "投稿内の画像をクリック（またはスキップ）"
+  },
+  "ov_step_time": {
+    "message": "時刻・日付をクリック（またはスキップ）"
+  },
+  "ov_step_stat0": {
+    "message": "カウント（いいね、コメントなど）をクリック、またはスキップ"
+  },
+  "ov_step_stat1": {
+    "message": "別のカウント（またはスキップ）"
+  },
+  "ov_step_stat2": {
+    "message": "もう1つカウント（またはスキップ）"
+  },
+  "ov_f_name": {
+    "message": "名前"
+  },
+  "ov_f_handle": {
+    "message": "ユーザー名"
+  },
+  "ov_f_avatar": {
+    "message": "画像"
+  },
+  "ov_f_text": {
+    "message": "本文"
+  },
+  "ov_f_media": {
+    "message": "画像"
+  },
+  "ov_f_time": {
+    "message": "時刻"
+  },
+  "ov_none_found": {
+    "message": "このページに投稿が見つかりませんでした（レイアウトに未対応の可能性があります）。「このサイトを再設定」をお試しください。"
+  },
+  "ov_generating": {
+    "message": "生成中…"
+  },
+  "ov_opening": {
+    "message": "画像を新しいタブで開いています…"
+  },
+  "ov_images_count": {
+    "message": "画像 $1 枚"
+  },
+  "ov_empty": {
+    "message": "（空）"
+  },
+  "ov_save_fail": {
+    "message": "保存できませんでした。"
+  },
+  "ov_close": {
+    "message": "閉じる"
+  },
+  "ov_platform": {
+    "message": "プラットフォーム：$1"
+  },
+  "ov_not_configured": {
+    "message": "このサイトはまだ設定されていません。"
+  },
+  "ov_capture_btn": {
+    "message": "投稿をキャプチャ"
+  },
+  "ov_reconfigure": {
+    "message": "このサイトを再設定"
+  },
+  "ov_configure": {
+    "message": "このサイトを設定"
+  },
+  "ov_styles": {
+    "message": "スタイル…"
+  },
+  "ov_capture_title": {
+    "message": "投稿をキャプチャ"
+  },
+  "ov_capture_hint": {
+    "message": "投稿にカーソルを合わせてクリックします。Esc で戻ります。"
+  },
+  "ov_cancel": {
+    "message": "キャンセル"
+  },
+  "ov_setup_title1": {
+    "message": "このサイトを設定 · 1"
+  },
+  "ov_setup_hint1": {
+    "message": "投稿全体（画像・名前・本文を含むブロック）をクリックします。↑で選択範囲を広げ、↓で狭めます。"
+  },
+  "ov_block_title": {
+    "message": "投稿ブロック"
+  },
+  "ov_block_one": {
+    "message": "このページで 1 件のブロックが見つかりました。"
+  },
+  "ov_block_many": {
+    "message": "このページで $1 件のブロックが見つかりました。"
+  },
+  "ov_looks_list": {
+    "message": "投稿の一覧のようです。"
+  },
+  "ov_only_one": {
+    "message": "ブロックは 1 件のみです。ページに複数の投稿がある場合は選択範囲を広げてください。"
+  },
+  "ov_use_block": {
+    "message": "このブロックを使う"
+  },
+  "ov_bigger": {
+    "message": "↑ 広げる"
+  },
+  "ov_pick_other": {
+    "message": "別のものを選ぶ"
+  },
+  "ov_setup_title_n": {
+    "message": "このサイトを設定 · $1/$2"
+  },
+  "ov_count_type": {
+    "message": "カウントの種類："
+  },
+  "ov_skip": {
+    "message": "スキップ"
+  },
+  "ov_skipped": {
+    "message": "— スキップ済み"
+  },
+  "ov_back": {
+    "message": "← 戻る"
+  },
+  "ov_done": {
+    "message": "完了！"
+  },
+  "ov_will_use": {
+    "message": "$1 で使用されます"
+  },
+  "ov_platform_name": {
+    "message": "プラットフォーム名："
+  },
+  "ov_save_capture": {
+    "message": "保存してキャプチャ"
+  },
+  "ov_log_found": {
+    "message": "  （$1/$2 件）"
+  },
+  "vw_page_title": {
+    "message": "Postframe"
+  },
+  "vw_not_found": {
+    "message": "投稿が見つかりません。投稿のカメラボタン、または他のサイトではツールバーのアイコンを使ってください。"
+  },
+  "vw_title": {
+    "message": "Postframe · $1 スタイル"
+  },
+  "vw_images": {
+    "message": "画像"
+  },
+  "vw_credit": {
+    "message": "クレジット"
+  },
+  "vw_watermark": {
+    "message": "透かし"
+  },
+  "vw_set_default": {
+    "message": "☆ デフォルトに設定"
+  },
+  "vw_is_default": {
+    "message": "★ デフォルトのスタイル"
+  },
+  "vw_styles": {
+    "message": "スタイル…"
+  },
+  "vw_copy": {
+    "message": "コピー"
+  },
+  "vw_download": {
+    "message": "ダウンロード"
+  },
+  "vw_copied": {
+    "message": "コピーしました ✓"
+  },
+  "vw_failed": {
+    "message": "失敗"
+  },
+  "vw_prev": {
+    "message": "前へ"
+  },
+  "vw_next": {
+    "message": "次へ"
+  },
+  "vw_generating": {
+    "message": "画像を生成中…"
+  },
+  "vw_no_images": {
+    "message": "この投稿には画像がありません"
+  },
+  "vw_no_wm": {
+    "message": "このスタイルには透かしがありません（「スタイル…」で設定できます）"
+  },
+  "op_page_title": {
+    "message": "Postframe · 設定"
+  },
+  "op_subtitle": {
+    "message": "スタイルとプラットフォーム。すべてこのブラウザーに保存されます。"
+  },
+  "op_language": {
+    "message": "言語"
+  },
+  "op_welcome_title": {
+    "message": "言語を選択してください"
+  },
+  "op_welcome_hint": {
+    "message": "後から設定で変更できます。"
+  },
+  "op_tab_styles": {
+    "message": "スタイル"
+  },
+  "op_tab_platforms": {
+    "message": "プラットフォーム"
+  },
+  "op_platform_label": {
+    "message": "プラットフォーム"
+  },
+  "op_all_platforms": {
+    "message": "すべてのプラットフォーム"
+  },
+  "op_new_style": {
+    "message": "+ 新しいスタイル（選択中のものを複製）"
+  },
+  "op_export": {
+    "message": "エクスポート"
+  },
+  "op_import": {
+    "message": "インポート"
+  },
+  "op_name_aria": {
+    "message": "スタイル名"
+  },
+  "op_applies_to": {
+    "message": "適用先"
+  },
+  "op_set_default": {
+    "message": "デフォルトに設定"
+  },
+  "op_set_default_in": {
+    "message": "$1 のデフォルトに設定"
+  },
+  "op_is_default": {
+    "message": "★ デフォルトのスタイル"
+  },
+  "op_delete": {
+    "message": "削除"
+  },
+  "op_readonly_style": {
+    "message": "組み込みスタイル（読み取り専用）です。「新しいスタイル」で編集可能なコピーを作成し、必要に応じてプラットフォームを変更できます。"
+  },
+  "op_fold_all": {
+    "message": "すべて折りたたむ"
+  },
+  "op_unfold_all": {
+    "message": "すべて展開"
+  },
+  "op_preview_hint": {
+    "message": "サンプルデータによるプレビューです。完成画像の幅は常に 600 px です。透かしはドラッグして配置できます。"
+  },
+  "op_loading_fonts": {
+    "message": "フォントを読み込み中…"
+  },
+  "op_font_warn": {
+    "message": "⚠ 読み込めませんでした：$1（名前または接続を確認してください）。既定のフォントを使用します。"
+  },
+  "op_bad_image": {
+    "message": "この画像は使用できません（より小さい PNG、JPG、WebP をお試しください）。"
+  },
+  "op_copy_of": {
+    "message": "$1 のコピー"
+  },
+  "op_confirm_delete_style": {
+    "message": "スタイル「$1」を削除しますか？"
+  },
+  "op_bad_file": {
+    "message": "無効なファイルです。この拡張機能でエクスポートした JSON を使用してください。"
+  },
+  "op_badge_default": {
+    "message": "デフォルト"
+  },
+  "op_badge_builtin": {
+    "message": "組み込み"
+  },
+  "op_badge_beta": {
+    "message": "ベータ"
+  },
+  "op_font_other": {
+    "message": "その他の Google フォント…"
+  },
+  "op_font_placeholder": {
+    "message": "Google Fonts上の正確な名前"
+  },
+  "op_font_group_system": {
+    "message": "システム"
+  },
+  "op_font_group_google": {
+    "message": "Google Fonts"
+  },
+  "op_remove_image": {
+    "message": "画像を削除"
+  },
+  "op_sample_post": {
+    "message": "投稿"
+  },
+  "op_sample_media": {
+    "message": "画像あり"
+  },
+  "op_sample_repost": {
+    "message": "リポスト"
+  },
+  "op_sample_quote": {
+    "message": "引用"
+  },
+  "op_sample_text_post": {
+    "message": "週末をレガシーシステムの書き直しに費やしたら、コードの 60% が一度も実行されていないことが分かった。🧹\n\n#dev #リファクタリング"
+  },
+  "op_sample_text_media": {
+    "message": "週末の写真。📸"
+  },
+  "op_sample_text_quote": {
+    "message": "完全に同意です。"
+  },
+  "op_sample_text_orig_quote": {
+    "message": "最適化する前に計測しよう。#パフォーマンス"
+  },
+  "op_sample_text_orig_rt": {
+    "message": "鉄則：最適化の前に計測する。📉 #パフォーマンス"
+  },
+  "op_new_platform": {
+    "message": "+ 新しいプラットフォーム"
+  },
+  "op_pro_note": {
+    "message": "組み込みプラットフォーム（読み取り専用）です。調整するには複製してください。複製したものがサイト上で優先されます。"
+  },
+  "op_dup_platform": {
+    "message": "複製して編集"
+  },
+  "op_del_platform": {
+    "message": "プラットフォームを削除"
+  },
+  "op_plat_tip": {
+    "message": "ヒント：セレクターを手入力する代わりに、サイトを開いて拡張機能のアイコンをクリックし、「このサイトを設定」を使ってください。"
+  },
+  "op_plat_legend": {
+    "message": "プラットフォーム"
+  },
+  "op_plat_name": {
+    "message": "名前"
+  },
+  "op_plat_hosts": {
+    "message": "サイト（ドメイン）"
+  },
+  "op_selectors_legend": {
+    "message": "CSS セレクター"
+  },
+  "op_extractor_note": {
+    "message": "このプラットフォームは専用コードで読み取られます（セレクターは使いません）。上書きするには、サイト上で「このサイトを再設定」を使用してください。"
+  },
+  "op_stat_ph": {
+    "message": "カウント $1 のセレクター（任意）"
+  },
+  "op_new_platform_name": {
+    "message": "新しいプラットフォーム"
+  },
+  "op_confirm_delete_platform": {
+    "message": "プラットフォーム「$1」を削除しますか？ スタイルはすべてのプラットフォームに適用されます。"
+  },
+  "sf_container": {
+    "message": "投稿のコンテナー"
+  },
+  "sf_avatar": {
+    "message": "プロフィール画像"
+  },
+  "sf_name": {
+    "message": "名前"
+  },
+  "sf_handle": {
+    "message": "@ユーザー名"
+  },
+  "sf_text": {
+    "message": "本文"
+  },
+  "sf_time": {
+    "message": "時刻"
+  },
+  "sf_media": {
+    "message": "投稿の画像"
+  },
+  "sf_body": {
+    "message": "投稿の本文（任意、テキストの後に表示）"
+  },
+  "sf_repost": {
+    "message": "リポストの文脈（任意）"
+  },
+  "sf_repostStrip": {
+    "message": "リポストした人の名前から取り除くテキスト"
+  },
+  "sf_container_ph": {
+    "message": "例：article, shreddit-post"
+  },
+  "sf_relative_ph": {
+    "message": "コンテナーからの相対指定"
+  },
+  "extName": {
+    "message": "Postframe"
+  },
+  "extDescription": {
+    "message": "X、Bluesky、Reddit、Instagram など任意のサイトの投稿を、スタイル・フォント・透かし付きの統一された画像にします。"
+  },
+  "actionTitle": {
+    "message": "Postframe：投稿をキャプチャ、またはこのサイトを設定"
+  }
+}

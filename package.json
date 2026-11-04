@@ -1,8 +1,8 @@
 {
   "name": "postframe",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
-  "description": "Extensão do Chrome que gera imagens padronizadas de posts. O package.json só serve às ferramentas de desenvolvimento (galeria de exemplos).",
+  "description": "Chrome extension that generates standardized images of posts. This package.json only serves the development tooling (examples gallery).",
   "license": "MIT",
   "scripts": {
     "mockups": "node mockups/render.mjs"

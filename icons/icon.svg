@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
   <defs>
     
-    <!-- Mão em "L": indicador ao longo do topo, polegar ao longo da lateral, dedos dobrados no canto externo -->
+    <!-- Hand in an "L": index finger along the top, thumb along the side, curled fingers at the outer corner -->
     <g id="hand" fill="#fff" stroke="#000" stroke-width="2.5" stroke-linejoin="round">
       <rect x="11" y="40" width="26" height="11" rx="5.5"/>           <!-- dedos dobrados -->
       <rect x="11" y="51" width="26" height="11" rx="5.5"/>

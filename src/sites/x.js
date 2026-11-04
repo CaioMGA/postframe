@@ -1,6 +1,6 @@
-// Adaptador do x.com: acha tweets, posição do botão e extrai os dados.
+// x.com adapter: finds tweets, the button position and extracts the data.
 (() => {
-  // Texto com emojis (o X os renderiza como <img alt="😀">) e quebras de linha.
+  // Text with emojis (X renders them as <img alt="😀">) and line breaks.
   const textOf = (root) => {
     let out = "";
     const walk = (n) => {
@@ -26,7 +26,7 @@
     avatar: avatarIn(avatarRoot)
   });
 
-  // Imagens do post (e capa de vídeos/GIFs), em tamanho médio; `outside` exclui o tweet citado.
+  // Post images (and video/GIF posters) at medium size; `outside` excludes the quoted tweet.
   const mediaIn = (root, outside) => [...new Set(
     [...(root?.querySelectorAll('[data-testid="tweetPhoto"] img, video[poster]') || [])]
       .filter((e) => !outside?.contains(e))
@@ -38,7 +38,7 @@
   globalThis.SP_SITE = {
     name: "x.com",
     items: () => document.querySelectorAll('article[data-testid="tweet"]'),
-    // Barra de ações (responder, repostar, curtir...) é o último role=group.
+    // The action bar (reply, repost, like...) is the last role=group.
     mountPoint: (article) => {
       const groups = article.querySelectorAll('div[role="group"]');
       return groups[groups.length - 1] || null;
@@ -72,13 +72,13 @@
         media: mediaIn(article, quoteBox)
       };
 
-      // Repost: o artigo exibido é o original; quem repostou vem do socialContext.
+      // Repost: the displayed article is the original; who reposted comes from socialContext.
       const ctx = article.querySelector('[data-testid="socialContext"]');
-      const ctxLink = ctx?.closest("a[href]") || ctx?.querySelector("a[href]");   // no X real o bloco fica DENTRO do link do perfil
+      const ctxLink = ctx?.closest("a[href]") || ctx?.querySelector("a[href]");   // on the real X the block sits INSIDE the profile link
       if (ctx && ctxLink && /repost|retweet|retuit|retwit|reteue|reposte/i.test(ctx.textContent)) {
         const name = textOf(ctx).replace(/\s+\S+$/, "");
         const handle = "@" + (ctxLink.getAttribute("href") || "").replace(/^\/+/, "").split("/")[0];
-        const { stats, time, platform } = extra; // métricas e hora ficam no card externo; o original aninhado não leva rodapé
+        const { stats, time, platform } = extra; // counts and time stay on the outer card; the nested original has no footer
         return { kind: "repost", author: { name, handle, verified: false, avatar: "" }, text: "", platform, stats, time, original: main };
       }
 

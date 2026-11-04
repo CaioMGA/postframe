@@ -71,3 +71,10 @@ button:disabled{opacity:.45;cursor:default}
 .o-sec[open]>summary{border-bottom:1px solid #2a2d35}
 .o-sec-body{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
 [hidden]{display:none !important}
+.o-top-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.o-welcome{position:fixed;inset:0;z-index:50;background:rgba(10,11,14,.92);display:flex;align-items:center;justify-content:center;padding:24px}
+.o-welcome-card{background:#1f222a;border:1px solid #333845;border-radius:16px;padding:28px;max-width:420px;width:100%;text-align:center}
+.o-welcome-card h2{font-size:20px;margin-bottom:6px}.o-welcome-card p{color:#9aa0ae;margin-bottom:18px}
+.o-welcome-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.o-welcome-list button{padding:12px;font-size:15px}
+.o-welcome-list button:hover{background:#6d5efc;border-color:#6d5efc;color:#fff}

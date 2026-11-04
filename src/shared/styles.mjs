@@ -1,69 +1,70 @@
-// Modelo de "estilo de screenshot": dados puros -> CSS. Usado pelo viewer, pela página de opções e pelos mockups.
+// "Image style" model: plain data -> CSS. Used by the viewer, the options page and the mockups gallery.
 import { baseCss, card, esc } from "./template.mjs";
 import { FONT_RE, stack } from "./fonts.mjs";
+import { t } from "./i18n.mjs";
 
-// Esquema único: validação, valores padrão e formulário do editor.
+// Single schema: validation, defaults and the editor form. `g` = group id, `label`/`opts` = i18n keys.
 export const FIELDS = [
-  { g: "Texto", k: "font", t: "font", label: "Fonte" },
-  { g: "Texto", k: "fontSize", t: "range", label: "Tamanho do texto", min: 16, max: 32 },
-  { g: "Texto", k: "textWeight", t: "select", label: "Peso do texto", opts: { 400: "Normal", 600: "Semi-negrito", 700: "Negrito" } },
-  { g: "Texto", k: "fg", t: "color", label: "Cor do texto" },
-  { g: "Texto", k: "muted", t: "color", label: "Cor secundária (@, hora)" },
-  { g: "Texto", k: "accent", t: "color", label: "Cor de destaque (#, @, selo)" },
+  { g: "text", k: "font", t: "font", label: "fd_font" },
+  { g: "text", k: "fontSize", t: "range", label: "fd_fontSize", min: 16, max: 32 },
+  { g: "text", k: "textWeight", t: "select", label: "fd_textWeight", opts: { 400: "o_w400", 600: "o_w600", 700: "o_w700" } },
+  { g: "text", k: "fg", t: "color", label: "fd_fg" },
+  { g: "text", k: "muted", t: "color", label: "fd_muted" },
+  { g: "text", k: "accent", t: "color", label: "fd_accent" },
 
-  { g: "Cartão", k: "cardBg", t: "color", label: "Fundo" },
-  { g: "Cartão", k: "cardPadding", t: "range", label: "Espaçamento interno", min: 12, max: 64 },
-  { g: "Cartão", k: "cardRadius", t: "range", label: "Cantos arredondados", min: 0, max: 48 },
-  { g: "Cartão", k: "borderWidth", t: "range", label: "Espessura da borda", min: 0, max: 8 },
-  { g: "Cartão", k: "borderColor", t: "color", label: "Cor da borda" },
-  { g: "Cartão", k: "topBar", t: "range", label: "Faixa no topo", min: 0, max: 12 },
-  { g: "Cartão", k: "topBarColor", t: "color", label: "Cor da faixa" },
-  { g: "Cartão", k: "quoteMark", t: "check", label: "Aspas decorativas" },
-  { g: "Cartão", k: "hideMedia", t: "check", label: "Esconder imagens do post" },
+  { g: "card", k: "cardBg", t: "color", label: "fd_cardBg" },
+  { g: "card", k: "cardPadding", t: "range", label: "fd_cardPadding", min: 12, max: 64 },
+  { g: "card", k: "cardRadius", t: "range", label: "fd_cardRadius", min: 0, max: 48 },
+  { g: "card", k: "borderWidth", t: "range", label: "fd_borderWidth", min: 0, max: 8 },
+  { g: "card", k: "borderColor", t: "color", label: "fd_borderColor" },
+  { g: "card", k: "topBar", t: "range", label: "fd_topBar", min: 0, max: 12 },
+  { g: "card", k: "topBarColor", t: "color", label: "fd_topBarColor" },
+  { g: "card", k: "quoteMark", t: "check", label: "fd_quoteMark" },
+  { g: "card", k: "hideMedia", t: "check", label: "fd_hideMedia" },
 
-  { g: "Sombra e brilho", k: "shadowOpacity", t: "range", label: "Opacidade da sombra", min: 0, max: 100 },
-  { g: "Sombra e brilho", k: "shadowX", t: "range", label: "Sombra X", min: -30, max: 30 },
-  { g: "Sombra e brilho", k: "shadowY", t: "range", label: "Sombra Y", min: -30, max: 30 },
-  { g: "Sombra e brilho", k: "shadowBlur", t: "range", label: "Desfoque da sombra", min: 0, max: 80 },
-  { g: "Sombra e brilho", k: "shadowColor", t: "color", label: "Cor da sombra" },
-  { g: "Sombra e brilho", k: "glowBlur", t: "range", label: "Brilho (0 = desligado)", min: 0, max: 60 },
-  { g: "Sombra e brilho", k: "glowColor", t: "color", label: "Cor do brilho" },
+  { g: "shadow", k: "shadowOpacity", t: "range", label: "fd_shadowOpacity", min: 0, max: 100 },
+  { g: "shadow", k: "shadowX", t: "range", label: "fd_shadowX", min: -30, max: 30 },
+  { g: "shadow", k: "shadowY", t: "range", label: "fd_shadowY", min: -30, max: 30 },
+  { g: "shadow", k: "shadowBlur", t: "range", label: "fd_shadowBlur", min: 0, max: 80 },
+  { g: "shadow", k: "shadowColor", t: "color", label: "fd_shadowColor" },
+  { g: "shadow", k: "glowBlur", t: "range", label: "fd_glowBlur", min: 0, max: 60 },
+  { g: "shadow", k: "glowColor", t: "color", label: "fd_glowColor" },
 
-  { g: "Moldura", k: "framePadding", t: "range", label: "Largura da moldura (0 = sem)", min: 0, max: 80 },
-  { g: "Moldura", k: "frameC1", t: "color", label: "Cor 1" },
-  { g: "Moldura", k: "frameC2", t: "color", label: "Cor 2 (igual à 1 = cor lisa)" },
-  { g: "Moldura", k: "frameAngle", t: "range", label: "Ângulo do gradiente", min: 0, max: 360 },
+  { g: "frame", k: "framePadding", t: "range", label: "fd_framePadding", min: 0, max: 80 },
+  { g: "frame", k: "frameC1", t: "color", label: "fd_frameC1" },
+  { g: "frame", k: "frameC2", t: "color", label: "fd_frameC2" },
+  { g: "frame", k: "frameAngle", t: "range", label: "fd_frameAngle", min: 0, max: 360 },
 
-  { g: "Tweet aninhado e rodapé", k: "innerBorder", t: "color", label: "Cor da borda / linha" },
-  { g: "Tweet aninhado e rodapé", k: "innerBorderWidth", t: "range", label: "Espessura da borda", min: 0, max: 6 },
-  { g: "Tweet aninhado e rodapé", k: "innerRadius", t: "range", label: "Cantos arredondados", min: 0, max: 32 },
-  { g: "Tweet aninhado e rodapé", k: "innerBgOn", t: "check", label: "Usar fundo próprio" },
-  { g: "Tweet aninhado e rodapé", k: "innerBg", t: "color", label: "Cor do fundo" },
+  { g: "inner", k: "innerBorder", t: "color", label: "fd_innerBorder" },
+  { g: "inner", k: "innerBorderWidth", t: "range", label: "fd_innerBorderWidth", min: 0, max: 6 },
+  { g: "inner", k: "innerRadius", t: "range", label: "fd_innerRadius", min: 0, max: 32 },
+  { g: "inner", k: "innerBgOn", t: "check", label: "fd_innerBgOn" },
+  { g: "inner", k: "innerBg", t: "color", label: "fd_innerBg" },
 
-  { g: "Crédito abaixo da imagem", k: "creditOn", t: "check", label: "Mostrar crédito" },
-  { g: "Crédito abaixo da imagem", k: "creditText", t: "text", label: "Texto", max: 40 },
-  { g: "Crédito abaixo da imagem", k: "creditFont", t: "font", label: "Fonte" },
-  { g: "Crédito abaixo da imagem", k: "creditColor", t: "color", label: "Cor" },
-  { g: "Crédito abaixo da imagem", k: "creditSize", t: "range", label: "Tamanho", min: 9, max: 28 },
+  { g: "credit", k: "creditOn", t: "check", label: "fd_creditOn" },
+  { g: "credit", k: "creditText", t: "text", label: "fd_creditText", max: 40 },
+  { g: "credit", k: "creditFont", t: "font", label: "fd_creditFont" },
+  { g: "credit", k: "creditColor", t: "color", label: "fd_creditColor" },
+  { g: "credit", k: "creditSize", t: "range", label: "fd_creditSize", min: 9, max: 28 },
 
-  { g: "Marca d'água", k: "wmMode", t: "select", label: "Tipo", opts: { none: "Nenhuma", text: "Texto", image: "Imagem" } },
-  { g: "Marca d'água", k: "wmText", t: "text", label: "Texto", max: 40 },
-  { g: "Marca d'água", k: "wmFont", t: "font", label: "Fonte" },
-  { g: "Marca d'água", k: "wmColor", t: "color", label: "Cor" },
-  { g: "Marca d'água", k: "wmSize", t: "range", label: "Tamanho do texto", min: 10, max: 96 },
-  { g: "Marca d'água", k: "wmImage", t: "image", label: "Imagem" },
-  { g: "Marca d'água", k: "wmImgWidth", t: "range", label: "Largura da imagem", min: 20, max: 400 },
-  { g: "Marca d'água", k: "wmImgRatio", t: "range", label: "Proporção da imagem", min: 5, max: 2000, hidden: true },
-  { g: "Marca d'água", k: "wmOpacity", t: "range", label: "Opacidade", min: 5, max: 100 },
-  { g: "Marca d'água", k: "wmRotate", t: "range", label: "Inclinação (graus)", min: -90, max: 90 },
-  { g: "Marca d'água", k: "wmPattern", t: "check", label: "Repetir como padrão" },
-  { g: "Marca d'água", k: "wmGap", t: "range", label: "Espaçamento do padrão (px)", min: 0, max: 200 },
-  { g: "Marca d'água", k: "wmX", t: "range", label: "Posição horizontal (%)", min: 0, max: 100 },
-  { g: "Marca d'água", k: "wmY", t: "range", label: "Posição vertical (%)", min: 0, max: 100 },
+  { g: "wm", k: "wmMode", t: "select", label: "fd_wmMode", opts: { none: "o_wm_none", text: "o_wm_text", image: "o_wm_image" } },
+  { g: "wm", k: "wmText", t: "text", label: "fd_wmText", max: 40 },
+  { g: "wm", k: "wmFont", t: "font", label: "fd_wmFont" },
+  { g: "wm", k: "wmColor", t: "color", label: "fd_wmColor" },
+  { g: "wm", k: "wmSize", t: "range", label: "fd_wmSize", min: 10, max: 96 },
+  { g: "wm", k: "wmImage", t: "image", label: "fd_wmImage" },
+  { g: "wm", k: "wmImgWidth", t: "range", label: "fd_wmImgWidth", min: 20, max: 400 },
+  { g: "wm", k: "wmImgRatio", t: "range", label: "fd_wmImgRatio", min: 5, max: 2000, hidden: true },
+  { g: "wm", k: "wmOpacity", t: "range", label: "fd_wmOpacity", min: 5, max: 100 },
+  { g: "wm", k: "wmRotate", t: "range", label: "fd_wmRotate", min: -90, max: 90 },
+  { g: "wm", k: "wmPattern", t: "check", label: "fd_wmPattern" },
+  { g: "wm", k: "wmGap", t: "range", label: "fd_wmGap", min: 0, max: 200 },
+  { g: "wm", k: "wmX", t: "range", label: "fd_wmX", min: 0, max: 100 },
+  { g: "wm", k: "wmY", t: "range", label: "fd_wmY", min: 0, max: 100 },
 
-  { g: "Foto de perfil", k: "avatarShape", t: "select", label: "Formato", opts: { circle: "Círculo", rounded: "Arredondado", square: "Quadrado" } },
-  { g: "Foto de perfil", k: "avatarBorderWidth", t: "range", label: "Espessura da borda", min: 0, max: 6 },
-  { g: "Foto de perfil", k: "avatarBorderColor", t: "color", label: "Cor da borda" }
+  { g: "avatar", k: "avatarShape", t: "select", label: "fd_avatarShape", opts: { circle: "o_av_circle", rounded: "o_av_rounded", square: "o_av_square" } },
+  { g: "avatar", k: "avatarBorderWidth", t: "range", label: "fd_avatarBorderWidth", min: 0, max: 6 },
+  { g: "avatar", k: "avatarBorderColor", t: "color", label: "fd_avatarBorderColor" }
 ];
 
 export const DEFAULT = {
@@ -74,27 +75,29 @@ export const DEFAULT = {
   innerBorder: "#cfd9de", innerBorderWidth: 1, innerRadius: 16, innerBgOn: false, innerBg: "#f3f4f6",
   avatarShape: "circle", avatarBorderWidth: 0, avatarBorderColor: "#000000",
   creditOn: false, creditText: "Postframe", creditFont: "mono", creditColor: "#6b7280", creditSize: 13,
-  wmMode: "none", wmText: "@seuusuario", wmFont: "sans", wmColor: "#808080", wmSize: 28, wmImage: "", wmImgWidth: 120, wmImgRatio: 100, wmOpacity: 60, wmRotate: 0, wmPattern: false, wmGap: 60, wmX: 88, wmY: 92
+  wmMode: "none", wmText: "@yourhandle", wmFont: "sans", wmColor: "#808080", wmSize: 28, wmImage: "", wmImgWidth: 120, wmImgRatio: 100, wmOpacity: 60, wmRotate: 0, wmPattern: false, wmGap: 60, wmX: 88, wmY: 92
 };
 
-const mk = (id, name, o) => ({ id, name, builtin: true, platform: "*", ...DEFAULT, ...o });
+const mk = (id, nameKey, o) => ({ id, name: nameKey, nameKey, builtin: true, platform: "*", ...DEFAULT, ...o });
+// Display name: built-in styles are translated, custom ones use the name the user typed.
+export const styleName = (s) => (s.nameKey ? t(s.nameKey) : s.name);
 export const BUILTINS = [
-  mk("1", "Claro clássico", {}),
-  mk("2", "Escuro", { fg: "#e7e9ea", muted: "#71767b", cardBg: "#000000", frameC1: "#000000", frameC2: "#000000", innerBorder: "#2f3336" }),
-  mk("3", "Moldura gradiente", { fontSize: 20, accent: "#7c3aed", cardPadding: 28, cardRadius: 24, shadowOpacity: 28, framePadding: 36, frameC1: "#6d5efc", frameC2: "#c084fc", innerBorder: "#e5e7eb" }),
-  mk("4", "Editorial", { font: "serif", fontSize: 23, fg: "#1f1a14", muted: "#7a6f60", accent: "#b4472b", cardBg: "#f6f0e4", cardPadding: 44, topBar: 6, topBarColor: "#1f1a14", quoteMark: true, frameC1: "#f6f0e4", frameC2: "#f6f0e4", innerBorder: "#d9cdb6", innerRadius: 4, innerBgOn: true, innerBg: "#efe6d3", avatarShape: "rounded" }),
-  mk("5", "Neon", { font: "mono", fontSize: 20, fg: "#e9ecff", muted: "#8c93c4", accent: "#22e6c9", cardBg: "#10132a", cardPadding: 36, cardRadius: 20, borderWidth: 2, borderColor: "#22e6c9", glowBlur: 24, framePadding: 28, frameC1: "#0b0d1a", frameC2: "#0b0d1a", innerBorder: "#a855f7", innerBorderWidth: 2, innerBgOn: true, innerBg: "#151938", avatarBorderWidth: 2, avatarBorderColor: "#a855f7" }),
-  mk("6", "Pôster pastel", { fontSize: 26, textWeight: "600", fg: "#2b1d3a", muted: "#6b5a7a", accent: "#d6336c", cardPadding: 40, cardRadius: 28, borderWidth: 3, borderColor: "#2b1d3a", shadowOpacity: 100, shadowX: 8, shadowY: 8, shadowBlur: 0, shadowColor: "#2b1d3a", framePadding: 28, frameC1: "#ffd6a5", frameC2: "#fdffb6", frameAngle: 160, creditOn: true, creditColor: "#2b1d3a", creditSize: 14, innerBorder: "#2b1d3a", innerBorderWidth: 2, innerRadius: 18, innerBgOn: true, innerBg: "#fff4e6", avatarBorderWidth: 2, avatarBorderColor: "#2b1d3a" })
+  mk("1", "st_1", {}),
+  mk("2", "st_2", { fg: "#e7e9ea", muted: "#71767b", cardBg: "#000000", frameC1: "#000000", frameC2: "#000000", innerBorder: "#2f3336" }),
+  mk("3", "st_3", { fontSize: 20, accent: "#7c3aed", cardPadding: 28, cardRadius: 24, shadowOpacity: 28, framePadding: 36, frameC1: "#6d5efc", frameC2: "#c084fc", innerBorder: "#e5e7eb" }),
+  mk("4", "st_4", { font: "serif", fontSize: 23, fg: "#1f1a14", muted: "#7a6f60", accent: "#b4472b", cardBg: "#f6f0e4", cardPadding: 44, topBar: 6, topBarColor: "#1f1a14", quoteMark: true, frameC1: "#f6f0e4", frameC2: "#f6f0e4", innerBorder: "#d9cdb6", innerRadius: 4, innerBgOn: true, innerBg: "#efe6d3", avatarShape: "rounded" }),
+  mk("5", "st_5", { font: "mono", fontSize: 20, fg: "#e9ecff", muted: "#8c93c4", accent: "#22e6c9", cardBg: "#10132a", cardPadding: 36, cardRadius: 20, borderWidth: 2, borderColor: "#22e6c9", glowBlur: 24, framePadding: 28, frameC1: "#0b0d1a", frameC2: "#0b0d1a", innerBorder: "#a855f7", innerBorderWidth: 2, innerBgOn: true, innerBg: "#151938", avatarBorderWidth: 2, avatarBorderColor: "#a855f7" }),
+  mk("6", "st_6", { fontSize: 26, textWeight: "600", fg: "#2b1d3a", muted: "#6b5a7a", accent: "#d6336c", cardPadding: 40, cardRadius: 28, borderWidth: 3, borderColor: "#2b1d3a", shadowOpacity: 100, shadowX: 8, shadowY: 8, shadowBlur: 0, shadowColor: "#2b1d3a", framePadding: 28, frameC1: "#ffd6a5", frameC2: "#fdffb6", frameAngle: 160, creditOn: true, creditColor: "#2b1d3a", creditSize: 14, innerBorder: "#2b1d3a", innerBorderWidth: 2, innerRadius: 18, innerBgOn: true, innerBg: "#fff4e6", avatarBorderWidth: 2, avatarBorderColor: "#2b1d3a" })
 ];
 
 export const newId = () => "c-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
 
-// Valida qualquer entrada (storage, importação) — só valores conhecidos chegam ao CSS.
+// Validates any input (storage, import): only known values ever reach the generated CSS.
 export function normalizeStyle(raw, base = DEFAULT) {
   if (!raw || typeof raw !== "object") return null;
   const out = {
     id: typeof raw.id === "string" && /^[\w-]{1,24}$/.test(raw.id) ? raw.id : newId(),
-    name: String(raw.name ?? "").trim().slice(0, 40) || "Sem nome",
+    name: String(raw.name ?? "").trim().slice(0, 40) || "Untitled",
     platform: typeof raw.platform === "string" && /^(\*|[\w-]{1,24})$/.test(raw.platform) ? raw.platform : "*"
   };
   for (const f of FIELDS) {
@@ -110,7 +113,7 @@ export function normalizeStyle(raw, base = DEFAULT) {
   return out;
 }
 
-const PAT = 1500; // lado da grade do padrão (cobre a imagem mesmo girada)
+const PAT = 1500; // side of the pattern grid (covers the image even when rotated)
 const AVATAR_RADIUS = { circle: "50%", rounded: "12px", square: "0" };
 const hexA = (h, a) => { const n = parseInt(h.slice(1), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
 
@@ -139,21 +142,21 @@ ${st.wmMode === "image" && st.wmImage ? `${s} .wm-img{width:${st.wmImgWidth}px;h
 ${st.quoteMark ? `${s} .card::before{content:"\\201C";position:absolute;right:32px;top:12px;font-size:96px;line-height:1;color:${hexA(st.muted, 0.35)};font-family:${stack("serif")}}` : ""}`;
 }
 
-// Padrão em tijolos numa grade girada. As quantidades são estimadas por baixo; o excedente é cortado.
+// Brick pattern on a rotated grid. Counts are underestimated on purpose; the overflow is clipped.
 function patternHtml(st) {
   let tile, w, h;
   if (st.wmMode === "text" && st.wmText) { tile = `<span class="wm-tile wm-t">${esc(st.wmText)}</span>`; w = Math.max(8, [...st.wmText].length * st.wmSize * 0.45); h = st.wmSize * 1.3 * 0.9; }
   else if (st.wmMode === "image" && st.wmImage) { tile = '<i class="wm-tile wm-img"></i>'; w = st.wmImgWidth; h = Math.max(1, st.wmImgWidth * st.wmImgRatio / 100); }
   else return "";
-  // Tijolos: linhas pares com k itens e ímpares com k+1, todas centralizadas. Como os itens têm a mesma
-  // largura, cada linha fica deslocada exatamente meio período da vizinha e alinhada com a de 2 linhas.
+  // Bricks: even rows have k items and odd rows k+1, all centered. Since every item has the same width,
+  // each row is shifted by exactly half a period from its neighbor and aligned with the row two lines away.
   const k = Math.ceil(PAT / (w + st.wmGap));
   const rows = Math.min(Math.ceil(PAT / (h + st.wmGap)), Math.max(1, Math.floor(1500 / (k + 1))));
   const html = Array.from({ length: rows }, (_, i) => `<div class="wm-row">${tile.repeat(i % 2 ? k + 1 : k)}</div>`).join("");
   return `<div class="wm-pat"><div class="wm-grid">${html}</div></div>`;
 }
 
-// Markup completo de uma imagem (estilo + tweet) — o que vira PNG.
+// Full markup of one image (style + post): this is what becomes the PNG.
 export function shotHtml(st, tweet, extraCss = "") {
   if (st.hideMedia) tweet = { ...tweet, media: [], original: tweet.original && { ...tweet.original, media: [] } };
   const credit = st.creditOn && st.creditText ? `<div class="credit">${esc(st.creditText)}</div>` : "";
@@ -162,7 +165,7 @@ export function shotHtml(st, tweet, extraCss = "") {
     : st.wmMode === "image" && st.wmImage ? `<img class="wm wm-i" src="${st.wmImage}" alt="">` : "";
   return `<style>${extraCss}${baseCss}${styleCss(st)}</style><div class="shot s-${st.id}">${card(tweet)}${credit}${wm}</div>`;
 }
-// Conteúdo interno do .shot (usado pela pré-visualização, que mantém o <style> à parte).
+// Inner content of .shot (used by the preview, which keeps the <style> separate).
 export function shotInner(st, tweet) {
   return shotHtml(st, tweet).replace(/^<style>[\s\S]*?<\/style><div class="shot[^"]*">/, "").replace(/<\/div>$/, "");
 }

@@ -3,29 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Postframe</title>
+<title data-i18n="vw_page_title">Postframe</title>
 <link rel="stylesheet" href="viewer.css">
 </head>
 <body>
 <header>
   <h1 id="title">Postframe</h1>
   <div class="actions">
-    <label class="tg"><input type="checkbox" id="tgMedia"> Imagens</label>
-    <label class="tg"><input type="checkbox" id="tgCredit"> Crédito</label>
-    <label class="tg"><input type="checkbox" id="tgWm"> Marca d'água</label>
-    <button id="def">☆ Definir como padrão</button>
-    <button id="styles">Estilos…</button>
-    <button id="copy">Copiar</button>
-    <button id="download" class="primary">Baixar</button>
+    <label class="tg"><input type="checkbox" id="tgMedia"> <span data-i18n="vw_images"></span></label>
+    <label class="tg"><input type="checkbox" id="tgCredit"> <span data-i18n="vw_credit"></span></label>
+    <label class="tg"><input type="checkbox" id="tgWm"> <span data-i18n="vw_watermark"></span></label>
+    <button id="def"></button>
+    <button id="styles" data-i18n="vw_styles"></button>
+    <button id="copy" data-i18n="vw_copy"></button>
+    <button id="download" class="primary" data-i18n="vw_download"></button>
   </div>
 </header>
 <main>
-  <button class="nav" id="prev" aria-label="Anterior">←</button>
+  <button class="nav" id="prev" data-i18n-aria="vw_prev">←</button>
   <figure>
     <div class="stagebox"><img id="img" alt=""><div id="msg"></div></div>
     <figcaption id="cap"></figcaption>
   </figure>
-  <button class="nav" id="next" aria-label="Próxima">→</button>
+  <button class="nav" id="next" data-i18n-aria="vw_next">→</button>
 </main>
 <div class="thumbs" id="thumbs"></div>
 <script type="module" src="viewer.js"></script>
