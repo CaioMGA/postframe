@@ -697,5 +697,17 @@
   },
   "op_plat_taken": {
     "message": "“$1” ya viene integrado como $2, así que no se puede configurar de nuevo."
+  },
+  "ov_capture_error": {
+    "message": "No se pudo leer esta publicación: $1"
+  },
+  "ov_copy_diag": {
+    "message": "Copiar diagnóstico"
+  },
+  "ov_copied": {
+    "message": "Diagnóstico copiado. Pégalo en una issue o envíalo al desarrollador."
+  },
+  "ov_no_data": {
+    "message": "no se encontraron datos de la publicación (puede que la estructura de la página haya cambiado)"
   }
 }

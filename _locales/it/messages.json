@@ -697,5 +697,17 @@
   },
   "op_plat_taken": {
     "message": "“$1” è già integrato come $2, quindi non può essere configurato di nuovo."
+  },
+  "ov_capture_error": {
+    "message": "Impossibile leggere questo post: $1"
+  },
+  "ov_copy_diag": {
+    "message": "Copia diagnostica"
+  },
+  "ov_copied": {
+    "message": "Diagnostica copiata. Incollala in una issue o inviala allo sviluppatore."
+  },
+  "ov_no_data": {
+    "message": "nessun dato del post trovato (la struttura della pagina potrebbe essere cambiata)"
   }
 }

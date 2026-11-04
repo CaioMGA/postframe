@@ -697,5 +697,17 @@
   },
   "op_plat_taken": {
     "message": "“$1” is already built in as $2, so it can't be set up again."
+  },
+  "ov_capture_error": {
+    "message": "Could not read this post: $1"
+  },
+  "ov_copy_diag": {
+    "message": "Copy diagnostics"
+  },
+  "ov_copied": {
+    "message": "Diagnostics copied. Paste it in an issue or send it to the developer."
+  },
+  "ov_no_data": {
+    "message": "no post data found (the page structure may have changed)"
   }
 }

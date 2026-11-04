@@ -697,5 +697,17 @@
   },
   "op_plat_taken": {
     "message": "« $1 » est déjà intégré comme $2 et ne peut pas être configuré à nouveau."
+  },
+  "ov_capture_error": {
+    "message": "Impossible de lire cette publication : $1"
+  },
+  "ov_copy_diag": {
+    "message": "Copier le diagnostic"
+  },
+  "ov_copied": {
+    "message": "Diagnostic copié. Collez-le dans une issue ou envoyez-le au développeur."
+  },
+  "ov_no_data": {
+    "message": "aucune donnée de publication trouvée (la structure de la page a peut-être changé)"
   }
 }

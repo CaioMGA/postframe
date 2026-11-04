@@ -100,7 +100,9 @@ X.com and Bluesky have been tested and are OK (both tested on **2026-11-04**). T
 
 ## Help validate Reddit
 
-On a Reddit post page or feed (logged in or not), open the browser console (F12) and run the code below. It copies **only the structure** (attribute names, tag names, image hosts and counts), with no text or links. Paste the result in an issue.
+**The easy way:** open a Reddit post, click the extension icon, choose **Capture a post**, click the post, then click **Copy diagnostics** in the panel and paste the result in an issue. It contains only the structure (attribute names, tags, image hosts and counts), never the post text or links. If the capture fails, the panel shows the error and the same button.
+
+**From the console:** On a Reddit post page or feed (logged in or not), open the browser console (F12) and run the code below. It copies **only the structure** (attribute names, tag names, image hosts and counts), with no text or links. Paste the result in an issue.
 
 ```js
 const p = document.querySelector('shreddit-post');

@@ -697,5 +697,17 @@
   },
   "op_plat_taken": {
     "message": "„$1“ ist bereits als $2 integriert und kann nicht erneut eingerichtet werden."
+  },
+  "ov_capture_error": {
+    "message": "Dieser Beitrag konnte nicht gelesen werden: $1"
+  },
+  "ov_copy_diag": {
+    "message": "Diagnose kopieren"
+  },
+  "ov_copied": {
+    "message": "Diagnose kopiert. Füge sie in ein Issue ein oder sende sie an den Entwickler."
+  },
+  "ov_no_data": {
+    "message": "keine Beitragsdaten gefunden (die Seitenstruktur hat sich möglicherweise geändert)"
   }
 }
