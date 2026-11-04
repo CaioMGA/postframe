@@ -51,6 +51,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 // Toolbar icon: opens the capture / setup panel in the current tab.
 chrome.action.onClicked.addListener(async (tab) => {
   if (!(await hasLang())) return chrome.runtime.openOptionsPage();
-  try { await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["src/sites/instagram.js", "src/sites/bluesky.js", "src/page/overlay.js"] }); }
+  try { await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["src/sites/instagram.js", "src/sites/bluesky.js", "src/sites/reddit.js", "src/page/overlay.js"] }); }
   catch { chrome.runtime.openOptionsPage(); }   // restricted pages (chrome://, web store)
 });

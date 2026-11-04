@@ -57,12 +57,12 @@ X.com and Bluesky have been tested and are OK (both tested on **2026-11-04**). T
 | **X** | tested and OK (2026-11-04) | ✅ | ✅ (and video posters) | ✅ | ✅ repost and quote |
 | **Bluesky** | tested and OK (2026-11-04) | ✅ | ✅ | ✅ | ✅ repost · ❌ quote |
 | **Instagram** | **beta**: heuristic extractor, not yet validated | ✅ | ✅ | ❌ (not in the DOM) | — |
-| **Reddit** | **beta**, not yet validated | ✅ | ✅ | ✅ | — |
+| **Reddit** | **beta**, not yet validated | ✅ title + body | ✅ images and video poster | ✅ karma, comments, reposts | — |
 | **Any site** | beta, not yet validated | ✅ | ✅ | ✅ | ❌ |
 
 - **Beta** means the site may change or there are cases we do not cover yet. If something fails, use **Reconfigure this site** on the site itself: your configuration takes precedence over the built-in one.
 - On **Instagram** the DOM has no stable hooks (no `<header>`, obfuscated classes), so the caption is "the longest text outside links and buttons" and sponsored posts may come out without a time. Videos without a poster come out without an image.
-- **Reddit** was written from the documented attributes of `<shreddit-post>`, without a real page (Reddit blocks automated browsers). If you have Reddit open, the "Help validate Reddit" section below takes a minute.
+- **Reddit** has its own extractor (`src/sites/reddit.js`) built from the documented attributes of `<shreddit-post>` (author, title, time, karma, comment count, subreddit), with fallbacks for the rest (body, images, video poster, subreddit icon, reposts). It was **not** checked against a real page, because Reddit blocks automated browsers. If a field comes out wrong, the "Help validate Reddit" section below shows how to send the exact structure. The card shows the **subreddit** (name and icon) as the author line, the user's `u/handle` under it, then the title in bold, the body, the media, the karma, the comments and the reposts.
 - On **Bluesky**, the feeds, profile pages and post pages (the focused post and its replies) are supported. Quote posts are not read yet.
 - **X** and **Bluesky** have the camera button inside each post. On the other platforms, click the extension icon and choose **Capture a post**.
 
@@ -88,7 +88,7 @@ X.com and Bluesky have been tested and are OK (both tested on **2026-11-04**). T
 - Styles, platforms and preferences are stored in `chrome.storage.local`, in your browser. There are no accounts, no own server and no analytics.
 - The extension only uses the network to:
   - **Google Fonts** (`fonts.googleapis.com`, `fonts.gstatic.com`), when you use a Google font, to download it;
-  - **image CDNs** (`pbs.twimg.com`, `cdn.bsky.app`, `*.cdninstagram.com`, `*.fbcdn.net`, `i.redd.it`, `preview.redd.it`, `external-preview.redd.it`), only when a site blocks direct download of the post images and profile pictures that go into the image.
+  - **image CDNs** (`pbs.twimg.com`, `cdn.bsky.app`, `*.cdninstagram.com`, `*.fbcdn.net`, `styles.redditmedia.com`, `i.redd.it`, `preview.redd.it`, `external-preview.redd.it`), only when a site blocks direct download of the post images and profile pictures that go into the image.
 - `storage`: keep your settings. `activeTab` and `scripting`: open the capture/setup panel only on the tab where you click the icon (the extension has no permanent access to all sites). Automatic scripts (the camera button) run only on `x.com`, `twitter.com` and `bsky.app`.
 
 ## Limitations
@@ -100,15 +100,19 @@ X.com and Bluesky have been tested and are OK (both tested on **2026-11-04**). T
 
 ## Help validate Reddit
 
-On a Reddit page (logged in or not), open the browser console (F12) and run the code below. It copies **only the structure** (attribute names and counts), with no text or links. Paste the result in an issue.
+On a Reddit post page or feed (logged in or not), open the browser console (F12) and run the code below. It copies **only the structure** (attribute names, tag names, image hosts and counts), with no text or links. Paste the result in an issue.
 
 ```js
 const p = document.querySelector('shreddit-post');
+const host = (u) => { try { return new URL(u).host; } catch { return ''; } };
 copy(JSON.stringify({
   posts: document.querySelectorAll('shreddit-post').length,
   attributes: p && p.getAttributeNames(),
-  slots: p && [...p.querySelectorAll('[slot]')].map(e => e.getAttribute('slot')),
-  images: p && p.querySelectorAll('[slot="post-media-container"] img').length
+  slots: p && [...new Set([...p.querySelectorAll('[slot]')].map(e => e.getAttribute('slot')))],
+  tags: p && [...new Set([...p.querySelectorAll('*')].map(e => e.localName))].slice(0, 60),
+  images: p && [...p.querySelectorAll('img')].map(i => ({ host: host(i.src), firstClass: i.className.split(' ')[0], width: Math.round(i.getBoundingClientRect().width) })),
+  players: p && [...p.querySelectorAll('shreddit-player, shreddit-player-2, video')].map(e => ({ tag: e.localName, attributes: e.getAttributeNames() })),
+  textBody: p && ['[slot="text-body"]', '[id$="-post-rtjson-content"]', '[data-post-click-location="text-body"]'].map(s => [s, p.querySelectorAll(s).length])
 }));
 ```
 

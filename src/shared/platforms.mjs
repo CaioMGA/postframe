@@ -15,18 +15,11 @@ export const BLUESKY_PLATFORM = {
 // BETA. Only the feed `article` was checked against a real (logged-in) page; the rest is heuristics in src/sites/instagram.js.
 export const INSTAGRAM_PLATFORM = { id: "instagram", name: "Instagram", builtin: true, beta: true, extractor: "instagram", hosts: ["instagram.com"], sel: { container: "article" } };
 
-// BETA, UNVERIFIED: Reddit blocks automated browsers, so these <shreddit-post> attributes come from
-// documentation/memory, not from a real page. If it fails, duplicate and adjust it, or use "Reconfigure this site".
+// BETA, UNVERIFIED on a real page (Reddit blocks automated browsers). Own extractor in src/sites/reddit.js: the author line is
+// the subreddit (name + icon) with the user's handle under it, plus title, body, media, karma, comments and reposts.
 export const REDDIT_PLATFORM = {
-  id: "reddit", name: "Reddit", builtin: true, beta: true, hosts: ["reddit.com"],
-  sel: {
-    container: "shreddit-post",
-    name: ":scope@author", handle: ":scope@subreddit-prefixed-name",
-    text: ":scope@post-title", body: '[slot="text-body"]',
-    media: '[slot="post-media-container"] img',
-    time: ":scope@created-timestamp",
-    stats: [{ icon: "upvote", sel: ":scope@score" }, { icon: "comment", sel: ":scope@comment-count" }]
-  }
+  id: "reddit", name: "Reddit", builtin: true, beta: true, extractor: "reddit", hosts: ["reddit.com"],
+  sel: { container: "shreddit-post" }
 };
 
 export const BUILTIN_PLATFORMS = [X_PLATFORM, BLUESKY_PLATFORM, REDDIT_PLATFORM, INSTAGRAM_PLATFORM];
