@@ -2,7 +2,7 @@ import { placeholderAvatar } from "../src/shared/template.mjs";
 import { initI18n, applyI18n, t } from "../src/shared/i18n.mjs";
 import { shotHtml, styleName } from "../src/shared/styles.mjs";
 import { fontFaceCss, fontsUsed } from "../src/shared/fonts.mjs";
-import { getAll, stylesFor, defaultFor, saveDefaults } from "../src/shared/store.mjs";
+import { getAll, defaultFor, saveDefaults } from "../src/shared/store.mjs";
 
 const MAX_BYTES = 350 * 1024;
 const WIDTH = 600;
@@ -21,7 +21,7 @@ if (!tweet) {
 
 const platform = tweet.platform || "x";
 const lib = await getAll();
-const designs = stylesFor(lib.all, platform);        // styles of the platform + the ones that apply to "all platforms"
+const designs = lib.all;                              // every style is available on every platform
 let defaultId = defaultFor(lib.all, lib.defaults, platform);
 const sampleText = [tweet.text, tweet.original?.text, tweet.author?.name].join(" ");
 

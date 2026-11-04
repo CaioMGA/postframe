@@ -182,15 +182,6 @@
   "gr_avatar": {
     "message": "Foto profilo"
   },
-  "o_w400": {
-    "message": "Normale"
-  },
-  "o_w600": {
-    "message": "Semigrassetto"
-  },
-  "o_w700": {
-    "message": "Grassetto"
-  },
   "o_wm_none": {
     "message": "Nessuna"
   },
@@ -259,15 +250,6 @@
   },
   "icon_view": {
     "message": "Visualizzazioni"
-  },
-  "cs_btn_title": {
-    "message": "Postframe: genera le immagini di questo post"
-  },
-  "cs_err_read": {
-    "message": "impossibile leggere il post"
-  },
-  "cs_err_prefix": {
-    "message": "Errore: $1"
   },
   "ov_step_name": {
     "message": "Clicca sul NOME dell'autore"
@@ -497,12 +479,6 @@
   "op_tab_platforms": {
     "message": "Piattaforme"
   },
-  "op_platform_label": {
-    "message": "Piattaforma"
-  },
-  "op_all_platforms": {
-    "message": "Tutte le piattaforme"
-  },
   "op_new_style": {
     "message": "+ Nuovo stile (duplica quello selezionato)"
   },
@@ -515,14 +491,8 @@
   "op_name_aria": {
     "message": "Nome dello stile"
   },
-  "op_applies_to": {
-    "message": "Si applica a"
-  },
   "op_set_default": {
     "message": "Imposta come predefinito"
-  },
-  "op_set_default_in": {
-    "message": "Imposta come predefinito su $1"
   },
   "op_is_default": {
     "message": "★ Stile predefinito"
@@ -531,7 +501,7 @@
     "message": "Elimina"
   },
   "op_readonly_style": {
-    "message": "Stile integrato (sola lettura). Usa “Nuovo stile” per creare una copia modificabile e, se vuoi, cambiarne la piattaforma."
+    "message": "Stile integrato (sola lettura). Usa “Nuovo stile” per creare una copia modificabile."
   },
   "op_fold_all": {
     "message": "Comprimi tutto"
@@ -694,5 +664,35 @@
   },
   "actionTitle": {
     "message": "Postframe: cattura post o configura questo sito"
+  },
+  "op_tab_defaults": {
+    "message": "Predefiniti"
+  },
+  "op_defaults_intro": {
+    "message": "Scegli lo stile usato su ogni piattaforma. “Predefinito” vale per tutte le piattaforme senza una scelta propria."
+  },
+  "op_df_default": {
+    "message": "Predefinito"
+  },
+  "op_df_create": {
+    "message": "Crea nuovo stile…"
+  },
+  "cs_btn_title": {
+    "message": "Postframe: genera le immagini di questo post"
+  },
+  "cs_err_read": {
+    "message": "impossibile leggere il post"
+  },
+  "cs_err_prefix": {
+    "message": "Errore: $1"
+  },
+  "o_w400": {
+    "message": "Normale"
+  },
+  "o_w600": {
+    "message": "Semigrassetto"
+  },
+  "o_w700": {
+    "message": "Grassetto"
   }
 }

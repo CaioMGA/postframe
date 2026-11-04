@@ -81,3 +81,15 @@ button:disabled{opacity:.45;cursor:default}
 
 h1,h2,.o-name,.o-sec>summary{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Noto Serif','DejaVu Serif',serif}
 h1{letter-spacing:-.01em}
+
+.o-defaults{display:block}
+.o-intro{font-size:14px;margin-bottom:14px;max-width:760px}
+
+/* Defaults tab: one platform per line with a dropdown in front */
+.o-deflist{list-style:none;padding:0;max-width:680px;display:flex;flex-direction:column;gap:10px}
+.o-deflist li{display:flex;align-items:center;gap:16px;padding:12px 16px;background:#fffaf0;border:1px solid #d9cdb6;border-radius:12px}
+.o-deflist li.o-df-general{border-color:#b4472b;margin-bottom:8px}
+.o-deflist label{flex:0 0 170px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.o-df-ctl{flex:1;min-width:0;display:flex;align-items:center;gap:12px}
+.o-df-ctl select{flex:1;min-width:0;background:#fffaf0;color:#1f1a14;border:1px solid #cfc2a8;border-radius:8px;padding:8px;font:inherit}
+.o-df-hint{color:#7a6f60;font-size:12px;white-space:nowrap}

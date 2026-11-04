@@ -182,15 +182,6 @@
   "gr_avatar": {
     "message": "Profilbild"
   },
-  "o_w400": {
-    "message": "Normal"
-  },
-  "o_w600": {
-    "message": "Halbfett"
-  },
-  "o_w700": {
-    "message": "Fett"
-  },
   "o_wm_none": {
     "message": "Keines"
   },
@@ -259,15 +250,6 @@
   },
   "icon_view": {
     "message": "Aufrufe"
-  },
-  "cs_btn_title": {
-    "message": "Postframe: Bilder zu diesem Beitrag erstellen"
-  },
-  "cs_err_read": {
-    "message": "Beitrag konnte nicht gelesen werden"
-  },
-  "cs_err_prefix": {
-    "message": "Fehler: $1"
   },
   "ov_step_name": {
     "message": "Klicke auf den NAMEN des Autors"
@@ -497,12 +479,6 @@
   "op_tab_platforms": {
     "message": "Plattformen"
   },
-  "op_platform_label": {
-    "message": "Plattform"
-  },
-  "op_all_platforms": {
-    "message": "Alle Plattformen"
-  },
   "op_new_style": {
     "message": "+ Neuer Stil (dupliziert den ausgewählten)"
   },
@@ -515,14 +491,8 @@
   "op_name_aria": {
     "message": "Name des Stils"
   },
-  "op_applies_to": {
-    "message": "Gilt für"
-  },
   "op_set_default": {
     "message": "Als Standard festlegen"
-  },
-  "op_set_default_in": {
-    "message": "Als Standard für $1 festlegen"
   },
   "op_is_default": {
     "message": "★ Standardstil"
@@ -531,7 +501,7 @@
     "message": "Löschen"
   },
   "op_readonly_style": {
-    "message": "Integrierter Stil (schreibgeschützt). Mit „Neuer Stil“ erstellst du eine bearbeitbare Kopie und kannst bei Bedarf ihre Plattform ändern."
+    "message": "Integrierter Stil (schreibgeschützt). Mit „Neuer Stil“ erstellst du eine bearbeitbare Kopie."
   },
   "op_fold_all": {
     "message": "Alle einklappen"
@@ -694,5 +664,35 @@
   },
   "actionTitle": {
     "message": "Postframe: Beiträge erfassen oder diese Website einrichten"
+  },
+  "op_tab_defaults": {
+    "message": "Standards"
+  },
+  "op_defaults_intro": {
+    "message": "Wähle den Stil für jede Plattform. „Standard“ gilt für alle Plattformen ohne eigene Auswahl."
+  },
+  "op_df_default": {
+    "message": "Standard"
+  },
+  "op_df_create": {
+    "message": "Neuen Stil erstellen …"
+  },
+  "cs_btn_title": {
+    "message": "Postframe: Bilder zu diesem Beitrag erstellen"
+  },
+  "cs_err_read": {
+    "message": "Beitrag konnte nicht gelesen werden"
+  },
+  "cs_err_prefix": {
+    "message": "Fehler: $1"
+  },
+  "o_w400": {
+    "message": "Normal"
+  },
+  "o_w600": {
+    "message": "Halbfett"
+  },
+  "o_w700": {
+    "message": "Fett"
   }
 }

@@ -6,6 +6,7 @@ const hasLang = async () => isSupported((await chrome.storage.local.get("lang"))
 
 chrome.runtime.onInstalled.addListener(({ reason }) => {
   if (reason === "install") chrome.runtime.openOptionsPage();   // first run: language picker
+  chrome.storage.local.remove("scopes");                        // leftover of a removed feature (per-style platform restrictions)
 });
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {

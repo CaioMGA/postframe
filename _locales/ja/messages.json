@@ -182,15 +182,6 @@
   "gr_avatar": {
     "message": "プロフィール画像"
   },
-  "o_w400": {
-    "message": "標準"
-  },
-  "o_w600": {
-    "message": "やや太字"
-  },
-  "o_w700": {
-    "message": "太字"
-  },
   "o_wm_none": {
     "message": "なし"
   },
@@ -259,15 +250,6 @@
   },
   "icon_view": {
     "message": "表示回数"
-  },
-  "cs_btn_title": {
-    "message": "Postframe：この投稿の画像を生成"
-  },
-  "cs_err_read": {
-    "message": "投稿を読み取れませんでした"
-  },
-  "cs_err_prefix": {
-    "message": "エラー：$1"
   },
   "ov_step_name": {
     "message": "投稿者の名前をクリック"
@@ -497,12 +479,6 @@
   "op_tab_platforms": {
     "message": "プラットフォーム"
   },
-  "op_platform_label": {
-    "message": "プラットフォーム"
-  },
-  "op_all_platforms": {
-    "message": "すべてのプラットフォーム"
-  },
   "op_new_style": {
     "message": "+ 新しいスタイル（選択中のものを複製）"
   },
@@ -515,14 +491,8 @@
   "op_name_aria": {
     "message": "スタイル名"
   },
-  "op_applies_to": {
-    "message": "適用先"
-  },
   "op_set_default": {
     "message": "デフォルトに設定"
-  },
-  "op_set_default_in": {
-    "message": "$1 のデフォルトに設定"
   },
   "op_is_default": {
     "message": "★ デフォルトのスタイル"
@@ -531,7 +501,7 @@
     "message": "削除"
   },
   "op_readonly_style": {
-    "message": "組み込みスタイル（読み取り専用）です。「新しいスタイル」で編集可能なコピーを作成し、必要に応じてプラットフォームを変更できます。"
+    "message": "組み込みスタイル（読み取り専用）です。「新しいスタイル」で編集可能なコピーを作成できます。"
   },
   "op_fold_all": {
     "message": "すべて折りたたむ"
@@ -694,5 +664,35 @@
   },
   "actionTitle": {
     "message": "Postframe：投稿をキャプチャ、またはこのサイトを設定"
+  },
+  "op_tab_defaults": {
+    "message": "デフォルト"
+  },
+  "op_defaults_intro": {
+    "message": "プラットフォームごとに使うスタイルを選びます。「デフォルト」は、個別の選択がないすべてのプラットフォームで使われます。"
+  },
+  "op_df_default": {
+    "message": "デフォルト"
+  },
+  "op_df_create": {
+    "message": "新しいスタイルを作成…"
+  },
+  "cs_btn_title": {
+    "message": "Postframe：この投稿の画像を生成"
+  },
+  "cs_err_read": {
+    "message": "投稿を読み取れませんでした"
+  },
+  "cs_err_prefix": {
+    "message": "エラー：$1"
+  },
+  "o_w400": {
+    "message": "標準"
+  },
+  "o_w600": {
+    "message": "やや太字"
+  },
+  "o_w700": {
+    "message": "太字"
   }
 }

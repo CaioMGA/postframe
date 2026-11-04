@@ -78,7 +78,7 @@ export const DEFAULT = {
   wmMode: "none", wmText: "@yourhandle", wmFont: "sans", wmColor: "#808080", wmSize: 28, wmImage: "", wmImgWidth: 120, wmImgRatio: 100, wmOpacity: 60, wmRotate: 0, wmPattern: false, wmGap: 60, wmX: 88, wmY: 92
 };
 
-const mk = (id, nameKey, o) => ({ id, name: nameKey, nameKey, builtin: true, platform: "*", ...DEFAULT, ...o });
+const mk = (id, nameKey, o) => ({ id, name: nameKey, nameKey, builtin: true, ...DEFAULT, ...o });
 // Display name: built-in styles are translated, custom ones use the name the user typed.
 export const styleName = (s) => (s.nameKey ? t(s.nameKey) : s.name);
 export const BUILTINS = [
@@ -97,8 +97,7 @@ export function normalizeStyle(raw, base = DEFAULT) {
   if (!raw || typeof raw !== "object") return null;
   const out = {
     id: typeof raw.id === "string" && /^[\w-]{1,24}$/.test(raw.id) ? raw.id : newId(),
-    name: String(raw.name ?? "").trim().slice(0, 40) || "Untitled",
-    platform: typeof raw.platform === "string" && /^(\*|[\w-]{1,24})$/.test(raw.platform) ? raw.platform : "*"
+    name: String(raw.name ?? "").trim().slice(0, 40) || "Untitled"
   };
   for (const f of FIELDS) {
     const v = raw[f.k], d = base[f.k];

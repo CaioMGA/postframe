@@ -15,6 +15,7 @@
     </label>
     <nav class="o-tabs" id="tabs">
       <button data-tab="styles" aria-pressed="true" data-i18n="op_tab_styles"></button>
+      <button data-tab="defaults" aria-pressed="false" data-i18n="op_tab_defaults"></button>
       <button data-tab="platforms" aria-pressed="false" data-i18n="op_tab_platforms"></button>
     </nav>
   </div>
@@ -22,9 +23,6 @@
 
 <div class="o-layout" id="tab-styles">
   <aside class="o-side">
-    <label class="o-label"><span data-i18n="op_platform_label"></span>
-      <select id="filter"></select>
-    </label>
     <ul id="list" class="o-list"></ul>
     <div class="o-side-actions">
       <button id="new" class="o-primary" data-i18n="op_new_style"></button>
@@ -38,9 +36,6 @@
   <section class="o-editor">
     <div class="o-bar">
       <input id="name" class="o-name" maxlength="40" data-i18n-aria="op_name_aria">
-      <label class="o-inline"><span data-i18n="op_applies_to"></span>
-        <select id="platsel"></select>
-      </label>
       <button id="setdef"></button>
       <button id="del" class="o-danger" data-i18n="op_delete"></button>
     </div>
@@ -60,6 +55,13 @@
         <p class="o-hint" data-i18n="op_preview_hint"></p>
       </div>
     </div>
+  </section>
+</div>
+
+<div class="o-layout o-defaults" id="tab-defaults" hidden>
+  <section class="o-editor">
+    <p class="o-hint o-intro" data-i18n="op_defaults_intro"></p>
+    <ul id="deflist" class="o-deflist"></ul>
   </section>
 </div>
 

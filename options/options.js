@@ -2,8 +2,8 @@ import { FIELDS, DEFAULT, newId, normalizeStyle, styleCss, shotInner, styleName 
 import { initI18n, applyI18n, t, LANGS, getLang, setLang } from "../src/shared/i18n.mjs";
 import { baseCss, placeholderAvatar, esc } from "../src/shared/template.mjs";
 import { GENERIC_LABELS, CURATED, FONT_RE, isGoogle, familyOf, fontsUsed, loadFamily } from "../src/shared/fonts.mjs";
-import { ICON_KEYS, normalizePlatform, BUILTIN_IDS } from "../src/shared/platforms.mjs";
-import { getAll, stylesFor, defaultFor, saveStyles, savePlatforms, saveDefaults } from "../src/shared/store.mjs";
+import { ICON_KEYS, normalizePlatform } from "../src/shared/platforms.mjs";
+import { getAll, defaultFor, saveStyles, savePlatforms, saveDefaults } from "../src/shared/store.mjs";
 
 const $ = (id) => document.getElementById(id);
 const savedLang = await initI18n();   // "" until the user picks a language
@@ -11,11 +11,10 @@ applyI18n();
 const clamp = (n) => Math.min(100, Math.max(0, Math.round(n)));
 
 let lib = await getAll();           // { all, custom, platforms, userPlatforms, defaults }
-let filter = "*", selId = "1", sample = "tweet", platSel = "x";
-const platName = (id) => (id === "*" ? t("op_all_platforms") : lib.platforms.find((p) => p.id === id)?.name || "?");
-const visible = () => (filter === "*" ? lib.all : stylesFor(lib.all, filter));
-const defaultInFilter = () => (filter === "*" ? (lib.all.some((s) => s.id === lib.defaults["*"]) ? lib.defaults["*"] : "1") : defaultFor(lib.all, lib.defaults, filter));
-selId = defaultInFilter();
+let selId = "1", sample = "tweet", platSel = "x";
+// The general default: the style used wherever a platform has no choice of its own.
+const generalId = () => (lib.all.some((s) => s.id === lib.defaults["*"]) ? lib.defaults["*"] : lib.all[0].id);
+selId = generalId();
 const current = () => lib.all.find((s) => s.id === selId) || lib.all[0];
 const isCustom = (s) => !s.builtin;
 
@@ -37,24 +36,18 @@ const sampleText = Object.values(SAMPLES).map((x) => x.data.text).join(" ");
 $("tabs").onclick = (e) => {
   const t = e.target.dataset.tab; if (!t) return;
   document.querySelectorAll("#tabs button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.tab === t));
-  $("tab-styles").hidden = t !== "styles"; $("tab-platforms").hidden = t !== "platforms";
-  if (t === "platforms") renderPlatforms(); else renderAll();
+  $("tab-styles").hidden = t !== "styles"; $("tab-platforms").hidden = t !== "platforms"; $("tab-defaults").hidden = t !== "defaults";
+  if (t === "platforms") renderPlatforms(); else if (t === "defaults") renderDefaults(); else renderAll();
 };
+const openTab = (name) => $("tabs").querySelector(`[data-tab="${name}"]`).click();
 
 // ===== STYLES =================================================================
-function renderFilters() {
-  const opts = [["*", t("op_all_platforms")], ...lib.platforms.map((p) => [p.id, p.name])];
-  $("filter").innerHTML = opts.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("");
-  $("filter").value = filter;
-  $("platsel").innerHTML = opts.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("");
-}
 function renderList() {
-  const def = defaultInFilter();
-  $("list").innerHTML = visible().map((s) => `
+  const def = generalId();
+  $("list").innerHTML = lib.all.map((s) => `
     <li data-id="${esc(s.id)}" aria-selected="${s.id === selId}">
       <span class="n">${esc(styleName(s))}</span>
       ${s.id === def ? `<span class="o-badge def">${esc(t("op_badge_default"))}</span>` : ""}
-      ${filter === "*" && s.platform !== "*" ? `<span class="o-badge">${esc(platName(s.platform))}</span>` : ""}
       ${s.builtin ? `<span class="o-badge">${esc(t("op_badge_builtin"))}</span>` : ""}
     </li>`).join("");
 }
@@ -99,11 +92,10 @@ function fillForm() {
   }
   document.querySelectorAll("#form [data-img],#form [data-imgclear]").forEach((e) => (e.disabled = ro));
   $("name").value = styleName(s); $("name").disabled = ro;
-  $("platsel").value = s.platform; $("platsel").disabled = ro;
   $("ro").hidden = !ro; $("del").hidden = ro;
-  const isDef = s.id === defaultInFilter();
+  const isDef = s.id === generalId();
   $("setdef").disabled = isDef;
-  $("setdef").textContent = isDef ? t("op_is_default") : filter === "*" ? t("op_set_default") : t("op_set_default_in", platName(filter));
+  $("setdef").textContent = isDef ? t("op_is_default") : t("op_set_default");
 }
 
 // --- preview (with Google Fonts inlined) --------------------------
@@ -124,7 +116,7 @@ async function renderPreview() {
   const bad = used.filter((_, i) => r[i].status === "rejected").map(([f]) => f);
   $("fontstatus").textContent = bad.length ? t("op_font_warn", bad.join(", ")) : "";
 }
-const renderAll = () => { renderFilters(); renderList(); fillForm(); renderPreview(); };
+const renderAll = () => { renderList(); fillForm(); renderPreview(); };
 
 // --- persistence -----------------------------------------------------------
 let timer;
@@ -203,30 +195,22 @@ $("name").addEventListener("input", () => {
   const s = current(); if (!isCustom(s)) return;
   replaceCurrent({ ...s, name: $("name").value.slice(0, 40) || "Untitled" }); renderList();
 });
-$("platsel").onchange = () => {
-  const s = current(); if (!isCustom(s)) return;
-  replaceCurrent({ ...s, platform: $("platsel").value });
-  filter = $("platsel").value;           // keep the style visible in the list
-  renderAll();
-};
-$("filter").onchange = () => { filter = $("filter").value; if (!visible().some((s) => s.id === selId)) selId = defaultInFilter(); renderAll(); };
 $("list").addEventListener("click", (e) => { const li = e.target.closest("li"); if (li) { selId = li.dataset.id; renderAll(); } });
 $("seg").addEventListener("click", (e) => { if (e.target.dataset.s) { sample = e.target.dataset.s; renderPreview(); } });
 $("new").onclick = async () => {
   const s = current();
   const copy = normalizeStyle({ ...s, id: newId(), name: t("op_copy_of", styleName(s)).slice(0, 40) }, DEFAULT);
-  if (copy.platform === "*" && filter !== "*") copy.platform = filter;
   lib.custom.push(copy); lib.all.push(copy); selId = copy.id;
   await saveStyles(lib.custom); renderAll(); $("name").focus(); $("name").select();
 };
-$("setdef").onclick = async () => { lib.defaults[filter] = selId; await saveDefaults(lib.defaults); renderAll(); };
+$("setdef").onclick = async () => { lib.defaults["*"] = selId; await saveDefaults(lib.defaults); renderAll(); };
 $("del").onclick = async () => {
   const s = current();
   if (!isCustom(s) || !confirm(t("op_confirm_delete_style", styleName(s)))) return;
   lib.custom = lib.custom.filter((x) => x.id !== s.id); lib.all = lib.all.filter((x) => x.id !== s.id);
   for (const k of Object.keys(lib.defaults)) if (lib.defaults[k] === s.id) delete lib.defaults[k];
   await Promise.all([saveStyles(lib.custom), saveDefaults(lib.defaults)]);
-  selId = defaultInFilter(); renderAll();
+  selId = generalId(); renderAll();
 };
 $("export").onclick = () => {
   const blob = new Blob([JSON.stringify({ app: "postframe", styles: lib.custom, platforms: lib.userPlatforms }, null, 2)], { type: "application/json" });
@@ -236,10 +220,9 @@ $("import").onclick = () => $("file").click();
 $("file").onchange = async () => {
   try {
     const data = JSON.parse(await $("file").files[0].text());
-    const idMap = {}, plats = (Array.isArray(data.platforms) ? data.platforms : []).slice(0, 30)
-      .map((r) => { const p = normalizePlatform({ ...r, id: undefined }); if (p && r?.id) idMap[r.id] = p.id; return p; }).filter(Boolean);
+    const plats = (Array.isArray(data.platforms) ? data.platforms : []).slice(0, 30).map((r) => normalizePlatform({ ...r, id: undefined })).filter(Boolean);
     const list = (Array.isArray(data) ? data : data.styles || []).slice(0, 50);
-    const added = list.map((r) => normalizeStyle({ ...r, id: newId(), platform: r?.platform === "*" || BUILTIN_IDS.has(r?.platform) ? r.platform : idMap[r?.platform] || "*" }, DEFAULT)).filter(Boolean);
+    const added = list.map((r) => normalizeStyle({ ...r, id: newId() }, DEFAULT)).filter(Boolean);
     if (!added.length && !plats.length) throw new Error("vazio");
     lib.userPlatforms.push(...plats); lib.platforms.push(...plats);
     lib.custom.push(...added); lib.all.push(...added);
@@ -302,16 +285,50 @@ $("pdel").onclick = async () => {
   const p = curPlat();
   if (p.builtin || !confirm(t("op_confirm_delete_platform", p.name))) return;
   lib.userPlatforms = lib.userPlatforms.filter((x) => x.id !== p.id); lib.platforms = lib.platforms.filter((x) => x.id !== p.id);
-  lib.custom = lib.custom.map((s) => (s.platform === p.id ? { ...s, platform: "*" } : s));
-  lib.all = [...lib.all.filter((s) => s.builtin), ...lib.custom];
   delete lib.defaults[p.id];
-  await Promise.all([savePlatforms(lib.userPlatforms), saveStyles(lib.custom), saveDefaults(lib.defaults)]);
-  platSel = "x"; if (filter === p.id) filter = "*"; renderPlatforms();
+  await Promise.all([savePlatforms(lib.userPlatforms), saveDefaults(lib.defaults)]);
+  platSel = "x"; renderPlatforms();
 };
 
 const setFold = (open) => document.querySelectorAll("#form details").forEach((d) => (d.open = open));
 $("foldAll").onclick = () => setFold(false);
 $("unfoldAll").onclick = () => setFold(true);
+
+
+// ===== DEFAULTS (the style used on each platform) =====================================
+// Row 1 is the general "Default" (no "Default" option: it feeds all the others). Then one row per platform,
+// whose dropdown starts on "Default". Every dropdown ends with "Create new style...".
+function renderDefaults() {
+  const generalId = lib.all.some((x) => x.id === lib.defaults["*"]) ? lib.defaults["*"] : lib.all[0].id;
+  const generalName = styleName(lib.all.find((x) => x.id === generalId));
+  const rows = [{ id: "*", name: t("op_df_default") }, ...lib.platforms.map((p) => ({ id: p.id, name: p.name }))];
+  $("deflist").innerHTML = rows.map((r) => {
+    const list = lib.all;
+    const cur = r.id === "*" ? generalId : lib.defaults[r.id], has = list.some((x) => x.id === cur);
+    return `<li class="${r.id === "*" ? "o-df-general" : ""}"><label for="df-${esc(r.id)}">${esc(r.name)}</label>
+      <div class="o-df-ctl"><select id="df-${esc(r.id)}" data-def="${esc(r.id)}">
+        ${r.id === "*" ? "" : `<option value="" ${has ? "" : "selected"}>${esc(t("op_df_default"))}</option>`}
+        ${list.map((x) => `<option value="${esc(x.id)}" ${has && cur === x.id ? "selected" : ""}>${esc(styleName(x))}</option>`).join("")}
+        <option value="__new">${esc(t("op_df_create"))}</option></select>
+        ${r.id !== "*" && !has ? `<span class="o-df-hint">→ ${esc(generalName)}</span>` : ""}</div></li>`;
+  }).join("");
+}
+
+// "Create new style...": a copy of the style the row currently resolves to, set as that row's choice, opened for editing.
+async function createStyleFor(rowId) {
+  const base = lib.all.find((x) => x.id === (rowId === "*" ? (lib.defaults["*"] || lib.all[0].id) : defaultFor(lib.all, lib.defaults, rowId))) || lib.all[0];
+  const copy = normalizeStyle({ ...base, id: newId(), name: t("op_copy_of", styleName(base)).slice(0, 40) }, DEFAULT);
+  lib.custom.push(copy); lib.all.push(copy); lib.defaults[rowId] = copy.id;
+  await Promise.all([saveStyles(lib.custom), saveDefaults(lib.defaults)]);
+  selId = copy.id; openTab("styles"); $("name").focus(); $("name").select();
+}
+
+$("deflist").addEventListener("change", async (e) => {
+  const row = e.target.dataset.def; if (row === undefined) return;
+  if (e.target.value === "__new") return createStyleFor(row);
+  e.target.value ? (lib.defaults[row] = e.target.value) : delete lib.defaults[row];
+  await saveDefaults(lib.defaults); renderDefaults();
+});
 
 // ===== LANGUAGE ==============================================================
 // First use: the picker below blocks the page until a language is chosen. Later it lives in the header.

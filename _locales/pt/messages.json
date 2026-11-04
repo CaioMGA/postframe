@@ -182,15 +182,6 @@
   "gr_avatar": {
     "message": "Foto de perfil"
   },
-  "o_w400": {
-    "message": "Normal"
-  },
-  "o_w600": {
-    "message": "Seminegrito"
-  },
-  "o_w700": {
-    "message": "Negrito"
-  },
   "o_wm_none": {
     "message": "Nenhuma"
   },
@@ -259,15 +250,6 @@
   },
   "icon_view": {
     "message": "Visualizações"
-  },
-  "cs_btn_title": {
-    "message": "Postframe: gerar imagens deste post"
-  },
-  "cs_err_read": {
-    "message": "não foi possível ler o post"
-  },
-  "cs_err_prefix": {
-    "message": "Erro: $1"
   },
   "ov_step_name": {
     "message": "Clique no NOME do autor"
@@ -497,12 +479,6 @@
   "op_tab_platforms": {
     "message": "Plataformas"
   },
-  "op_platform_label": {
-    "message": "Plataforma"
-  },
-  "op_all_platforms": {
-    "message": "Todas as plataformas"
-  },
   "op_new_style": {
     "message": "+ Novo estilo (duplica o selecionado)"
   },
@@ -515,14 +491,8 @@
   "op_name_aria": {
     "message": "Nome do estilo"
   },
-  "op_applies_to": {
-    "message": "Aplica-se a"
-  },
   "op_set_default": {
     "message": "Definir como padrão"
-  },
-  "op_set_default_in": {
-    "message": "Definir como padrão em $1"
   },
   "op_is_default": {
     "message": "★ Estilo padrão"
@@ -531,7 +501,7 @@
     "message": "Excluir"
   },
   "op_readonly_style": {
-    "message": "Estilo nativo (somente leitura). Use “Novo estilo” para criar uma cópia editável e, se quiser, mudar a plataforma dela."
+    "message": "Estilo nativo (somente leitura). Use “Novo estilo” para criar uma cópia editável."
   },
   "op_fold_all": {
     "message": "Recolher tudo"
@@ -694,5 +664,35 @@
   },
   "actionTitle": {
     "message": "Postframe: capturar posts ou configurar este site"
+  },
+  "op_tab_defaults": {
+    "message": "Padrões"
+  },
+  "op_defaults_intro": {
+    "message": "Escolha o estilo usado em cada plataforma. “Padrão” vale para todas as plataformas que não têm uma escolha própria."
+  },
+  "op_df_default": {
+    "message": "Padrão"
+  },
+  "op_df_create": {
+    "message": "Criar novo estilo…"
+  },
+  "cs_btn_title": {
+    "message": "Postframe: gerar imagens deste post"
+  },
+  "cs_err_read": {
+    "message": "não foi possível ler o post"
+  },
+  "cs_err_prefix": {
+    "message": "Erro: $1"
+  },
+  "o_w400": {
+    "message": "Normal"
+  },
+  "o_w600": {
+    "message": "Seminegrito"
+  },
+  "o_w700": {
+    "message": "Negrito"
   }
 }
