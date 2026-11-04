@@ -1,11 +1,11 @@
 // Persistência local (chrome.storage.local): estilos, plataformas e padrão por plataforma.
 import { BUILTINS, normalizeStyle } from "./styles.mjs";
-import { X_PLATFORM, normalizePlatform } from "./platforms.mjs";
+import { BUILTIN_PLATFORMS, normalizePlatform } from "./platforms.mjs";
 
 export async function getAll() {
   const { styles = [], platforms = [], defaults, defaultStyle } = await chrome.storage.local.get(["styles", "platforms", "defaults", "defaultStyle"]);
   const userPlatforms = platforms.map(normalizePlatform).filter(Boolean);
-  const allPlatforms = [X_PLATFORM, ...userPlatforms];
+  const allPlatforms = [...BUILTIN_PLATFORMS, ...userPlatforms];
   const known = new Set(allPlatforms.map((p) => p.id));
   const custom = styles.map((s) => normalizeStyle(s)).filter(Boolean).map((s) => (s.platform === "*" || known.has(s.platform) ? s : { ...s, platform: "*" }));
   const all = [...BUILTINS, ...custom];

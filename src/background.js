@@ -1,4 +1,4 @@
-import { normalizePlatform } from "./shared/platforms.mjs";
+import { normalizePlatform, BUILTIN_PLATFORMS, hostMatches } from "./shared/platforms.mjs";
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg?.type === "sp:open") {            // dados do post -> guarda e abre a página com os estilos
@@ -22,6 +22,14 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       i >= 0 ? (platforms[i] = p) : platforms.push(p);
       await chrome.storage.local.set({ platforms });
       sendResponse({ ok: true, platform: p });
+    })();
+    return true;
+  } else if (msg?.type === "sp:getPlatform") {     // o painel não importa módulos: pede a plataforma do site
+    (async () => {
+      const { platforms = [] } = await chrome.storage.local.get("platforms");
+      const host = String(msg.hostname || "");
+      const user = platforms.map(normalizePlatform).filter(Boolean).find((p) => hostMatches(host, p.hosts));
+      sendResponse(user || BUILTIN_PLATFORMS.find((p) => hostMatches(host, p.hosts)) || null);   // configuração do usuário tem precedência
     })();
     return true;
   } else if (msg?.type === "sp:options") chrome.runtime.openOptionsPage();
