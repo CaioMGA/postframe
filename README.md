@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icons/icon-512.png" width="128" height="128" alt="Postframe icon: viewfinder corners around a purple square">
+  <img src="icons/icon-512.png" width="128" height="128" alt="Postframe icon: viewfinder corners around two lines of text">
 </p>
 
 # Postframe

@@ -29,15 +29,15 @@
   host.style.cssText = "all:initial;position:fixed;inset:0;z-index:2147483647;pointer-events:none";
   const root = host.attachShadow({ mode: "open" });
   root.innerHTML = `<style>
-    .hl{position:fixed;border:2px solid #8b7cff;background:rgba(139,124,255,.15);border-radius:4px;pointer-events:none;box-sizing:border-box}
-    .hl.sel{border-style:dashed;background:rgba(139,124,255,.08)}
-    .panel{pointer-events:auto;position:fixed;top:12px;right:12px;width:320px;max-height:calc(100vh - 24px);overflow:auto;background:#16181d;color:#e8e9ee;border:1px solid #333845;border-radius:12px;padding:14px;font:13px/1.4 system-ui,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-    h3{margin:0 0 4px;font-size:14px}.sub{color:#9aa0ae;margin:0 0 10px}
-    button,select,input{font:inherit;color:#e8e9ee;background:#23262e;border:1px solid #333845;border-radius:8px;padding:6px 10px;box-sizing:border-box}
-    button{cursor:pointer}button:hover{background:#2c303a}.pri{background:#6d5efc;border-color:#6d5efc;color:#fff}
+    .hl{position:fixed;border:2px solid #b4472b;background:rgba(180,71,43,.14);border-radius:4px;pointer-events:none;box-sizing:border-box}
+    .hl.sel{border-style:dashed;background:rgba(180,71,43,.08)}
+    .panel{pointer-events:auto;position:fixed;top:12px;right:12px;width:320px;max-height:calc(100vh - 24px);overflow:auto;background:#f6f0e4;color:#1f1a14;border:1px solid #cfc2a8;border-radius:12px;padding:14px;font:13px/1.4 system-ui,sans-serif;box-shadow:0 12px 40px rgba(31,26,20,.18)}
+    h3{margin:0 0 4px;font-size:15px;font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Noto Serif','DejaVu Serif',serif}.sub{color:#7a6f60;margin:0 0 10px}
+    button,select,input{font:inherit;color:#1f1a14;background:#efe6d3;border:1px solid #cfc2a8;border-radius:8px;padding:6px 10px;box-sizing:border-box}
+    button{cursor:pointer}button:hover{background:#e5dac3}.pri{background:#b4472b;border-color:#b4472b;color:#fffaf0}
     .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.col{display:flex;flex-direction:column;gap:6px}
     input{width:100%}select{width:100%}
-    ul{margin:8px 0 0;padding:0;list-style:none;color:#b9bfd0}li{margin:3px 0;word-break:break-word}li b{color:#fff}.ok{color:#7ee0a0}.warn{color:#e6c46a}
+    ul{margin:8px 0 0;padding:0;list-style:none;color:#5c5143}li{margin:3px 0;word-break:break-word}li b{color:#1f1a14}.ok{color:#2f7a4a}.warn{color:#8a5a00}
   </style><div class="hl" hidden></div><div class="hl sel" id="selhl" hidden></div><div class="panel"></div>`;
   document.documentElement.appendChild(host);
   const hl = root.querySelector(".hl"), selhl = root.getElementById("selhl"), panel = root.querySelector(".panel");
