@@ -5,20 +5,11 @@ export const ICON_KEYS = { reply: "icon_reply", comment: "icon_comment", retweet
 // Selector syntax: "css" reads the element text; "css@attribute" reads an attribute (e.g. "a[data-tooltip]@aria-label").
 export const X_PLATFORM = { id: "x", name: "X (Twitter)", builtin: true, extractor: "x", hosts: ["x.com", "twitter.com"], sel: { container: 'article[data-testid="tweet"]' } };
 
-// Checked against a real page (bsky.app, logged out). Quote posts are not read; reposts are.
+// Own extractor (src/sites/bluesky.js): the web app renders posts in several shapes (feed item, focused post, reply).
+// The container covers the feeds and the post page. Quote posts are not read; reposts are.
 export const BLUESKY_PLATFORM = {
-  id: "bluesky", name: "Bluesky", builtin: true, hosts: ["bsky.app"],
-  sel: {
-    container: '[data-testid^="feedItem-by-"]',
-    avatar: '[data-testid="userAvatarImage"] img',
-    name: 'a[role="link"][dir="auto"]:has(+ div + a[role="link"][dir="auto"])',
-    handle: 'a[role="link"][dir="auto"] + div + a[role="link"][dir="auto"]',
-    text: '[data-testid="postText"]',
-    media: 'img[src*="/feed_thumbnail/"]',
-    time: 'a[data-tooltip]@aria-label',
-    repost: 'a[aria-label^="Reposted by"]', repostStrip: "Reposted by",
-    stats: [{ icon: "reply", sel: '[data-testid="replyBtn"]' }, { icon: "retweet", sel: '[data-testid="repostCount"]' }, { icon: "like", sel: '[data-testid="likeCount"]' }]
-  }
+  id: "bluesky", name: "Bluesky", builtin: true, extractor: "bluesky", hosts: ["bsky.app"],
+  sel: { container: '[data-testid^="feedItem-by-"], [data-testid^="postThreadItem-by-"]' }
 };
 
 // BETA. Only the feed `article` was checked against a real (logged-in) page; the rest is heuristics in src/sites/instagram.js.
