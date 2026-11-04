@@ -1,19 +1,23 @@
-// Injetado ao clicar no ícone da extensão (activeTab + scripting).
-// Painel em Shadow DOM: capturar posts da plataforma deste site ou configurar os seletores.
+// Injected when the extension icon is clicked (activeTab + scripting).
+// Shadow DOM panel: capture posts of this site's platform or set up its selectors.
 (() => {
   if (window.__spOverlay) { window.__spOverlay.toggle(); return; }
 
-  const STAT_ICONS = { like: "Curtida", upvote: "Voto", reply: "Resposta", comment: "Comentário", retweet: "Repost", share: "Compartilhar", view: "Visualizações" };
+  // Texts come from the background (this script cannot import modules). Keys are shown until they arrive.
+  let M = {};
+  const t = (key, subs) => { let m = M[key] ?? key; [].concat(subs ?? []).forEach((v, i) => { m = m.split("$" + (i + 1)).join(String(v)); }); return m; };
+
+  const STAT_ICONS = { like: "icon_like", upvote: "icon_upvote", reply: "icon_reply", comment: "icon_comment", retweet: "icon_retweet", share: "icon_share", view: "icon_view" };   // i18n keys
   const STEPS = [
-    { key: "name", label: "Clique no NOME do autor", req: true },
-    { key: "handle", label: "Clique no @usuário (ou pule)" },
-    { key: "avatar", label: "Clique na FOTO de perfil (ou pule)" },
-    { key: "text", label: "Clique no TEXTO do post", req: true },
-    { key: "media", label: "Clique em uma IMAGEM do post (ou pule)" },
-    { key: "time", label: "Clique na hora/data (ou pule)" },
-    { key: "stat0", label: "Clique em uma CONTAGEM (curtidas, comentários…) ou pule", stat: true },
-    { key: "stat1", label: "Outra contagem (ou pule)", stat: true },
-    { key: "stat2", label: "Mais uma contagem (ou pule)", stat: true }
+    { key: "name", label: "ov_step_name", req: true },
+    { key: "handle", label: "ov_step_handle" },
+    { key: "avatar", label: "ov_step_avatar" },
+    { key: "text", label: "ov_step_text", req: true },
+    { key: "media", label: "ov_step_media" },
+    { key: "time", label: "ov_step_time" },
+    { key: "stat0", label: "ov_step_stat0", stat: true },
+    { key: "stat1", label: "ov_step_stat1", stat: true },
+    { key: "stat2", label: "ov_step_stat2", stat: true }
   ];
   const FIRST_STAT = STEPS.findIndex((x) => x.stat);
   const iconFor = (i) => (i >= FIRST_STAT ? ['like', 'comment', 'share'][i - FIRST_STAT] : null);
@@ -45,18 +49,18 @@
     return e;
   };
 
-  // ---------- estado ----------
-  let platform = null;                     // { id, name, hosts, sel, builtin?, extractor? }  (extractor "x" = leitura própria do X)
+  // ---------- state ----------
+  let platform = null;                     // { id, name, hosts, sel, builtin?, extractor? }  (extractor "x" = X's own reader)
   let mode = "menu", step = 0, draft = null, cand = null, picking = null, containerEl = null;
   const hostname = location.hostname.replace(/^www\./, "");
   const matchHost = (hosts) => hosts.some((x) => hostname === x || hostname.endsWith("." + x));
 
-  // O background resolve pelo host: configuração do usuário vence a embutida.
+  // The background resolves it by host: the user's configuration wins over the built-in one.
   async function loadPlatform() {
     try { return (await chrome.runtime.sendMessage({ type: "sp:getPlatform", hostname })) || null; } catch { return null; }
   }
 
-  // ---------- seletores ----------
+  // ---------- selectors ----------
   const stable = (c) => /^[a-z][a-z-]{2,29}$/.test(c) && !/^(css|sc|jsx|r)-/.test(c);
   function segs(el) {
     const t = el.localName, out = [];
@@ -82,7 +86,7 @@
     while (cur && cur !== scope) { path.unshift(`${cur.localName}:nth-child(${[...cur.parentElement.children].indexOf(cur) + 1})`); cur = cur.parentElement; }
     return ":scope > " + path.join(" > ");
   }
-  function mediaSelector(el, scope) {   // pode casar várias imagens do mesmo post
+  function mediaSelector(el, scope) {   // may match several images of the same post
     const ok = (sel) => { const m = qa(scope, sel); return [...m].includes(el) && m.length <= 8; };
     const good = (sel) => /[[.]/.test(sel) || sel.includes("-");
     for (const sel of segs(el)) if (good(sel) && ok(sel)) return sel;
@@ -126,9 +130,9 @@
       const blob = await (await fetch(url, { credentials: "omit", signal: ctl.signal })).blob();
       if (!blob.type.startsWith("image/")) return /^https:/.test(url) ? url : "";
       return await new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = no; r.readAsDataURL(blob); });
-    } catch { return /^https:/.test(url) ? url : ""; }    // CORS: repassa a URL; o viewer tenta baixar (senão, avatar com a inicial)
+    } catch { return /^https:/.test(url) ? url : ""; }    // CORS: pass the URL on; the viewer tries to download it (otherwise: initial-letter avatar)
   }
-  // Imagens do post: baixa e reduz (≤ 800 px, JPEG). Sites que bloqueiam por CORS ficam sem a imagem.
+  // Post images: download and shrink (≤ 800 px, JPEG). CORS-blocked images are passed on as URLs.
   async function mediaData(url) {
     try {
       if (!url) return "";
@@ -140,16 +144,16 @@
       return c.toDataURL("image/jpeg", 0.8);
     } catch { return /^https:/.test(url) ? url : ""; }
   }
-  const q = (c, s) => { try { return !s ? null : s === ":scope" ? c : c.querySelector(s); } catch { return null; } };   // ":scope" = o próprio container
+  const q = (c, s) => { try { return !s ? null : s === ":scope" ? c : c.querySelector(s); } catch { return null; } };   // ":scope" = the container itself
 
-  // "css" lê o texto; "css@atributo" lê o atributo (ex.: "a[data-tooltip]@aria-label").
+  // "css" reads the text; "css@attribute" reads the attribute (e.g. "a[data-tooltip]@aria-label").
   const parseSel = (x) => { const m = (x || "").match(/^(.*\S)@([A-Za-z][\w-]*)$/); return m ? { css: m[1], attr: m[2] } : { css: x || "", attr: null }; };
   const field = (c, x, fromEl) => { const { css, attr } = parseSel(x); const el = css ? q(c, css) : null; return !el ? "" : attr ? (el.getAttribute(attr) || "") : fromEl(el); };
   const countText = (t) => { const m = String(t || "").match(/\d[\d.,]*\s*(mil|mi|k|m|b)?\b/i); return m ? m[0].trim() : "0"; };
-  const normTime = (t) => String(t || "").replace(/\s+(at|às|a las)\s+/i, " ");   // "November 4, 2026 at 2:32 PM" -> parseável
+  const normTime = (t) => String(t || "").replace(/\s+(at|às|a las)\s+/i, " ");   // "November 4, 2026 at 2:32 PM" -> parseable
 
   async function extract(container, p) {
-    const ex = p.extractor && globalThis.SP_EXTRACTORS?.[p.extractor];   // extratores próprios (X, Instagram)
+    const ex = p.extractor && globalThis.SP_EXTRACTORS?.[p.extractor];   // built-in extractors (X, Instagram)
     if (ex) return ex(container);
     const s = p.sel, avEl = q(container, parseSel(s.avatar).css);
     const imgs = s.media ? [...qa(container, parseSel(s.media).css)].filter((i) => !(avEl && (i === avEl || avEl.contains(i) || i.contains(avEl)))) : [];
@@ -164,7 +168,7 @@
       stats: (s.stats || []).map((x) => ({ icon: x.icon, n: countText(field(container, x.sel, txt)) })),
       time: normTime(field(container, s.time, timeOf))
     };
-    // repost: o post exibido é o original; quem repostou vem do elemento de contexto
+    // repost: the displayed post is the original; who reposted comes from the context element
     const rp = s.repost ? q(container, parseSel(s.repost).css) : null;
     if (rp) {
       const strip = s.repostStrip ? new RegExp("^\\s*" + s.repostStrip.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s*", "i") : null;
@@ -175,7 +179,7 @@
     return { kind: "tweet", ...extra, ...main };
   }
 
-  // ---------- seleção com o mouse ----------
+  // ---------- picking with the mouse ----------
   const inHost = (e) => e.composedPath().includes(host);
   const rectOf = (box, el) => { if (!el) { box.hidden = true; return; } const r = el.getBoundingClientRect(); Object.assign(box.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" }); box.hidden = false; };
   let origin = null;
@@ -213,7 +217,7 @@
     document.documentElement.style.cursor = ""; hl.hidden = true;
   }
 
-  // ---------- modos / interface ----------
+  // ---------- modes / interface ----------
   const matches = () => (draft?.container ? [...qa(document, draft.container)] : []);
   const short = (s, n = 40) => (s.length > n ? s.slice(0, n) + "…" : s);
 
@@ -226,11 +230,11 @@
 
   async function startCapture() {
     const sel = platform.sel.container;
-    render(document.querySelector(sel) ? undefined : "Nenhum post encontrado nesta página (o layout pode não ser suportado). Tente “Reconfigurar este site”.");
+    render(document.querySelector(sel) ? undefined : t("ov_none_found"));
     startPick((el) => { try { return el.closest(sel); } catch { return null; } }, async (el) => {
-      render("Gerando…");
+      render(t("ov_generating"));
       try { chrome.runtime.sendMessage({ type: "sp:open", tweet: await extract(el, platform) }); } catch (e) { console.error("[postframe]", e); }
-      mode = "menu"; render("Abrindo as imagens em uma nova aba…");
+      mode = "menu"; render(t("ov_opening"));
     });
   }
 
@@ -244,10 +248,10 @@
     startPick((el) => (containerEl.contains(el) && el !== containerEl ? el : null), (el) => {
       const s = STEPS[step], sel = s.key === "media" ? mediaSelector(el, containerEl) : fieldSelector(el, containerEl), all = matches();
       const found = all.filter((c) => q(c, sel)).length;
-      const val = s.key === "media" ? `${qa(containerEl, sel).length} imagem(ns)` : s.key === "avatar" ? avatarUrl(el) : s.key === "time" ? timeOf(el) : s.stat ? countOf(el) : txt(el);
+      const val = s.key === "media" ? t("ov_images_count", qa(containerEl, sel).length) : s.key === "avatar" ? avatarUrl(el) : s.key === "time" ? timeOf(el) : s.stat ? countOf(el) : txt(el);
       if (s.stat) draft.stats.push({ icon: draft.pendingIcon || "like", sel });
       else draft.fields[s.key] = sel;
-      draft.log.push({ label: s.stat ? `${STAT_ICONS[draft.pendingIcon || "like"]}` : s.key, val: short(String(val || "(vazio)")), found, total: all.length });
+      draft.log.push({ label: s.stat ? t(STAT_ICONS[draft.pendingIcon || "like"]) : t("ov_f_" + s.key), val: short(String(val || t("ov_empty"))), found, total: all.length });
       next();
     });
   }
@@ -258,64 +262,64 @@
     const s = STEPS[step], last = draft.log.pop();
     if (s.stat) draft.stats.pop(); else delete draft.fields[s.key];
     draft.pendingIcon = iconFor(step);
-    if (!last) { /* passo pulado */ }
+    if (!last) { /* skipped step */ }
     startFieldPick();
   }
 
   async function save(name) {
     const sel = { container: draft.container, ...draft.fields, stats: draft.stats };
     const res = await chrome.runtime.sendMessage({ type: "sp:savePlatform", platform: { id: platform && !platform.builtin ? platform.id : undefined, name, hosts: [hostname], sel } });
-    if (res?.ok) { platform = res.platform; setMode("capture"); } else render("Não foi possível salvar.");
+    if (res?.ok) { platform = res.platform; setMode("capture"); } else render(t("ov_save_fail"));
   }
 
   function render(note) {
     panel.replaceChildren();
-    const close = h("button", { textContent: "Fechar", onclick: destroy });
-    const title = (t, sub) => [h("h3", { textContent: t }), sub ? h("p", { class: "sub", textContent: sub }) : null];
+    const close = h("button", { textContent: t("ov_close"), onclick: destroy });
+    const title = (head, sub) => [h("h3", { textContent: head }), sub ? h("p", { class: "sub", textContent: sub }) : null];
     if (note) panel.append(h("p", { class: "sub", textContent: note }));
 
     if (mode === "menu") {
-      panel.append(...title("Postframe", platform ? `Plataforma: ${platform.name}` : "Este site ainda não está configurado."));
+      panel.append(...title("Postframe", platform ? t("ov_platform", platform.name) : t("ov_not_configured")));
       const row = h("div", { class: "row" });
-      if (platform) row.append(h("button", { class: "pri", textContent: "Capturar um post", onclick: () => setMode("capture") }));
-      row.append(h("button", { class: platform ? "" : "pri", textContent: platform ? "Reconfigurar este site" : "Configurar este site", onclick: () => setMode("setup") }));
-      row.append(h("button", { textContent: "Estilos…", onclick: () => chrome.runtime.sendMessage({ type: "sp:options" }) }), close);
+      if (platform) row.append(h("button", { class: "pri", textContent: t("ov_capture_btn"), onclick: () => setMode("capture") }));
+      row.append(h("button", { class: platform ? "" : "pri", textContent: platform ? t("ov_reconfigure") : t("ov_configure"), onclick: () => setMode("setup") }));
+      row.append(h("button", { textContent: t("ov_styles"), onclick: () => chrome.runtime.sendMessage({ type: "sp:options" }) }), close);
       panel.append(row);
     } else if (mode === "capture") {
-      panel.append(...title("Capturar post", "Passe o mouse e clique no post. Esc para voltar."), h("div", { class: "row" }, h("button", { textContent: "Cancelar", onclick: () => setMode("menu") })));
+      panel.append(...title(t("ov_capture_title"), t("ov_capture_hint")), h("div", { class: "row" }, h("button", { textContent: t("ov_cancel"), onclick: () => setMode("menu") })));
     } else if (mode === "setup" && step < 0) {
       if (!draft.container) {
-        panel.append(...title("Configurar este site · 1", "Clique em um post inteiro (o bloco que contém foto, nome e texto). ↑ aumenta a seleção, ↓ diminui."), h("div", { class: "row" }, h("button", { textContent: "Cancelar", onclick: () => setMode("menu") })));
+        panel.append(...title(t("ov_setup_title1"), t("ov_setup_hint1")), h("div", { class: "row" }, h("button", { textContent: t("ov_cancel"), onclick: () => setMode("menu") })));
       } else {
         const n = matches().length;
-        panel.append(...title("Bloco do post", `${n} ${n === 1 ? "bloco encontrado" : "blocos encontrados"} nesta página.`),
-          h("p", { class: n > 1 ? "ok" : "warn", textContent: n > 1 ? "Parece uma lista de posts." : "Só 1 bloco: se a página tem vários posts, aumente a seleção." }),
+        panel.append(...title(t("ov_block_title"), n === 1 ? t("ov_block_one") : t("ov_block_many", n)),
+          h("p", { class: n > 1 ? "ok" : "warn", textContent: n > 1 ? t("ov_looks_list") : t("ov_only_one") }),
           h("div", { class: "row" },
-            h("button", { class: "pri", textContent: "Usar este bloco", onclick: () => { selhl.hidden = true; next(); } }),
-            h("button", { textContent: "↑ Maior", onclick: () => { const p = containerEl.parentElement; if (p && p !== document.body) { containerEl = p; draft.container = containerSelector(p); render(); rectOf(selhl, p); } } }),
-            h("button", { textContent: "Escolher outro", onclick: () => { draft.container = ""; startContainerPick(); } })));
+            h("button", { class: "pri", textContent: t("ov_use_block"), onclick: () => { selhl.hidden = true; next(); } }),
+            h("button", { textContent: t("ov_bigger"), onclick: () => { const p = containerEl.parentElement; if (p && p !== document.body) { containerEl = p; draft.container = containerSelector(p); render(); rectOf(selhl, p); } } }),
+            h("button", { textContent: t("ov_pick_other"), onclick: () => { draft.container = ""; startContainerPick(); } })));
       }
     } else if (mode === "setup") {
       const s = STEPS[step];
-      panel.append(...title(`Configurar este site · ${step + 2}/${STEPS.length + 1}`, s.label));
-      if (s.stat) { const sel = h("select", { onchange: () => (draft.pendingIcon = sel.value) }, Object.entries(STAT_ICONS).map(([k, l]) => h("option", { value: k, textContent: l, selected: k === draft.pendingIcon }))); panel.append(h("div", { class: "col" }, h("span", { class: "sub", textContent: "Tipo da contagem:" }), sel)); }
+      panel.append(...title(t("ov_setup_title_n", [step + 2, STEPS.length + 1]), t(s.label)));
+      if (s.stat) { const sel = h("select", { onchange: () => (draft.pendingIcon = sel.value) }, Object.entries(STAT_ICONS).map(([k, l]) => h("option", { value: k, textContent: t(l), selected: k === draft.pendingIcon }))); panel.append(h("div", { class: "col" }, h("span", { class: "sub", textContent: t("ov_count_type") }), sel)); }
       if (draft.log.length) panel.append(logList());
       panel.append(h("div", { class: "row" },
-        !s.req ? h("button", { textContent: "Pular", onclick: () => { draft.log.push({ label: s.key, val: "— pulado", found: 0, total: 0, skipped: true }); next(); } }) : null,
-        h("button", { textContent: "← Voltar", onclick: back }),
-        h("button", { textContent: "Cancelar", onclick: () => setMode("menu") })));
+        !s.req ? h("button", { textContent: t("ov_skip"), onclick: () => { draft.log.push({ label: s.key, val: t("ov_skipped"), found: 0, total: 0, skipped: true }); next(); } }) : null,
+        h("button", { textContent: t("ov_back"), onclick: back }),
+        h("button", { textContent: t("ov_cancel"), onclick: () => setMode("menu") })));
     } else if (mode === "review") {
       const name = h("input", { value: platform ? platform.name : hostname.replace(/\..*$/, "").replace(/^./, (c) => c.toUpperCase()), maxLength: 40 });
-      panel.append(...title("Pronto!", `Será usado em ${hostname}`), h("div", { class: "col" }, h("span", { class: "sub", textContent: "Nome da plataforma:" }), name), logList(),
-        h("div", { class: "row" }, h("button", { class: "pri", textContent: "Salvar e capturar", onclick: () => save(name.value || hostname) }), h("button", { textContent: "← Voltar", onclick: back }), h("button", { textContent: "Cancelar", onclick: () => setMode("menu") })));
+      panel.append(...title(t("ov_done"), t("ov_will_use", hostname)), h("div", { class: "col" }, h("span", { class: "sub", textContent: t("ov_platform_name") }), name), logList(),
+        h("div", { class: "row" }, h("button", { class: "pri", textContent: t("ov_save_capture"), onclick: () => save(name.value || hostname) }), h("button", { textContent: t("ov_back"), onclick: back }), h("button", { textContent: t("ov_cancel"), onclick: () => setMode("menu") })));
     }
   }
   function logList() {
-    return h("ul", {}, draft.log.map((l) => h("li", {}, h("b", { textContent: l.label + ": " }), l.val, l.skipped ? "" : h("span", { class: l.found === l.total ? "ok" : "warn", textContent: `  (${l.found}/${l.total} posts)` }))));
+    return h("ul", {}, draft.log.map((l) => h("li", {}, h("b", { textContent: l.label + ": " }), l.val, l.skipped ? "" : h("span", { class: l.found === l.total ? "ok" : "warn", textContent: t("ov_log_found", [l.found, l.total]) }))));
   }
 
   function destroy() { stopPick(); host.remove(); delete window.__spOverlay; }
   window.__spOverlay = { toggle: () => (host.isConnected ? destroy() : (document.documentElement.appendChild(host), render())) };
 
-  loadPlatform().then((p) => { platform = p; render(); });
+  Promise.all([loadPlatform(), chrome.runtime.sendMessage({ type: "sp:i18n" }).catch(() => null)]).then(([p, i18n]) => { platform = p; M = i18n?.messages || {}; render(); });
 })();
