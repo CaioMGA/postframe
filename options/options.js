@@ -346,5 +346,10 @@ if (!savedLang) {
   $("welcome").hidden = false;
 }
 
+// ===== THEME =================================================================
+$("theme").innerHTML = ["light", "dark", "system"].map((v) => `<option value="${v}">${esc(t(`op_theme_${v}`))}</option>`).join("");
+$("theme").value = getTheme();
+$("theme").onchange = () => setTheme($("theme").value);
+
 buildForm();
 renderAll();

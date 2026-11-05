@@ -467,6 +467,18 @@
   "op_language": {
     "message": "言語"
   },
+  "op_theme": {
+    "message": "テーマ"
+  },
+  "op_theme_light": {
+    "message": "ライト"
+  },
+  "op_theme_dark": {
+    "message": "ダーク"
+  },
+  "op_theme_system": {
+    "message": "システム"
+  },
   "op_welcome_title": {
     "message": "言語を選択してください"
   },
