@@ -27,17 +27,23 @@
   const host = document.createElement("div");
   host.id = "sp-overlay-host";
   host.style.cssText = "all:initial;position:fixed;inset:0;z-index:2147483647;pointer-events:none";
+  // A shadow root cannot load theme.css, so the palette is repeated in its <style> below.
+  chrome.storage.local.get("theme").then(({ theme }) => {
+    host.dataset.theme = theme === "dark" || (theme === "system" && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  });
   const root = host.attachShadow({ mode: "open" });
   root.innerHTML = `<style>
-    .hl{position:fixed;border:2px solid #b4472b;background:rgba(180,71,43,.14);border-radius:4px;pointer-events:none;box-sizing:border-box}
+    :host{color-scheme:light;--bg:#f6f0e4;--fg:#1f1a14;--surface-2:#efe6d3;--hover:#e5dac3;--border:#cfc2a8;--accent:#b4472b;--on-accent:#fffaf0;--note:#8a5a00;--ok:#2f7a4a;--text-3:#5c5143;--muted:#7a6f60;--shadow:rgba(31,26,20,.18)}
+    :host([data-theme=dark]){color-scheme:dark;--bg:#171310;--fg:#f1e9db;--surface-2:#2b251e;--hover:#372f26;--border:#4d4336;--accent:#b4472b;--on-accent:#fffaf0;--note:#e3b460;--ok:#7fcf9c;--text-3:#c2b6a2;--muted:#a79a86;--shadow:rgba(0,0,0,.5)}
+    .hl{position:fixed;border:2px solid var(--accent);background:rgba(180,71,43,.14);border-radius:4px;pointer-events:none;box-sizing:border-box}
     .hl.sel{border-style:dashed;background:rgba(180,71,43,.08)}
-    .panel{pointer-events:auto;position:fixed;top:12px;right:12px;width:320px;max-height:calc(100vh - 24px);overflow:auto;background:#f6f0e4;color:#1f1a14;border:1px solid #cfc2a8;border-radius:12px;padding:14px;font:13px/1.4 system-ui,sans-serif;box-shadow:0 12px 40px rgba(31,26,20,.18)}
-    h3{margin:0 0 4px;font-size:15px;font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Noto Serif','DejaVu Serif',serif}.sub{color:#7a6f60;margin:0 0 10px}
-    button,select,input{font:inherit;color:#1f1a14;background:#efe6d3;border:1px solid #cfc2a8;border-radius:8px;padding:6px 10px;box-sizing:border-box}
-    button{cursor:pointer}button:hover{background:#e5dac3}.pri{background:#b4472b;border-color:#b4472b;color:#fffaf0}
+    .panel{pointer-events:auto;position:fixed;top:12px;right:12px;width:320px;max-height:calc(100vh - 24px);overflow:auto;background:var(--bg);color:var(--fg);border:1px solid var(--border);border-radius:12px;padding:14px;font:13px/1.4 system-ui,sans-serif;box-shadow:0 12px 40px var(--shadow)}
+    h3{margin:0 0 4px;font-size:15px;font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Noto Serif','DejaVu Serif',serif}.sub{color:var(--muted);margin:0 0 10px}
+    button,select,input{font:inherit;color:var(--fg);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;box-sizing:border-box}
+    button{cursor:pointer}button:hover{background:var(--hover)}.pri{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
     .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.col{display:flex;flex-direction:column;gap:6px}
     input{width:100%}select{width:100%}
-    ul{margin:8px 0 0;padding:0;list-style:none;color:#5c5143}li{margin:3px 0;word-break:break-word}li b{color:#1f1a14}.ok{color:#2f7a4a}.warn{color:#8a5a00}
+    ul{margin:8px 0 0;padding:0;list-style:none;color:var(--text-3)}li{margin:3px 0;word-break:break-word}li b{color:var(--fg)}.ok{color:var(--ok)}.warn{color:var(--note)}
   </style><div class="hl" hidden></div><div class="hl sel" id="selhl" hidden></div><div class="panel"></div>`;
   document.documentElement.appendChild(host);
   const hl = root.querySelector(".hl"), selhl = root.getElementById("selhl"), panel = root.querySelector(".panel");

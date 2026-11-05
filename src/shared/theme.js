@@ -1,4 +1,5 @@
-// Editor theme. A classic script in <head>, so the saved theme applies before first paint.
+// Theme of the extension's own pages. A classic script in <head>, so it applies before first paint.
+// localStorage is the synchronous copy; the injected panel can only read chrome.storage.
 const THEME_KEY = "theme";
 const darkScheme = matchMedia("(prefers-color-scheme: dark)");
 
@@ -11,6 +12,7 @@ function applyTheme() {
 
 function setTheme(theme) {
   localStorage.setItem(THEME_KEY, theme);
+  chrome.storage.local.set({ [THEME_KEY]: theme });
   applyTheme();
 }
 
