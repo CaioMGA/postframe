@@ -52,6 +52,7 @@
   // ---------- state ----------
   let platform = null;                     // { id, name, hosts, sel, builtin?, extractor? }  (extractor "x" = X's own reader)
   let mode = "menu", step = 0, draft = null, cand = null, picking = null, containerEl = null;
+  let lastPick = null, lastError = null;     // the last captured post and its error, for the diagnostics button
   const hostname = location.hostname.replace(/^www\./, "");
   const matchHost = (hosts) => hosts.some((x) => hostname === x || hostname.endsWith("." + x));
 
@@ -232,9 +233,17 @@
     const sel = platform.sel.container;
     render(document.querySelector(sel) ? undefined : t("ov_none_found"));
     startPick((el) => { try { return el.closest(sel); } catch { return null; } }, async (el) => {
-      render(t("ov_generating"));
-      try { chrome.runtime.sendMessage({ type: "sp:open", tweet: await extract(el, platform) }); } catch (e) { console.error("[postframe]", e); }
-      mode = "menu"; render(t("ov_opening"));
+      render(t("ov_generating")); lastPick = el; lastError = null; mode = "menu";
+      try {
+        const tweet = await extract(el, platform);
+        // a post with nothing in it means the selectors/extractor no longer match the page: say so instead of opening an empty image
+        if (!tweet?.author?.name && !tweet?.author?.handle && !tweet?.title && !tweet?.text && !tweet?.media?.length && !tweet?.original) throw new Error(t("ov_no_data"));
+        chrome.runtime.sendMessage({ type: "sp:open", tweet });
+        render(t("ov_opening"));
+      } catch (e) {
+        console.error("[postframe]", e); lastError = e;
+        render(t("ov_capture_error", String(e?.message || e).slice(0, 160)));
+      }
     });
   }
 
@@ -282,8 +291,10 @@
       panel.append(...title("Postframe", platform ? t("ov_platform", platform.name) : t("ov_not_configured")));
       const row = h("div", { class: "row" });
       if (platform) row.append(h("button", { class: "pri", textContent: t("ov_capture_btn"), onclick: () => setMode("capture") }));
-      row.append(h("button", { class: platform ? "" : "pri", textContent: platform ? t("ov_reconfigure") : t("ov_configure"), onclick: () => setMode("setup") }));
+      // built-in platforms read posts with their own extractor; only unknown sites (or the user's own platforms) can be set up
+      if (!platform?.builtin) row.append(h("button", { class: platform ? "" : "pri", textContent: platform ? t("ov_reconfigure") : t("ov_configure"), onclick: () => setMode("setup") }));
       row.append(h("button", { textContent: t("ov_styles"), onclick: () => chrome.runtime.sendMessage({ type: "sp:options" }) }), close);
+      if (lastPick) row.append(h("button", { textContent: t("ov_copy_diag"), onclick: copyDiagnostics }));
       panel.append(row);
     } else if (mode === "capture") {
       panel.append(...title(t("ov_capture_title"), t("ov_capture_hint")), h("div", { class: "row" }, h("button", { textContent: t("ov_cancel"), onclick: () => setMode("menu") })));
@@ -316,6 +327,26 @@
   }
   function logList() {
     return h("ul", {}, draft.log.map((l) => h("li", {}, h("b", { textContent: l.label + ": " }), l.val, l.skipped ? "" : h("span", { class: l.found === l.total ? "ok" : "warn", textContent: t("ov_log_found", [l.found, l.total]) }))));
+  }
+
+  // Structure only (names, counts, hosts): no post text and no links, so it is safe to paste in an issue.
+  function diagnose(el, err) {
+    const host = (u) => { try { return new URL(u).host; } catch { return ""; } };
+    const q = (sel) => { try { return [...el.querySelectorAll(sel)]; } catch { return []; } };
+    return JSON.stringify({
+      site: location.hostname, platform: platform?.id, extractor: platform?.extractor || null, error: err ? String(err.message || err).slice(0, 200) : null,
+      container: { tag: el.localName, attributes: el.getAttributeNames() },
+      slots: [...new Set(q("[slot]").map((e) => e.getAttribute("slot")))],
+      tags: [...new Set(q("*").map((e) => e.localName))].slice(0, 60),
+      images: q("img").slice(0, 12).map((i) => ({ host: host(i.src), firstClass: String(i.className || "").split(" ")[0], width: Math.round(i.getBoundingClientRect().width) })),
+      players: q("shreddit-player, shreddit-player-2, video").map((e) => ({ tag: e.localName, attributes: e.getAttributeNames() })),
+      textBody: ['[slot="text-body"]', '[id$="-post-rtjson-content"]', '[data-post-click-location="text-body"]'].map((s) => [s, q(s).length]),
+      testids: [...new Set(q("[data-testid]").map((e) => e.getAttribute("data-testid").replace(/did:\S+|by-.*/, "by-…")))].slice(0, 30)
+    }, null, 2);
+  }
+  async function copyDiagnostics() {
+    try { await navigator.clipboard.writeText(diagnose(lastPick, lastError)); render(t("ov_copied")); }
+    catch (e) { render(t("ov_capture_error", String(e?.message || e).slice(0, 120))); }
   }
 
   function destroy() { stopPick(); host.remove(); delete window.__spOverlay; }

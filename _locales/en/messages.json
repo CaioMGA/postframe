@@ -585,7 +585,7 @@
     "message": "+ New platform"
   },
   "op_pro_note": {
-    "message": "Built-in platform (read-only). To adjust it, duplicate it: your version takes precedence on the site."
+    "message": "Built-in platform (read-only)."
   },
   "op_dup_platform": {
     "message": "Duplicate to edit"
@@ -609,7 +609,7 @@
     "message": "CSS selectors"
   },
   "op_extractor_note": {
-    "message": "This platform is read by built-in code (it does not use selectors). To override it, use “Reconfigure this site” on the site itself."
+    "message": "This platform is read by built-in code, not by selectors, so it can't be edited."
   },
   "op_stat_ph": {
     "message": "selector for count $1 (optional)"
@@ -694,5 +694,20 @@
   },
   "o_w700": {
     "message": "Bold"
+  },
+  "op_plat_taken": {
+    "message": "“$1” is already built in as $2, so it can't be set up again."
+  },
+  "ov_capture_error": {
+    "message": "Could not read this post: $1"
+  },
+  "ov_copy_diag": {
+    "message": "Copy diagnostics"
+  },
+  "ov_copied": {
+    "message": "Diagnostics copied. Paste it in an issue or send it to the developer."
+  },
+  "ov_no_data": {
+    "message": "no post data found (the page structure may have changed)"
   }
 }
