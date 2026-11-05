@@ -8,7 +8,7 @@ A Chrome extension that turns a post (**X, Bluesky, Reddit, Instagram**, or any 
 
 The image is not a screen crop: it is **built from the post's data**, so it always comes out 600 px wide, up to 350 KB, with the same look.
 
-> ⚠️ **Beta.** Postframe is under active development. Expect bugs, and sites change their HTML often, which can break post reading. Only **X.com** and **Bluesky** have been tested and are OK (both tested on 2026-11-04); see the [platform checklist](#platforms).
+> ⚠️ **Beta.** Postframe is under active development. Expect bugs, and sites change their HTML often, which can break post reading. **X.com**, **Bluesky**, **Reddit** and the **point-and-click picker** (any other site) have been tested and are OK (all tested on 2026-11-04); see the [platform checklist](#platforms).
 
 | Classic light | Gradient frame | Pastel poster (repost) |
 |---|---|---|
@@ -32,7 +32,7 @@ The image is not a screen crop: it is **built from the post's data**, so it alwa
 
 ### Support checklist (beta)
 
-X.com and Bluesky have been tested and are OK (both tested on **2026-11-04**). The other platforms are implemented but not yet validated.
+X.com, Bluesky, Reddit and the point-and-click picker (any other site) have been tested and are OK (all tested on **2026-11-04**). Instagram is implemented but not yet validated.
 
 - **X.com**
   - [x] Tested (2026-11-04)
@@ -41,14 +41,14 @@ X.com and Bluesky have been tested and are OK (both tested on **2026-11-04**). T
   - [x] Tested (2026-11-04)
   - [x] OK
 - **Reddit**
-  - [ ] Tested
-  - [ ] OK
+  - [x] Tested (2026-11-04)
+  - [x] OK
 - **Instagram**
   - [ ] Tested
   - [ ] OK
 - **Any other site** (point-and-click picker)
-  - [ ] Tested
-  - [ ] OK
+  - [x] Tested (2026-11-04)
+  - [x] OK
 
 ### What each platform reads
 
@@ -57,12 +57,12 @@ X.com and Bluesky have been tested and are OK (both tested on **2026-11-04**). T
 | **X** | tested and OK (2026-11-04) | ✅ | ✅ (and video posters) | ✅ | ✅ repost and quote |
 | **Bluesky** | tested and OK (2026-11-04) | ✅ | ✅ | ✅ | ✅ repost · ❌ quote |
 | **Instagram** | **beta**: heuristic extractor, not yet validated | ✅ | ✅ | ❌ (not in the DOM) | — |
-| **Reddit** | **beta**, not yet validated | ✅ title + body | ✅ images and video poster | ✅ karma, comments, reposts | — |
-| **Any site** | beta, not yet validated | ✅ | ✅ | ✅ | ❌ |
+| **Reddit** | tested and OK (2026-11-04) | ✅ title + body | ✅ images and video poster | ✅ karma, comments, reposts | — |
+| **Any site** | tested and OK (2026-11-04) | ✅ | ✅ | ✅ | ❌ |
 
 - **Beta** means the site may change or there are cases we do not cover yet. If something fails on a built-in platform, please open an issue: built-in platforms are read by their own code and cannot be reconfigured. Sites that are not built in can be set up with the point-and-click picker.
 - On **Instagram** the DOM has no stable hooks (no `<header>`, obfuscated classes), so the caption is "the longest text outside links and buttons" and sponsored posts may come out without a time. Videos without a poster come out without an image.
-- **Reddit** has its own extractor (`src/sites/reddit.js`) built from the documented attributes of `<shreddit-post>` (author, title, time, karma, comment count, subreddit), with fallbacks for the rest (body, images, video poster, subreddit icon, reposts). It was **not** checked against a real page, because Reddit blocks automated browsers. If a field comes out wrong, the "Help validate Reddit" section below shows how to send the exact structure. The card shows the **subreddit** (name and icon) as the author line, the user's `u/handle` under it, then the title in bold, the body, the media, the karma, the comments and the reposts.
+- **Reddit** has its own extractor (`src/sites/reddit.js`) built from the documented attributes of `<shreddit-post>` (author, title, time, karma, comment count, subreddit), with fallbacks for the rest (body, images, video poster, subreddit icon, reposts). It has been tested on real Reddit pages and works. If a field comes out wrong (Reddit changes its HTML often), the "Help validate Reddit" section below shows how to send the exact structure. The card shows the **subreddit** (name and icon) as the author line, the user's `u/handle` under it, then the title in bold, the body, the media, the karma, the comments and the reposts.
 - On **Bluesky**, the feeds, profile pages and post pages (the focused post and its replies) are supported. Quote posts are not read yet.
 - **X** and **Bluesky** have the camera button inside each post. On the other platforms, click the extension icon and choose **Capture a post**.
 
