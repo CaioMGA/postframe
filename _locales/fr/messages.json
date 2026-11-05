@@ -467,6 +467,18 @@
   "op_language": {
     "message": "Langue"
   },
+  "op_theme": {
+    "message": "Thème"
+  },
+  "op_theme_light": {
+    "message": "Clair"
+  },
+  "op_theme_dark": {
+    "message": "Sombre"
+  },
+  "op_theme_system": {
+    "message": "Système"
+  },
   "op_welcome_title": {
     "message": "Choisissez votre langue"
   },
